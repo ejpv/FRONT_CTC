@@ -6,6 +6,7 @@ import vuetify from './plugins/vuetify'
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 import './plugins/resources'
+import './components'
 
 Vue.config.productionTip = false
 
