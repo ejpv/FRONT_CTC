@@ -44,7 +44,21 @@ export default new Vuex.Store({
 
     closeSesion() {
       sessionStorage.clear()
-      //commit('changeSesion')
+      var data = {
+        user: {
+          avatar: '',
+          rol: '',
+          nombre: '',
+          apellido: '',
+          password: '',
+          verificacionToken: '',
+          email: '',
+          activado: true
+        },
+        token: '',
+        expira: ''
+      }
+      commit('changeSesion', data)
       return
     }
   },
