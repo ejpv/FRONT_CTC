@@ -5,18 +5,19 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    user: {
-      avatar: '',
-      rol: '',
-      nombre: '',
-      apellido: '',
-      password: '',
-      verificacionToken: '',
-      email: '',
-      activado: true
-    },
-    token: '',
-    expira: ''
+    user: JSON.parse(sessionStorage.getItem('user')) ? JSON.parse(sessionStorage.getItem('user')) :
+      {
+        avatar: '',
+        rol: '',
+        nombre: '',
+        apellido: '',
+        password: '',
+        verificacionToken: '',
+        email: '',
+        activado: true
+      },
+    token: sessionStorage.getItem('token') ? sessionStorage.getItem('token') : '',
+    expira: sessionStorage.getItem('expira') ? sessionStorage.getItem('expira') : '',
   },
   mutations: {
     changeSesion(state, payload) {
@@ -41,25 +42,9 @@ export default new Vuex.Store({
       }
     },
 
-    closeSesion({ commit }) {
-      sessionStorage.removeItem('user');
-      sessionStorage.removeItem('token');
-      sessionStorage.removeItem('expira');
-      var data = {
-        user: {
-          avatar: '',
-          rol: '',
-          nombre: '',
-          apellido: '',
-          password: '',
-          verificacionToken: '',
-          email: '',
-          activado: true
-        },
-        token: '',
-        expira: ''
-      }
-      commit('changeSesion', data)
+    closeSesion() {
+      sessionStorage.clear()
+      //commit('changeSesion')
       return
     }
   },

@@ -6,13 +6,18 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'AppLayout',
+    name: 'Inicio',
     component: () => import('../layouts/AppLayout.vue'),
     children: [
       {
         path: '/test',
         name: 'TestPage',
         component: () => import('../views/TestPage.vue')
+      },
+      {
+        path: '/users',
+        name: 'Usuarios',
+        component: () => import('../views/Users.vue')
       },
     ]
   },
@@ -27,8 +32,8 @@ const routes = [
     component: () => import('../views/ForgetPass.vue'),
   },
   {
-    path:'/pruebas',
-    name:'pruebas',
+    path: '/pruebas',
+    name: 'pruebas',
     component: () => import('../views/pruebas.vue')
   }
 ]

@@ -89,12 +89,6 @@ export default {
             sessionStorage.setItem('token', data.body.token)
             sessionStorage.setItem('user', JSON.stringify(data.body.usuario))
             sessionStorage.setItem('expira', data.body.expireAt)
-            let prueba = {
-              token: sessionStorage.getItem('token'),
-              usuario: JSON.parse(sessionStorage.getItem('user')),
-              expira: sessionStorage.getItem('expira')
-            }
-            console.log(prueba)
             //aqui estoy cargando el usuario en storage con lo que se tiene en el sesionstorage
             this.loadUserLoged()
             this.$router.replace('/')

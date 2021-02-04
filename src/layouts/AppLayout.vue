@@ -3,9 +3,7 @@
     <v-app>
       <v-app-bar color="primary" app>
         <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-
-        <v-toolbar-title> Home </v-toolbar-title>
-
+        <v-toolbar-title> {{ this.$route.name }} </v-toolbar-title>
         <v-spacer></v-spacer>
 
         <v-btn icon small>
@@ -58,40 +56,25 @@
 
         <v-list nav dense>
           <v-list-item-group active-class="deep-purple--text text--accent-4">
-            <v-list-item @click="redirect">
-              <v-list-item-icon class="d-block text-center">
-                <v-icon> fa-keyboard</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title class="d-block text-left"> Teclado</v-list-item-title>
-            </v-list-item>
-            <v-divider></v-divider>
-            <v-list-item>
-              <v-list-item-icon class="d-block text-center">
-                <v-icon> fa-home </v-icon>
-              </v-list-item-icon>
-              <v-list-item-title class="d-block text-left"> Principal</v-list-item-title>
-            </v-list-item>
-            <v-divider></v-divider>
-            <v-list-item>
-              <v-list-item-icon class="d-block text-center">
-                <v-icon> fa-info </v-icon>
-              </v-list-item-icon>
-              <v-list-item-title class="d-block text-left">
-                Información</v-list-item-title
+            <div v-for="(item, n) in links" :key="n">
+              <v-list-item
+                @click="redirect(item.link)"
+                :class="`${n != 0 ? 'mt-2' : ''}`"
               >
-            </v-list-item>
-            <v-divider></v-divider>
-            <v-list-item>
-              <v-list-item-icon class="d-block text-center">
-                <v-icon> fa-share </v-icon>
-              </v-list-item-icon>
-              <v-list-item-title class="d-block text-left"> Compartir</v-list-item-title>
-            </v-list-item>
+                <v-list-item-icon class="d-block text-center">
+                  <v-icon>{{ item.icon }} </v-icon>
+                </v-list-item-icon>
+                <v-list-item-title class="d-block text-left">
+                  {{ item.title }}
+                </v-list-item-title>
+              </v-list-item>
+              <v-divider></v-divider>
+            </div>
           </v-list-item-group>
         </v-list>
         <template v-slot:append>
           <v-divider></v-divider>
-          <v-btn block @click="logOut" right text large tile>
+          <v-btn block @click="logOut" right text large tile class="primary black--text">
             <v-spacer></v-spacer>
             <h3>Salir</h3>
             <v-icon right>fa-sign-out-alt</v-icon>
@@ -112,7 +95,24 @@
 import { mapActions, mapState } from 'vuex'
 export default {
   data: () => ({
-    drawer: false
+    drawer: false,
+    links: [
+      {
+        title: 'Inicio',
+        icon: 'fa-home',
+        link: '/'
+      },
+      {
+        title: 'Usuarios',
+        icon: 'fa-users',
+        link: '/users'
+      },
+      {
+        title: 'Prueba',
+        icon: 'fa-vial',
+        link: '/test'
+      }
+    ]
   }),
   methods: {
     ...mapActions(['closeSesion']),
@@ -123,8 +123,8 @@ export default {
       this.closeSesion()
       this.$router.replace('/login')
     },
-    redirect() {
-      console.log('aqui redirecciona we')
+    redirect(item) {
+      this.$router.push(item)
     }
   },
   computed: {
