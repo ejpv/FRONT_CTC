@@ -51,30 +51,39 @@
                           </v-avatar>
                         </div>
 
-                        <h3 class="pt-2 pb-1">Nombre</h3>
+                        <h3 class="pt-2 pb-1">
+                          <strong class="error--text">*</strong> Nombre
+                        </h3>
                         <v-text-field
                           v-model="editedItem.nombre"
                           filled
                           rounded
                           dense
+                          :rules="fieldRules"
                         ></v-text-field>
 
-                        <h3 class="pb-1">Apellido</h3>
+                        <h3 class="pb-1">
+                          <strong class="error--text">*</strong> Apellido
+                        </h3>
                         <v-text-field
                           v-model="editedItem.apellido"
                           filled
                           rounded
                           dense
+                          :rules="fieldRules"
                         ></v-text-field>
 
-                        <h3 class="pb-1">Correo</h3>
+                        <h3 class="pb-1">
+                          <strong class="error--text">*</strong> Correo
+                        </h3>
                         <v-text-field
                           v-model="editedItem.email"
                           filled
                           rounded
                           dense
+                          :rules="emailRules"
                         ></v-text-field>
-                        <h3 class="pb-1">Rol</h3>
+                        <h3 class="pb-1"><strong class="error--text">*</strong> Rol</h3>
                         <v-radio-group v-model="editedItem.rol" class="ma-0">
                           <v-radio value="ADMIN_ROLE" label="Administrador"> </v-radio>
                           <v-radio value="REPRESENTANT_ROLE" label="Representante">
@@ -85,7 +94,6 @@
                           v-if="editedIndex === -1"
                           v-model="sendMail"
                           label="Enviar email al correo para verificación."
-                          value=""
                         ></v-checkbox>
                       </v-container>
                     </v-card-text>
@@ -275,7 +283,15 @@ export default {
         activado: false
       },
       new: false,
-      problem: false
+      problem: false,
+      emailRules: [
+        v => !!v || 'Correo es necesario',
+        v => /.+@.+\..+/.test(v) || 'El correo tiene que ser válido'
+      ],
+      fieldRules: [
+        v => !!v || 'Campo necesario',
+        v => (v && v.length <= 10) || 'Debe tener mas de 3 letras'
+      ]
     }
   },
   methods: {
@@ -380,7 +396,7 @@ export default {
       this.snackbar = false
       this.loading = true
       try {
-        await this.$http.post('/api/usuario', this.editedItem).then( async res => {
+        await this.$http.post('/api/usuario', this.editedItem).then(async res => {
           this.loading = false
           if (this.sendMail) {
             this.editedItem = res.data.data
