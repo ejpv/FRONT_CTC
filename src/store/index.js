@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     user: JSON.parse(sessionStorage.getItem('user')) ? JSON.parse(sessionStorage.getItem('user')) :
       {
+        _id:'',
         avatar: '',
         rol: '',
         nombre: '',
@@ -42,10 +43,11 @@ export default new Vuex.Store({
       }
     },
 
-    closeSesion() {
+    closeSesion({ commit }) {
       sessionStorage.clear()
       var data = {
         user: {
+          _id:'',
           avatar: '',
           rol: '',
           nombre: '',

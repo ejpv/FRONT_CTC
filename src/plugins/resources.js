@@ -6,4 +6,4 @@ Vue.use(VueResource)
 // User authorization token
 const token = sessionStorage.getItem('token')
 // eslint-disable-next-line
-Vue.http.headers.common['Authorization'] = token
+Vue.http.headers.common['token'] = token

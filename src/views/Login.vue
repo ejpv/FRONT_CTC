@@ -1,7 +1,7 @@
 <template>
-  <v-container fluid fill-height class="loginOverlay">
-    <v-layout flex align-center justify-center>
-      <v-flex xs12 sm4 elevation-6>
+  <v-container fluid fill-height class="loginOverlay primary">
+    <v-layout flex align-center justify-center class="secondary">
+      <v-flex xs12 sm9 md7 lg4 elevation-6 >
         <v-card color="primary" outlined>
           <v-card-text class="white--text" align="center">
             <h2 class="pt-4">CTC - Calidad Turismo Comunitario</h2>
@@ -57,6 +57,8 @@
 
 <script>
 import { mapActions } from 'vuex'
+import Vue from 'vue'
+
 export default {
   data() {
     return {
@@ -84,11 +86,12 @@ export default {
             email: this.email,
             password: this.password
           })
-          .then(data => {
+          .then(res => {
             this.loading = false
-            sessionStorage.setItem('token', data.body.token)
-            sessionStorage.setItem('user', JSON.stringify(data.body.usuario))
-            sessionStorage.setItem('expira', data.body.expireAt)
+            sessionStorage.setItem('token', res.body.token)
+            sessionStorage.setItem('user', JSON.stringify(res.body.usuario))
+            sessionStorage.setItem('expira', res.body.expireAt)
+            Vue.http.headers.common['token'] = res.body.token
             //aqui estoy cargando el usuario en storage con lo que se tiene en el sesionstorage
             this.loadUserLoged()
             this.$router.replace('/')

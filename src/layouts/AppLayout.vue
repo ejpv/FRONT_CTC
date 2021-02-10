@@ -6,7 +6,7 @@
         <v-toolbar-title> {{ this.$route.name }} </v-toolbar-title>
         <v-spacer></v-spacer>
 
-        <v-btn icon small>
+        <v-btn icon small class="info mr-1">
           <v-icon>fa-info-circle</v-icon>
         </v-btn>
       </v-app-bar>
@@ -130,10 +130,10 @@ export default {
   computed: {
     colorChip() {
       return this.user.rol == 'ADMIN_ROLE'
-        ? 'blue'
+        ? 'blue accent-4'
         : this.user.rol == 'TECHNICAL_ROLE'
-        ? 'green'
-        : 'orange'
+        ? 'green accent-4'
+        : 'orange accent-4'
     },
     textoRol() {
       return this.user.rol == 'ADMIN_ROLE'
