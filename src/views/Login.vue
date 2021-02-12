@@ -62,7 +62,7 @@ import Vue from 'vue'
 export default {
   data() {
     return {
-      email: 'user@prueba.com',
+      email: 'erickjpv@hotmail.es',
       password: 'passADM',
       message: '',
       show: false,

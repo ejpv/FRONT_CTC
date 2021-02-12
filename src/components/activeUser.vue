@@ -85,10 +85,10 @@
                         ></v-text-field>
                         <h3 class="pb-1"><strong class="error--text">*</strong> Rol</h3>
                         <v-radio-group v-model="editedItem.rol" class="ma-0">
-                          <v-radio value="ADMIN_ROLE" label="Administrador"> </v-radio>
-                          <v-radio value="REPRESENTANT_ROLE" label="Representante">
+                          <v-radio :value="roles.admin" label="Administrador"> </v-radio>
+                          <v-radio :value="roles.representant" label="Representante">
                           </v-radio>
-                          <v-radio value="TECHNICAL_ROLE" label="Técnico"> </v-radio>
+                          <v-radio :value="roles.technical" label="Técnico"> </v-radio>
                         </v-radio-group>
                         <v-checkbox
                           v-if="editedIndex === -1"
@@ -220,6 +220,11 @@ export default {
   props: ['texto', 'activator'],
   data() {
     return {
+      roles:{
+        admin:'ADMIN_ROLE',
+        representant:'REPRESENTANT_ROLE',
+        technical:'TECHNICAL_ROLE'
+      },
       sendMail: '',
       loading: true,
       snackbar: false,

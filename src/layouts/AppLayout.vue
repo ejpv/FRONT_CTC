@@ -45,7 +45,7 @@
               bottom
               absolute
               x-small
-              @click.native="profileUser"
+              @click="profileUser"
             >
               <v-icon small> fa-pen </v-icon>
             </v-btn>
@@ -117,7 +117,7 @@ export default {
   methods: {
     ...mapActions(['closeSesion']),
     profileUser() {
-      console.log('aqui redirecciona we')
+      this.$router.replace('/profile')
     },
     logOut() {
       this.closeSesion()
