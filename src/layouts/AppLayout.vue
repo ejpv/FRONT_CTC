@@ -1,6 +1,8 @@
 <template>
   <div>
     <v-app>
+      <ctc-session-out />
+
       <v-app-bar color="primary" app>
         <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
         <v-toolbar-title> {{ this.$route.name }} </v-toolbar-title>
