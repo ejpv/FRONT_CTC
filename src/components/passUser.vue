@@ -88,6 +88,7 @@ export default {
               title: 'Contraseña Actualizada'
             })
           })
+          this.changeSection()
       } catch (error) {
         this.loading = false
         this.message =
