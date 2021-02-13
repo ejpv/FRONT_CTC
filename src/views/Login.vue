@@ -1,10 +1,10 @@
 <template>
   <v-container fluid fill-height class="loginOverlay primary">
     <v-layout flex align-center justify-center class="secondary">
-      <v-flex xs12 sm9 md7 lg4 elevation-6 >
+      <v-flex xs12 sm9 md7 lg4 elevation-6>
         <v-card color="primary" outlined>
           <v-card-text class="white--text" align="center">
-            <h2 class="pt-4">CTC - Calidad Turismo Comunitario</h2>
+            <h2 class="pt-2">CTC - Calidad Turismo Comunitario</h2>
           </v-card-text>
         </v-card>
         <v-card :loading="loading">
@@ -56,7 +56,7 @@
 
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import Vue from 'vue'
 
 export default {
@@ -68,6 +68,7 @@ export default {
       show: false,
       snackbar: false,
       loading: false,
+      
       emailRules: [
         v => !!v || 'Correo es necesario',
         v => /.+@.+\..+/.test(v) || 'El correo tiene que ser válido'
@@ -108,8 +109,14 @@ export default {
     }
   },
   computed: {
+    ...mapState(['user']),
     name() {
       return this.data
+    }
+  },
+  created() {
+    if (this.user.rol != '') {
+      this.$router.replace('/')
     }
   }
 }

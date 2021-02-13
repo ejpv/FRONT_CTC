@@ -4,7 +4,7 @@
       <v-flex xs12 sm4 elevation-6>
         <v-card color="primary" outlined>
           <v-card-text class="white--text" align="center">
-            <h2 class="pt-4">Reestablecer Contraseña</h2>
+            <h2 class="pt-2">Reestablecer Contraseña</h2>
           </v-card-text>
         </v-card>
         <v-form @submit.prevent="sendEmail" ref="form">
@@ -50,6 +50,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
@@ -90,8 +91,16 @@ export default {
             console.log(error.body)
           })
       } else {
-        console.log('no valida tu webada')
+        console.log('no valida')
       }
+    }
+  },
+  computed: {
+    ...mapState(['user'])
+  },
+  created() {
+    if (this.user.rol != '') {
+      this.$router.replace('/')
     }
   }
 }

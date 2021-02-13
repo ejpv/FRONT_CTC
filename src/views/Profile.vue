@@ -39,55 +39,15 @@
                   </v-btn>
                 </v-col>
               </v-row>
-              <v-container v-if="passSection" fluid>
-                <v-card :loading="loadingPass" elevation="0">
-                  <h3 class="mt-4">Nueva Contraseña</h3>
-                  <v-text-field
-                    filled
-                    rounded
-                    dense
-                    :rules="passwordRules"
-                    v-model="password"
-                    :type="show ? 'text' : 'password'"
-                    :append-icon="show ? 'fa-eye' : 'fa-eye-slash'"
-                    @click:append="show = !show"
-                  ></v-text-field>
-                  <h3>Repita su Contraseña</h3>
-                  <v-text-field
-                    filled
-                    rounded
-                    dense
-                    :rules="passwordRules"
-                    v-model="secondPassword"
-                    :type="show1 ? 'text' : 'password'"
-                    :append-icon="show1 ? 'fa-eye' : 'fa-eye-slash'"
-                    @click:append="show1 = !show1"
-                  ></v-text-field>
-                  <div v-if="verifiPass" class="error--text">
-                    Contraseñas deben ser iguales
-                  </div>
-                  <v-row>
-                    <v-col cols="6" align="center">
-                      <v-btn v-if="passSection" @click="changeSectionPass" text>
-                        Cancelar
-                      </v-btn>
-                    </v-col>
-                    <v-col cols="6" align="center">
-                      <v-btn text :disabled="verifiPass" @click="changePass">
-                        Guardar
-                      </v-btn></v-col
-                    >
-                  </v-row>
-                </v-card>
-              </v-container>
+              <passUser v-if="passSection" :cancel="passSection" @accion="changeSectionPass"/>
             </v-card>
           </v-col>
           <v-col cols="12" sm="12" md="7" lg="8" order-sm="-1">
-            <v-card outlined elevation="12" :loading="loadingUser">
+            <v-card outlined elevation="12" :loading="loading">
               <v-card-title class="primary white--text mb-2">
                 <span class="headline">Información Personal</span>
               </v-card-title>
-              <v-card :loading="loadingUser" elevation="0">
+              <v-card :loading="loading" elevation="0">
                 <v-container>
                   <h3 class="pt-2 pb-1">Nombre</h3>
                   <v-text-field
@@ -144,18 +104,15 @@
 <script>
 import { mapActions, mapState } from 'vuex'
 import Vue from 'vue'
+import passUser from '../components/passUser.vue'
 
 export default {
+  components: { passUser },
   data() {
     return {
       passSection: false,
-      password: '',
-      secondPassword: '',
       message: '',
-      show: false,
       snackbar: false,
-      show1: false,
-      passwordRules: [v => !!v || 'Contraseña es necesaria'],
       editUser: {
         _id: '',
         avatar: '',
@@ -172,8 +129,7 @@ export default {
         v => !!v || 'Correo es necesario',
         v => /.+@.+\..+/.test(v) || 'El correo tiene que ser válido'
       ],
-      loadingUser: false,
-      loadingPass: false,
+      loading: false,
       problem: false
     }
   },
@@ -181,44 +137,16 @@ export default {
     ...mapActions(['loadUserLoged']),
     changeSectionPass() {
       this.passSection = !this.passSection
-      this.password = ''
-      this.secondPassword = ''
-    },
-    async changePass() {
-      this.snackbar = false
-      this.loadingPass = true
-      try {
-        await this.$http
-          .post('/api/usuario/changePass', { password: this.password })
-          .then(() => {
-            this.loadingPass = false
-            this.$swal.fire({
-              toast: true,
-              position: 'top-end',
-              showConfirmButton: false,
-              timer: 3000,
-              icon: 'success',
-              title: 'Contraseña Actualizada'
-            })
-          })
-      } catch (error) {
-        this.loadingPass = false
-        this.message =
-          error.body.err != undefined
-            ? error.body.err.message
-            : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
-        this.snackbar = true
-      }
     },
 
     async changeUser() {
       this.snackbar = false
-      this.loadingUser = true
+      this.loading = true
       try {
         await this.$http
           .put(`/api/usuario/${this.editUser._id}`, this.editUser)
           .then(res => {
-            this.loadingUser = false
+            this.loading = false
             this.$swal.fire({
               toast: true,
               position: 'top-end',
@@ -236,7 +164,7 @@ export default {
             this.restore()
           })
       } catch (error) {
-        this.loadingUser = false
+        this.loading = false
         this.message =
           error.body.err != undefined
             ? error.body.err.message
@@ -244,6 +172,7 @@ export default {
         this.snackbar = true
       }
     },
+
     restore() {
       let { nombre, _id, apellido, email, activado } = this.user
       this.editUser.nombre = nombre
@@ -254,9 +183,6 @@ export default {
     }
   },
   computed: {
-    verifiPass() {
-      return this.password === this.secondPassword ? false : true
-    },
     ...mapState(['user'])
   },
   created() {

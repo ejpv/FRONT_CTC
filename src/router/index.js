@@ -27,18 +27,22 @@ const routes = [
     ]
   },
   {
+    path: "*", component: () => import('../views/404.vue')
+  },
+  {
     path: '/login',
-    name: 'Login',
     component: () => import('../views/Login.vue'),
   },
   {
     path: '/forgetPass',
-    name: 'ForgetPass',
     component: () => import('../views/ForgetPass.vue'),
   },
   {
+    path: '/restorePass/:token/:exp',
+    component: () => import('../views/RestorePass.vue'),
+  },
+  {
     path: '/pruebas',
-    name: 'pruebas',
     component: () => import('../views/pruebas.vue')
   }
 ]
