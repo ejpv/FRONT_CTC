@@ -68,7 +68,7 @@ export default {
       show: false,
       snackbar: false,
       loading: false,
-      
+
       emailRules: [
         v => !!v || 'Correo es necesario',
         v => /.+@.+\..+/.test(v) || 'El correo tiene que ser válido'
@@ -109,10 +109,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['user']),
-    name() {
-      return this.data
-    }
+    ...mapState(['user'])
   },
   created() {
     if (this.user.rol != '') {

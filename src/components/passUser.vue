@@ -38,7 +38,17 @@
           >
         </v-row>
       </div>
-      <div v-else align="center">
+      <div v-else-if="activate">
+        <v-btn
+          block
+          class="new white--text"
+          :disabled="verifiPass"
+          @click="activateAccount"
+        >
+          Establacer Contraseña
+        </v-btn>
+      </div>
+      <div v-else>
         <v-btn block class="new white--text" :disabled="verifiPass" @click="restorePass">
           Guardar
         </v-btn>
@@ -57,7 +67,7 @@
 
 <script>
 export default {
-  props: ['cancel', 'token'],
+  props: ['cancel', 'token', 'activate'],
   data() {
     return {
       loading: false,
@@ -88,7 +98,7 @@ export default {
               title: 'Contraseña Actualizada'
             })
           })
-          this.changeSection()
+        this.changeSection()
       } catch (error) {
         this.loading = false
         this.message =
@@ -134,6 +144,42 @@ export default {
         this.message =
           error.body.err != undefined
             ? error.body.err.message
+            : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
+        this.snackbar = true
+      }
+    },
+    async activateAccount() {
+      let headers = {
+        'Content-Type': 'application/json;charset=utf-8'
+      }
+
+      if (this.token !== '') {
+        headers['token'] = this.token
+      }
+
+      this.snackbar = false
+      this.loading = true
+      try {
+        await this.$http
+          .post('/api/usuario/activar', { password: this.password }, { headers })
+          .then(() => {
+            this.loading = false
+            this.$swal.fire({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000,
+              icon: 'success',
+              title: 'Contraseña Establecida'
+            })
+            this.$emit('accion')
+          })
+      } catch (error) {
+        this.loading = false
+        this.message =
+          error.body.err != undefined
+            ? error.body.err.message +
+              ', recargue la página o intente enviar el correo nuevamente.'
             : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
         this.snackbar = true
       }

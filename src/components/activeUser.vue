@@ -178,7 +178,7 @@
         >
           {{ getText(item, 'activado') }}
         </v-chip>
-        <v-tooltip bottom v-if="item.estado">
+        <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-icon
               class="ml-2 blue--text"

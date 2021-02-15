@@ -39,7 +39,11 @@
                   </v-btn>
                 </v-col>
               </v-row>
-              <passUser v-if="passSection" :cancel="passSection" @accion="changeSectionPass"/>
+              <passUser
+                v-if="passSection"
+                :cancel="passSection"
+                @accion="changeSectionPass"
+              />
             </v-card>
           </v-col>
           <v-col cols="12" sm="12" md="7" lg="8" order-sm="-1">
@@ -68,13 +72,32 @@
                   ></v-text-field>
 
                   <h3 class="pb-1">Correo</h3>
-                  <v-text-field
-                    filled
-                    rounded
-                    dense
-                    v-model="editUser.email"
-                    :rules="emailRules"
-                  ></v-text-field>
+                  <v-row>
+                    <v-col>
+                      <v-text-field
+                        filled
+                        rounded
+                        dense
+                        v-model="editUser.email"
+                        :rules="emailRules"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="2" sm="1" md="1" lg="1" v-if="!this.user.activado">
+                      <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-icon
+                            v-on="on"
+                            v-bind="attrs"
+                            @click="sendMail()"
+                            class="mt-2 blue--text"
+                          >
+                            fa-envelope
+                          </v-icon>
+                        </template>
+                        <span> Enviar correo para verificación </span>
+                      </v-tooltip>
+                    </v-col>
+                  </v-row>
                 </v-container>
               </v-card>
               <v-row>
@@ -171,6 +194,46 @@ export default {
             : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
         this.snackbar = true
       }
+    },
+
+    async sendMail() {
+      this.$swal.fire({
+        confirmButtonText: 'Continuar',
+        title: 'Enviando Correo',
+        icon: 'warning',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        allowEnterKey: false,
+        didOpen: () => {
+          this.$swal.showLoading()
+        }
+      })
+      await this.$http
+        .post('/api/email/verifica', {
+          id: this.user._id
+        })
+        .then(() => {
+          this.$swal.fire({
+            toast: true,
+            icon: 'success',
+            timer: 3000,
+            position: 'top-end',
+            showConfirmButton: false,
+            title: 'Correo enviado',
+            didOpen: () => {
+              this.$swal.hideLoading()
+            }
+          })
+        })
+        .catch(error => {
+          this.$swal.close()
+          this.loading = false
+          this.message =
+            error.body.err != undefined
+              ? error.body.err.message
+              : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
+          this.snackbar = true
+        })
     },
 
     restore() {

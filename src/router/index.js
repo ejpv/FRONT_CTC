@@ -42,6 +42,10 @@ const routes = [
     component: () => import('../views/RestorePass.vue'),
   },
   {
+    path: '/activateAccount/:token/:password',
+    component: () => import('../views/ActivateAccount.vue'),
+  },
+  {
     path: '/pruebas',
     component: () => import('../views/pruebas.vue')
   }
