@@ -9,7 +9,14 @@
                 <span class="headline">Avatar y Contraseña</span>
               </v-card-title>
               <div align="center">
-                <v-btn class="primary mt-4" elevation="12" fab absolute small>
+                <v-btn
+                  class="primary mt-4"
+                  elevation="12"
+                  fab
+                  absolute
+                  small
+                  @click="dialog = true"
+                >
                   <v-icon> fa-pen </v-icon>
                 </v-btn>
                 <v-avatar size="200">
@@ -121,6 +128,52 @@
         </template>
       </v-snackbar>
     </div>
+    <v-dialog v-model="dialog" persistent width="500">
+      <v-card v-show="loadingDialog">
+        <v-container>
+          <v-row class="fill-height ma-0" align="center" justify="center">
+            <v-progress-circular indeterminate color="primary"></v-progress-circular>
+          </v-row>
+        </v-container>
+      </v-card>
+      <v-card v-show="dialog" v-if="!loadingDialog">
+        <v-card-text class="primary white--text" align="center">
+          <h2 class="pt-6">Cambiar foto de perfil</h2>
+        </v-card-text>
+        <v-container>
+          <h3 class="mb-2 mt-2">Seleccione una imagen</h3>
+          <v-container>
+            <v-file-input
+              filled
+              rounded
+              dense
+              prepend-icon="fa-image"
+              :rules="rules"
+              accept="image/png, image/jpeg, image/bmp"
+              v-model="file"
+            >
+              <template v-slot:selection="{ text }">
+                <v-chip label color="primary">
+                  {{ text }}
+                </v-chip>
+              </template>
+            </v-file-input>
+          </v-container>
+        </v-container>
+        <v-card-actions>
+          <v-container>
+            <v-row>
+              <v-col cols="6" class="d-flex justify-space-around pa-0">
+                <v-btn text @click="close"> Cancelar </v-btn>
+              </v-col>
+              <v-col cols="6" class="d-flex justify-space-around pa-0">
+                <v-btn text @click="changeAvatar"> Guardar </v-btn>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -133,9 +186,11 @@ export default {
   components: { passUser },
   data() {
     return {
+      file: null,
       passSection: false,
       message: '',
       snackbar: false,
+      dialog: true,
       editUser: {
         _id: '',
         avatar: '',
@@ -152,7 +207,14 @@ export default {
         v => !!v || 'Correo es necesario',
         v => /.+@.+\..+/.test(v) || 'El correo tiene que ser válido'
       ],
+      rules: [
+        value =>
+          !value ||
+          value.size < 2000000 ||
+          'El tamaño de la imagen debe ser menor a 2 MB!'
+      ],
       loading: false,
+      loadingDialog: false,
       problem: false
     }
   },
@@ -160,6 +222,48 @@ export default {
     ...mapActions(['loadUserLoged']),
     changeSectionPass() {
       this.passSection = !this.passSection
+    },
+
+    close() {
+      this.dialog = !this.dialog
+    },
+
+    async changeAvatar() {
+      this.snackbar = false
+      this.loadingDialog = true
+      try {
+        
+        await this.$http
+          .post(`/api/avatar/usuario/${this.user._id}`, { file: this.file })
+          .then(res => {
+            this.loadingDialog = false
+            //alerta de que valio
+            this.$swal.fire({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000,
+              icon: 'success',
+              title: 'Avatar editado'
+            })
+            //actualizando el usuario del sesion 
+            sessionStorage.setItem('user', JSON.stringify(res.body.usuario))
+            //aqui estoy cargando el usuario en storage con lo que se tiene en el sesionstorage
+            this.loadUserLoged()
+            //iguala el del store con el de aqui
+            this.restore()
+            //cierra el dialog
+            this.close()
+          })
+      } catch (error) {
+        //alerta de que no valió
+        this.loadingDialog = false
+        this.message =
+          error.body.err != undefined
+            ? error.body.err.message
+            : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
+        this.snackbar = true
+      }
     },
 
     async changeUser() {
