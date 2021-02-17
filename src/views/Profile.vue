@@ -1,57 +1,53 @@
 <template>
   <div>
-    <v-container fluid fill-height class="loginOverlay">
+    <v-container fluid fill-height class="loginOverlays">
       <v-layout flex align-center justify-center>
-        <v-row align="center">
+        <v-row>
           <v-col cols="12" sm="12" md="5" lg="4" order-sm="1">
-            <v-card outlined elevation="12">
-              <v-card-title class="primary white--text mb-2">
-                <span class="headline">Avatar y Contraseña</span>
-              </v-card-title>
-              <div align="center">
-                <v-btn
-                  class="primary mt-4"
-                  elevation="12"
-                  fab
-                  absolute
-                  small
-                  @click="dialog = true"
-                >
-                  <v-icon> fa-pen </v-icon>
-                </v-btn>
-                <v-avatar size="200">
-                  <v-img src="https://picsum.photos/350/165?random">
-                    <template v-slot:placeholder>
-                      <v-row class="fill-height ma-0" align="center" justify="center">
-                        <v-progress-circular
-                          indeterminate
-                          color="new"
-                        ></v-progress-circular>
-                      </v-row>
-                    </template>
-                  </v-img>
-                </v-avatar>
-              </div>
-              <v-row class="pt-2">
-                <v-col></v-col>
-                <v-col align="center" class="mr-2">
-                  <v-btn
-                    @click="changeSectionPass"
-                    v-if="!passSection"
-                    color="edit"
-                    dark
-                    class="mb-2"
-                    >Cambiar Contraseña
-                    <v-icon right>fa-pen </v-icon>
-                  </v-btn>
-                </v-col>
-              </v-row>
-              <passUser
-                v-if="passSection"
-                :cancel="passSection"
-                @accion="changeSectionPass"
-              />
-            </v-card>
+            <v-row>
+              <v-col cols="12">
+                <v-card outlined elevation="12">
+                  <v-card-title class="primary white--text mb-2">
+                    <span class="headline">Avatar</span>
+                  </v-card-title>
+                  <div align="center">
+                    <ctc-image-upload
+                      :endpoint="`/api/avatar/usuario/${editUser._id}`"
+                      @onUpload="onUpload"
+                      :src="editUser.avatar"
+                      size="100"
+                    />
+                  </div>
+                </v-card>
+              </v-col>
+              <v-col cols="12">
+                <v-card outlined elevation="12">
+                  <v-card-title class="primary white--text mb-2">
+                    <span class="headline">Cambiar contraseña</span>
+                  </v-card-title>
+
+                  <v-row class="pt-2">
+                    <v-col></v-col>
+                    <v-col align="center" class="mr-2">
+                      <v-btn
+                        @click="changeSectionPass"
+                        v-if="!passSection"
+                        color="edit"
+                        dark
+                        class="mb-2"
+                        >Cambiar Contraseña
+                        <v-icon right>fa-pen </v-icon>
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                  <passUser
+                    v-if="passSection"
+                    :cancel="passSection"
+                    @accion="changeSectionPass"
+                  />
+                </v-card>
+              </v-col>
+            </v-row>
           </v-col>
           <v-col cols="12" sm="12" md="7" lg="8" order-sm="-1">
             <v-card outlined elevation="12" :loading="loading">
@@ -120,7 +116,7 @@
         </v-row>
       </v-layout>
     </v-container>
-    <div class="text-center">
+    <!--div class="text-center">
       <v-snackbar v-model="snackbar" color="error" :timeout="-1">
         {{ message }}
         <template v-slot:action="{ attrs }">
@@ -173,7 +169,7 @@
           </v-container>
         </v-card-actions>
       </v-card>
-    </v-dialog>
+    </v-dialog-->
   </div>
 </template>
 
@@ -190,7 +186,7 @@ export default {
       passSection: false,
       message: '',
       snackbar: false,
-      dialog: true,
+      dialog: false,
       editUser: {
         _id: '',
         avatar: '',
@@ -228,11 +224,14 @@ export default {
       this.dialog = !this.dialog
     },
 
+    onUpload(src){
+      this.editUser.avatar = src
+    },
+
     async changeAvatar() {
       this.snackbar = false
       this.loadingDialog = true
       try {
-        
         await this.$http
           .post(`/api/avatar/usuario/${this.user._id}`, { file: this.file })
           .then(res => {
@@ -246,7 +245,7 @@ export default {
               icon: 'success',
               title: 'Avatar editado'
             })
-            //actualizando el usuario del sesion 
+            //actualizando el usuario del sesion
             sessionStorage.setItem('user', JSON.stringify(res.body.usuario))
             //aqui estoy cargando el usuario en storage con lo que se tiene en el sesionstorage
             this.loadUserLoged()
@@ -341,9 +340,10 @@ export default {
     },
 
     restore() {
-      let { nombre, _id, apellido, email, activado } = this.user
+      const { nombre, _id, apellido, email, activado,avatar } = this.user
       this.editUser.nombre = nombre
       this.editUser._id = _id
+      this.editUser.avatar = avatar
       this.editUser.apellido = apellido
       this.editUser.email = email
       this.editUser.activado = activado
