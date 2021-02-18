@@ -3,53 +3,61 @@
     <v-container fluid fill-height class="loginOverlays">
       <v-layout flex align-center justify-center>
         <v-row>
-          <v-col cols="12" sm="12" md="5" lg="4" order-sm="1">
-            <v-row>
-              <v-col cols="12">
-                <v-card outlined elevation="12">
-                  <v-card-title class="primary white--text mb-2">
-                    <span class="headline">Avatar</span>
-                  </v-card-title>
-                  <div align="center">
-                    <ctc-image-upload
-                      :endpoint="`/api/avatar/usuario/${editUser._id}`"
-                      @onUpload="onUpload"
-                      :src="editUser.avatar"
-                      size="100"
-                    />
-                  </div>
-                </v-card>
-              </v-col>
-              <v-col cols="12">
-                <v-card outlined elevation="12">
-                  <v-card-title class="primary white--text mb-2">
-                    <span class="headline">Cambiar contraseña</span>
-                  </v-card-title>
-
-                  <v-row class="pt-2">
-                    <v-col></v-col>
-                    <v-col align="center" class="mr-2">
-                      <v-btn
-                        @click="changeSectionPass"
-                        v-if="!passSection"
-                        color="edit"
-                        dark
-                        class="mb-2"
-                        >Cambiar Contraseña
-                        <v-icon right>fa-pen </v-icon>
-                      </v-btn>
-                    </v-col>
-                  </v-row>
-                  <passUser
-                    v-if="passSection"
-                    :cancel="passSection"
-                    @accion="changeSectionPass"
+          <v-col cols="12" sm="12" md="6" lg="4" order-sm="1">
+            <v-card outlined elevation="12">
+              <v-card-title class="primary white--text mb-2">
+                <span class="headline">Avatar y cambio de contraseña</span>
+              </v-card-title>
+              <div align="center">
+                <div>
+                  <v-avatar size="200" :tile="!editUser.avatar" class="mt-4">
+                    <v-img :src="editUser.avatar || '/image-gallery.svg'">
+                      <template v-slot:placeholder>
+                        <v-row class="fill-height ma-0" align="center" justify="center">
+                          <v-progress-circular
+                            indeterminate
+                            color="grey lighten-5"
+                          ></v-progress-circular>
+                        </v-row>
+                      </template>
+                    </v-img>
+                  </v-avatar>
+                  <v-file-input
+                    style="margin-top: -40px; margin-left: 65%"
+                    @change="changeAvatar"
+                    prepend-icon="fa-pen primary--text"
+                    accept="image/png, image/jpeg"
+                    hide-input
                   />
-                </v-card>
-              </v-col>
-            </v-row>
+                  <v-progress-linear
+                    indeterminate
+                    v-show="loadingAvatar"
+                    color="primary"
+                  ></v-progress-linear>
+                </div>
+              </div>
+              <v-row class="pt-2">
+                <v-col></v-col>
+                <v-col align="center" class="mr-2">
+                  <v-btn
+                    @click="changeSectionPass"
+                    v-if="!passSection"
+                    color="edit"
+                    dark
+                    class="mb-2"
+                    >Cambiar Contraseña
+                    <v-icon right>fa-pen </v-icon>
+                  </v-btn>
+                </v-col>
+              </v-row>
+              <passUser
+                v-if="passSection"
+                :cancel="passSection"
+                @accion="changeSectionPass"
+              />
+            </v-card>
           </v-col>
-          <v-col cols="12" sm="12" md="7" lg="8" order-sm="-1">
+          <v-col cols="12" sm="12" md="6" lg="8" order-sm="-1">
             <v-card outlined elevation="12" :loading="loading">
               <v-card-title class="primary white--text mb-2">
                 <span class="headline">Información Personal</span>
@@ -116,7 +124,7 @@
         </v-row>
       </v-layout>
     </v-container>
-    <!--div class="text-center">
+    <div class="text-center">
       <v-snackbar v-model="snackbar" color="error" :timeout="-1">
         {{ message }}
         <template v-slot:action="{ attrs }">
@@ -124,52 +132,6 @@
         </template>
       </v-snackbar>
     </div>
-    <v-dialog v-model="dialog" persistent width="500">
-      <v-card v-show="loadingDialog">
-        <v-container>
-          <v-row class="fill-height ma-0" align="center" justify="center">
-            <v-progress-circular indeterminate color="primary"></v-progress-circular>
-          </v-row>
-        </v-container>
-      </v-card>
-      <v-card v-show="dialog" v-if="!loadingDialog">
-        <v-card-text class="primary white--text" align="center">
-          <h2 class="pt-6">Cambiar foto de perfil</h2>
-        </v-card-text>
-        <v-container>
-          <h3 class="mb-2 mt-2">Seleccione una imagen</h3>
-          <v-container>
-            <v-file-input
-              filled
-              rounded
-              dense
-              prepend-icon="fa-image"
-              :rules="rules"
-              accept="image/png, image/jpeg, image/bmp"
-              v-model="file"
-            >
-              <template v-slot:selection="{ text }">
-                <v-chip label color="primary">
-                  {{ text }}
-                </v-chip>
-              </template>
-            </v-file-input>
-          </v-container>
-        </v-container>
-        <v-card-actions>
-          <v-container>
-            <v-row>
-              <v-col cols="6" class="d-flex justify-space-around pa-0">
-                <v-btn text @click="close"> Cancelar </v-btn>
-              </v-col>
-              <v-col cols="6" class="d-flex justify-space-around pa-0">
-                <v-btn text @click="changeAvatar"> Guardar </v-btn>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-card-actions>
-      </v-card>
-    </v-dialog-->
   </div>
 </template>
 
@@ -182,11 +144,9 @@ export default {
   components: { passUser },
   data() {
     return {
-      file: null,
       passSection: false,
       message: '',
       snackbar: false,
-      dialog: false,
       editUser: {
         _id: '',
         avatar: '',
@@ -203,14 +163,8 @@ export default {
         v => !!v || 'Correo es necesario',
         v => /.+@.+\..+/.test(v) || 'El correo tiene que ser válido'
       ],
-      rules: [
-        value =>
-          !value ||
-          value.size < 2000000 ||
-          'El tamaño de la imagen debe ser menor a 2 MB!'
-      ],
       loading: false,
-      loadingDialog: false,
+      loadingAvatar: false,
       problem: false
     }
   },
@@ -218,51 +172,6 @@ export default {
     ...mapActions(['loadUserLoged']),
     changeSectionPass() {
       this.passSection = !this.passSection
-    },
-
-    close() {
-      this.dialog = !this.dialog
-    },
-
-    onUpload(src){
-      this.editUser.avatar = src
-    },
-
-    async changeAvatar() {
-      this.snackbar = false
-      this.loadingDialog = true
-      try {
-        await this.$http
-          .post(`/api/avatar/usuario/${this.user._id}`, { file: this.file })
-          .then(res => {
-            this.loadingDialog = false
-            //alerta de que valio
-            this.$swal.fire({
-              toast: true,
-              position: 'top-end',
-              showConfirmButton: false,
-              timer: 3000,
-              icon: 'success',
-              title: 'Avatar editado'
-            })
-            //actualizando el usuario del sesion
-            sessionStorage.setItem('user', JSON.stringify(res.body.usuario))
-            //aqui estoy cargando el usuario en storage con lo que se tiene en el sesionstorage
-            this.loadUserLoged()
-            //iguala el del store con el de aqui
-            this.restore()
-            //cierra el dialog
-            this.close()
-          })
-      } catch (error) {
-        //alerta de que no valió
-        this.loadingDialog = false
-        this.message =
-          error.body.err != undefined
-            ? error.body.err.message
-            : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
-        this.snackbar = true
-      }
     },
 
     async changeUser() {
@@ -340,13 +249,53 @@ export default {
     },
 
     restore() {
-      const { nombre, _id, apellido, email, activado,avatar } = this.user
+      const { nombre, _id, apellido, email, activado, avatar } = this.user
       this.editUser.nombre = nombre
       this.editUser._id = _id
       this.editUser.avatar = avatar
       this.editUser.apellido = apellido
       this.editUser.email = email
       this.editUser.activado = activado
+    },
+
+    async changeAvatar(file) {
+      if (file) {
+        this.snackbar = false
+        this.loadingAvatar = true
+        var formData = new FormData()
+        formData.append('avatar', file)
+
+        try {
+          await this.$http
+            .post(`/api/avatar/usuario/${this.editUser._id}`, formData, {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            })
+            .then(res => {
+              this.loadingAvatar = false
+              this.$swal.fire({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                icon: 'success',
+                title: 'Avatar editado'
+              })
+              res.json()
+              sessionStorage.setItem('user', JSON.stringify(res.body.usuario))
+              this.loadUserLoged()
+              this.restore()
+            })
+        } catch (error) {
+          this.loadingAvatar = false
+          this.message =
+            error.body.err != undefined
+              ? error.body.err.message
+              : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
+          this.snackbar = true
+        }
+      }
     }
   },
   computed: {

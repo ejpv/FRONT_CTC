@@ -33,8 +33,8 @@
                       <v-container>
                         <h3>Avatar</h3>
                         <div class="text-center">
-                          <v-avatar size="128">
-                            <v-img src="https://picsum.photos/350/165?random">
+                          <v-avatar size="200" :tile="!editedItem.avatar">
+                            <v-img :src="editedItem.avatar || '/image-gallery.svg'">
                               <template v-slot:placeholder>
                                 <v-row
                                   class="fill-height ma-0"
@@ -43,7 +43,7 @@
                                 >
                                   <v-progress-circular
                                     indeterminate
-                                    color="primary"
+                                    color="grey lighten-5"
                                   ></v-progress-circular>
                                 </v-row>
                               </template>
@@ -220,10 +220,10 @@ export default {
   props: ['texto', 'activator'],
   data() {
     return {
-      roles:{
-        admin:'ADMIN_ROLE',
-        representant:'REPRESENTANT_ROLE',
-        technical:'TECHNICAL_ROLE'
+      roles: {
+        admin: 'ADMIN_ROLE',
+        representant: 'REPRESENTANT_ROLE',
+        technical: 'TECHNICAL_ROLE'
       },
       sendMail: '',
       loading: true,

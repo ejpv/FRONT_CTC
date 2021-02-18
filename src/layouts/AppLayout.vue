@@ -15,8 +15,8 @@
       <v-navigation-drawer v-model="drawer" class="pt-4" color="secondary" app>
         <template v-slot:prepend>
           <v-list-item>
-            <v-list-item-avatar size="64">
-              <v-img src="https://picsum.photos/350/165?random">
+            <v-list-item-avatar size="70" :tile="!user.avatar">
+              <v-img :src="user.avatar || '/image-gallery.svg'">
                 <template v-slot:placeholder>
                   <v-row class="fill-height ma-0" align="center" justify="center">
                     <v-progress-circular
@@ -108,6 +108,16 @@ export default {
         title: 'Usuarios',
         icon: 'fa-users',
         link: '/users'
+      },
+      {
+        title: 'Establecimientos',
+        icon: 'fa-store-alt',
+        link: '/establishment'
+      },
+      {
+        title: 'Representantes',
+        icon: 'fa-user-tag',
+        link: '/representant'
       },
       {
         title: 'Prueba',
