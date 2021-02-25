@@ -31,6 +31,7 @@
                     </v-card-title>
                     <v-card-text>
                       <v-container>
+                        <v-form ref="form">
                         <h3>Avatar</h3>
                         <div class="text-center">
                           <v-avatar size="200" :tile="!editedItem.avatar">
@@ -95,6 +96,7 @@
                           v-model="sendMail"
                           label="Enviar email al correo para verificación."
                         ></v-checkbox>
+                        </v-form>
                       </v-container>
                     </v-card-text>
 
@@ -115,16 +117,20 @@
               </v-col>
             </v-row>
           </v-container>
-          <v-dialog v-model="dialogDelete" max-width="450px">
+          <v-dialog v-model="dialogDelete" max-width="500px">
             <v-card>
-              <div class="text-center primary pt-6">
-                <v-icon dark large> fa-exclamation-triangle </v-icon>
-              </div>
-              <v-card-title class="primary pa-2 white--text justify-center">
-                <span class="headline">
-                  ¿Está seguro de {{ textDialog }} este Usuario?</span
-                >
-              </v-card-title>
+              <v-container class="primary">
+                <v-row text-centerd>
+                  <v-col cols="12" class="text-center">
+                    <v-icon dark large> fa-exclamation-triangle </v-icon>
+                  </v-col>
+                  <v-col cols="12" class="white--text justify-center">
+                    <div class="text-center primary">
+                      <span class="headline"> ¿Está seguro de borrar este Usuario?</span>
+                    </div>
+                  </v-col>
+                </v-row>
+              </v-container>
               <v-card-actions>
                 <v-container>
                   <v-row>
@@ -141,6 +147,7 @@
           </v-dialog>
         </v-toolbar>
       </template>
+
       <template v-slot:item.actions="{ item }">
         <v-tooltip bottom v-if="user._id != item._id">
           <template v-slot:activator="{ on, attrs }">
@@ -201,20 +208,13 @@
       <template v-slot:item.rol="{ item }">
         <p class="font-weight-black">{{ getText(item, 'rol') }}</p>
       </template>
+      
     </v-data-table>
-
-    <div class="text-center">
-      <v-snackbar v-model="snackbar" color="error" :timeout="-1">
-        {{ message }}
-        <template v-slot:action="{ attrs }">
-          <v-btn text v-bind="attrs" @click="snackbar = false"> Cerrar </v-btn>
-        </template>
-      </v-snackbar>
-    </div>
   </div>
 </template>
 
 <script>
+import { swalError, swalConfirm, swalLoading } from '@/utils/notify'
 import { mapState } from 'vuex'
 export default {
   props: ['texto', 'activator'],
@@ -227,8 +227,6 @@ export default {
       },
       sendMail: '',
       loading: true,
-      snackbar: false,
-      message: '',
       users: [],
       headers: [
         {
@@ -295,7 +293,7 @@ export default {
       ],
       fieldRules: [
         v => !!v || 'Campo necesario',
-        v => (v && v.length <= 10) || 'Debe tener mas de 3 letras'
+        v => (v && v.length >= 3) || 'Debe tener mas de 3 letras'
       ]
     }
   },
@@ -325,7 +323,6 @@ export default {
     },
 
     async getUsers() {
-      this.snackbar = false
       this.loading = true
       this.users = []
       await this.$http
@@ -336,11 +333,11 @@ export default {
         })
         .catch(error => {
           this.loading = false
-          this.message =
+          swalError(
             error.body.err != undefined
               ? error.body.err.message
               : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
-          this.snackbar = true
+          )
         })
     },
 
@@ -367,6 +364,7 @@ export default {
 
     close() {
       this.dialog = false
+      this.$refs.form.resetValidation()
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem)
         this.editedIndex = -1
@@ -398,8 +396,8 @@ export default {
     },
 
     async addUser() {
-      this.snackbar = false
       this.loading = true
+      swalLoading('Ingresando usuario')
       try {
         await this.$http.post('/api/usuario', this.editedItem).then(async res => {
           this.loading = false
@@ -409,122 +407,83 @@ export default {
             await this.sendMailtoEmail(this.editedItem)
           } else {
             this.editedItem = res.data.data
-            this.$swal.fire({
-              toast: true,
-              position: 'top-end',
-              showConfirmButton: false,
-              timer: 3000,
-              icon: 'success',
-              title: 'Usuario nuevo ingresado'
-            })
+            swalConfirm('Usuario nuevo ingresado')
           }
           this.problem = false
         })
       } catch (error) {
         this.loading = false
-        this.message =
+        swalError(
           error.body.err != undefined
             ? error.body.err.message
             : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
-        this.snackbar = true
+        )
         this.problem = true
       }
       this.new = false
     },
 
     async removeUser() {
-      this.snackbar = false
       this.loading = true
+      swalLoading('Eliminando usuario')
       try {
         await this.$http.delete(`/api/usuario/${this.editedItem._id}`).then(() => {
           this.loading = false
-          this.$swal.fire({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-            icon: 'success',
-            title: 'Usuario eliminado'
-          })
+          swalConfirm('Usuario eliminado')
         })
         this.problem = false
       } catch (error) {
         this.loading = false
-        this.message =
+        swalError(
           error.body.err != undefined
             ? error.body.err.message
             : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
-        this.snackbar = true
+        )
         this.problem = true
       }
     },
 
     async changeUser() {
-      this.snackbar = false
       this.loading = true
+      swalLoading('Editando usuario')
       try {
         await this.$http
           .put(`/api/usuario/${this.editedItem._id}`, this.editedItem)
           .then(() => {
             this.loading = false
-            this.$swal.fire({
-              toast: true,
-              position: 'top-end',
-              showConfirmButton: false,
-              timer: 3000,
-              icon: 'success',
-              title: 'Usuario editado'
-            })
+            swalConfirm('Usuario editado')
           })
         this.problem = false
       } catch (error) {
         this.loading = false
-        this.message =
+        swalError(
           error.body.err != undefined
             ? error.body.err.message
             : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
-        this.snackbar = true
+        )
         this.problem = true
       }
     },
 
     async sendMailtoEmail(item) {
-      this.$swal.fire({
-        confirmButtonText: 'Continuar',
-        title: 'Enviando Correo',
-        icon: 'warning',
-        allowOutsideClick: false,
-        allowEscapeKey: false,
-        allowEnterKey: false,
-        didOpen: () => {
-          this.$swal.showLoading()
-        }
-      })
+      this.loading = true
+      swalLoading('Enviando correo')
       await this.$http
         .post('/api/email/verifica', {
           id: item._id
         })
         .then(() => {
-          this.$swal.fire({
-            toast: true,
-            icon: 'success',
-            timer: 3000,
-            position: 'top-end',
-            showConfirmButton: false,
-            title: this.getTitleToastEmail,
-            didOpen: () => {
-              this.$swal.hideLoading()
-            }
-          })
+          this.loading = false
+          swalConfirm(this.getTitleToastEmail)
         })
         .catch(error => {
           this.$swal.close()
           this.loading = false
-          this.message =
+          swalError(
             error.body.err != undefined
               ? error.body.err.message
               : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
-          this.snackbar = true
+          )
         })
     }
   },
@@ -532,9 +491,6 @@ export default {
     ...mapState(['user']),
     formTitle() {
       return this.editedIndex === -1 ? 'Crear un Usuario' : 'Editar un Usuario'
-    },
-    textDialog() {
-      return this.erased ? 'restaurar' : 'borrar'
     },
     getTitleToastEmail() {
       return this.new ? 'Usuario ingresado y Correo enviado' : 'Correo enviado'

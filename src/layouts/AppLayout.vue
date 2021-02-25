@@ -14,7 +14,7 @@
       </v-app-bar>
       <v-navigation-drawer v-model="drawer" class="pt-4" color="secondary" app>
         <template v-slot:prepend>
-          <v-list-item>
+          <v-list-item >
             <v-list-item-avatar size="70" :tile="!user.avatar">
               <v-img :src="user.avatar || '/image-gallery.svg'">
                 <template v-slot:placeholder>
@@ -56,7 +56,7 @@
 
         <v-divider></v-divider>
 
-        <v-list nav dense>
+        <v-list nav dense shaped>
           <v-list-item-group active-class="deep-purple--text text--accent-4">
             <div v-for="(item, n) in links" :key="n">
               <v-list-item

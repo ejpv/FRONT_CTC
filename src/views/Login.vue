@@ -36,16 +36,6 @@
                   <router-link to="/forgetPass"> Olvidaste tu contraseña? </router-link>
                 </v-card-actions>
               </v-form>
-              <div class="text-center">
-                <v-snackbar v-model="snackbar" color="error" :timeout="-1">
-                  {{ message }}
-                  <template v-slot:action="{ attrs }">
-                    <v-btn color="" text v-bind="attrs" @click="snackbar = false">
-                      Cerrar
-                    </v-btn>
-                  </template>
-                </v-snackbar>
-              </div>
             </v-container>
           </v-card-text>
         </v-card>
@@ -56,6 +46,7 @@
 
 
 <script>
+import { swalError } from '@/utils/notify'
 import { mapActions, mapState } from 'vuex'
 import Vue from 'vue'
 
@@ -66,7 +57,6 @@ export default {
       password: 'passADM',
       message: '',
       show: false,
-      snackbar: false,
       loading: false,
 
       emailRules: [
@@ -80,7 +70,6 @@ export default {
     ...mapActions(['loadUserLoged']),
     login() {
       if (this.$refs.form.validate()) {
-        this.snackbar = false
         this.loading = true
         this.$http
           .post('/api/login', {
@@ -98,12 +87,12 @@ export default {
             this.$router.replace('/')
           })
           .catch(error => {
-            this.loading = false
-            this.message =
+            swalError(
               error.body.err != undefined
                 ? error.body.err.message
                 : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
-            this.snackbar = true
+            )
+            this.loading = false
           })
       }
     }

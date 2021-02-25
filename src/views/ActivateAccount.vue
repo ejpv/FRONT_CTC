@@ -37,7 +37,7 @@
               <v-col cols="10"
                 ><span class="primary--text">
                   Gracias por confirmar tu dirección de correo electrónico, puedes
-                  continar dando click en el botón.
+                  continuar dando click en el botón.
                 </span></v-col
               >
             </v-row>
@@ -49,33 +49,23 @@
         </v-card>
       </v-dialog>
     </v-layout>
-    <div class="text-center">
-      <v-snackbar v-model="snackbar" color="error" :timeout="-1">
-        {{ message }}
-        <template v-slot:action="{ attrs }">
-          <v-btn text v-bind="attrs" @click="snackbar = false"> Cerrar </v-btn>
-        </template>
-      </v-snackbar>
-    </div>
   </v-container>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import { swalError } from '@/utils/notify'
 export default {
   data() {
     return {
       tokenUrl: this.$route.params.token,
       dialog: false,
       loading: false,
-      snackbar: false,
-      message: ''
     }
   },
   async created() {
     if (this.pass) {
       this.dialog = true
-      this.snackbar = false
       this.loading = true
 
       let headers = {
@@ -95,12 +85,11 @@ export default {
           })
       } catch (error) {
         this.loading = false
-        this.message =
-          error.body.err != undefined
-            ? error.body.err.message +
-              ', recargue la página o intente enviar el correo nuevamente.'
-            : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
-        this.snackbar = true
+        swalError(
+            error.body.err != undefined
+              ? error.body.err.message
+              : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
+          )
         this.dialog = false
       }
     }

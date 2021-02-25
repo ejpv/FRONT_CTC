@@ -27,23 +27,13 @@
                   <v-btn type="submit" class="primary"> Enviar </v-btn>
                   <v-spacer></v-spacer>
                   <router-link to="/login" tag="button">
-                    <v-btn class="warning" v-if="color === 'success'"> Volver </v-btn>
+                    <v-btn class="warning"> Volver </v-btn>
                   </router-link>
                 </v-card-actions>
               </v-container>
             </v-container>
           </v-card>
         </v-form>
-        <div class="text-center">
-          <v-snackbar v-model="snackbar" :color="color" :timeout="-1">
-            {{ message }}
-            <template v-slot:action="{ attrs }">
-              <v-btn color="" text v-bind="attrs" @click="snackbar = false">
-                Cerrar
-              </v-btn>
-            </template>
-          </v-snackbar>
-        </div>
       </v-flex>
     </v-layout>
   </v-container>
@@ -51,14 +41,12 @@
 
 <script>
 import { mapState } from 'vuex'
+import { swalError, swalLoading, swalConfirm } from '@/utils/notify'
 export default {
   data() {
     return {
       email: 'erickjpv@hotmail.es',
-      message: '',
       loading: false,
-      snackbar: false,
-      color: '',
       emailRules: [
         v => !!v || 'Correo es necesario',
         v => /.+@.+\..+/.test(v) || 'El correo tiene que ser válido'
@@ -68,30 +56,25 @@ export default {
   methods: {
     sendEmail() {
       if (this.$refs.form.validate()) {
-        this.snackbar = false
         this.loading = true
+        swalLoading('Enviando correo')
         this.$http
           .post('/api/email/restaura', {
             email: this.email
           })
           .then(() => {
-            this.color = 'success'
-            this.message = 'Mensaje enviado correctamente'
-            this.snackbar = true
             this.loading = false
+            swalConfirm('Correo enviado')
           })
           .catch(error => {
+            this.$swal.close()
             this.loading = false
-            this.color = 'error'
-            this.message =
+            swalError(
               error.body.err != undefined
                 ? error.body.err.message
                 : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
-            this.snackbar = true
-            console.log(error.body)
+            )
           })
-      } else {
-        console.log('no valida')
       }
     }
   },

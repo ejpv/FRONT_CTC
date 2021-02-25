@@ -31,7 +31,7 @@ export default new Vuetify({
         //warning: '#FFC107',
         warning: '#F57C00',
         new: '#00BFA5',
-        edit: '#FFC107',
+        edit: '#FF8F00',
         delete: '#FF5252',
       }
     }

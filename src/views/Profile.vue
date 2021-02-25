@@ -124,19 +124,12 @@
         </v-row>
       </v-layout>
     </v-container>
-    <div class="text-center">
-      <v-snackbar v-model="snackbar" color="error" :timeout="-1">
-        {{ message }}
-        <template v-slot:action="{ attrs }">
-          <v-btn color="" text v-bind="attrs" @click="snackbar = false"> Cerrar </v-btn>
-        </template>
-      </v-snackbar>
-    </div>
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import { swalError, swalConfirm, swalLoading } from '@/utils/notify'
 import Vue from 'vue'
 import passUser from '../components/passUser.vue'
 
@@ -145,8 +138,6 @@ export default {
   data() {
     return {
       passSection: false,
-      message: '',
-      snackbar: false,
       editUser: {
         _id: '',
         avatar: '',
@@ -175,21 +166,13 @@ export default {
     },
 
     async changeUser() {
-      this.snackbar = false
       this.loading = true
       try {
         await this.$http
           .put(`/api/usuario/${this.editUser._id}`, this.editUser)
           .then(res => {
             this.loading = false
-            this.$swal.fire({
-              toast: true,
-              position: 'top-end',
-              showConfirmButton: false,
-              timer: 3000,
-              icon: 'success',
-              title: 'Usuario editado'
-            })
+            swalConfirm('Usuario editado')
             sessionStorage.setItem('token', res.body.token)
             sessionStorage.setItem('user', JSON.stringify(res.body.usuario))
             sessionStorage.setItem('expira', res.body.expireAt)
@@ -200,51 +183,33 @@ export default {
           })
       } catch (error) {
         this.loading = false
-        this.message =
+        swalError(
           error.body.err != undefined
             ? error.body.err.message
             : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
-        this.snackbar = true
+        )
       }
     },
 
     async sendMail() {
-      this.$swal.fire({
-        confirmButtonText: 'Continuar',
-        title: 'Enviando Correo',
-        icon: 'warning',
-        allowOutsideClick: false,
-        allowEscapeKey: false,
-        allowEnterKey: false,
-        didOpen: () => {
-          this.$swal.showLoading()
-        }
-      })
+      this.loading = true
+      swalLoading('Enviando correo')
       await this.$http
         .post('/api/email/verifica', {
           id: this.user._id
         })
         .then(() => {
-          this.$swal.fire({
-            toast: true,
-            icon: 'success',
-            timer: 3000,
-            position: 'top-end',
-            showConfirmButton: false,
-            title: 'Correo enviado',
-            didOpen: () => {
-              this.$swal.hideLoading()
-            }
-          })
+          this.loading = false
+          swalConfirm('Correo enviado')
         })
         .catch(error => {
           this.$swal.close()
           this.loading = false
-          this.message =
+          swalError(
             error.body.err != undefined
               ? error.body.err.message
               : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
-          this.snackbar = true
+          )
         })
     },
 
@@ -260,7 +225,6 @@ export default {
 
     async changeAvatar(file) {
       if (file) {
-        this.snackbar = false
         this.loadingAvatar = true
         var formData = new FormData()
         formData.append('avatar', file)
@@ -274,14 +238,7 @@ export default {
             })
             .then(res => {
               this.loadingAvatar = false
-              this.$swal.fire({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                icon: 'success',
-                title: 'Avatar editado'
-              })
+              swalConfirm('Avatar editado')
               res.json()
               sessionStorage.setItem('user', JSON.stringify(res.body.usuario))
               this.loadUserLoged()
@@ -289,11 +246,11 @@ export default {
             })
         } catch (error) {
           this.loadingAvatar = false
-          this.message =
+          swalError(
             error.body.err != undefined
               ? error.body.err.message
               : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
-          this.snackbar = true
+          )
         }
       }
     }

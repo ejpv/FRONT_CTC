@@ -9,10 +9,10 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.8.2",
-    "@sweetalert2/theme-bulma": "^4.0.2",
+    "@sweetalert2/theme-dark": "^4.0.3",
     "core-js": "^3.6.5",
     "roboto-fontface": "*",
-    "sweetalert2": "^10.14.0",
+    "sweetalert2": "^10.15.5",
     "vue": "^2.6.11",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.2.0",

@@ -54,18 +54,11 @@
         </v-btn>
       </div>
     </v-card>
-    <div class="text-center">
-      <v-snackbar v-model="snackbar" color="error" :timeout="-1">
-        {{ message }}
-        <template v-slot:action="{ attrs }">
-          <v-btn text v-bind="attrs" @click="snackbar = false"> Cerrar </v-btn>
-        </template>
-      </v-snackbar>
-    </div>
   </v-container>
 </template>
 
 <script>
+import { swalError, swalConfirm, swalLoading } from '@/utils/notify'
 export default {
   props: ['cancel', 'token', 'activate'],
   data() {
@@ -75,45 +68,39 @@ export default {
       show1: false,
       show: false,
       password: '',
-      secondPassword: '',
-      message: '',
-      snackbar: ''
+      secondPassword: ''
     }
   },
   methods: {
     async changePass() {
-      this.snackbar = false
       this.loading = true
+      swalLoading('Actualizando contraseña')
       try {
         await this.$http
           .post('/api/usuario/changePass', { password: this.password })
           .then(() => {
             this.loading = false
-            this.$swal.fire({
-              toast: true,
-              position: 'top-end',
-              showConfirmButton: false,
-              timer: 3000,
-              icon: 'success',
-              title: 'Contraseña Actualizada'
-            })
+            swalConfirm('Contraseña actualizada')
           })
         this.changeSection()
       } catch (error) {
         this.loading = false
-        this.message =
+        swalError(
           error.body.err != undefined
             ? error.body.err.message
             : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
-        this.snackbar = true
+        )
       }
     },
+    
     changeSection() {
       this.$emit('accion')
       this.password = ''
       this.secondPassword = ''
     },
+
     async restorePass() {
+      swalLoading('Actualizando contraseña')
       let headers = {
         'Content-Type': 'application/json;charset=utf-8'
       }
@@ -122,32 +109,25 @@ export default {
         headers['token'] = this.token
       }
 
-      this.snackbar = false
       this.loading = true
       try {
         await this.$http
           .post('/api/usuario/password', { password: this.password }, { headers })
           .then(() => {
             this.loading = false
-            this.$swal.fire({
-              toast: true,
-              position: 'top-end',
-              showConfirmButton: false,
-              timer: 3000,
-              icon: 'success',
-              title: 'Contraseña Actualizada'
-            })
+            swalConfirm('Contraseña actualizada')
             this.$emit('accion')
           })
       } catch (error) {
         this.loading = false
-        this.message =
+        swalError(
           error.body.err != undefined
             ? error.body.err.message
             : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
-        this.snackbar = true
+        )
       }
     },
+
     async activateAccount() {
       let headers = {
         'Content-Type': 'application/json;charset=utf-8'
@@ -156,32 +136,23 @@ export default {
       if (this.token !== '') {
         headers['token'] = this.token
       }
-
-      this.snackbar = false
       this.loading = true
+      swalLoading('Estableciendo contraseña')
       try {
         await this.$http
           .post('/api/usuario/activar', { password: this.password }, { headers })
           .then(() => {
             this.loading = false
-            this.$swal.fire({
-              toast: true,
-              position: 'top-end',
-              showConfirmButton: false,
-              timer: 3000,
-              icon: 'success',
-              title: 'Contraseña Establecida'
-            })
+            swalConfirm('Contraseña establecida')
             this.$emit('accion')
           })
       } catch (error) {
         this.loading = false
-        this.message =
+        swalError(
           error.body.err != undefined
-            ? error.body.err.message +
-              ', recargue la página o intente enviar el correo nuevamente.'
+            ? error.body.err.message
             : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
-        this.snackbar = true
+        )
       }
     }
   },
