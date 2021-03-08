@@ -8,6 +8,7 @@ Vue.component('activeEstablishment', () => import('./activeEstablishment'))
 Vue.component('activePlace', () => import('./activePlace'))
 Vue.component('erasedUser', () => import('./erasedUser'))
 Vue.component('erasedRepresentant', () => import('./erasedRepresentant'))
+Vue.component('erasedPlace', () => import('./erasedPlace'))
 Vue.component('passUser', () => import('./passUser'))
 Vue.component('ctcMap', () => import('./map'))
 

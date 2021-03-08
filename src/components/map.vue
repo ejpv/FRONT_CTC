@@ -16,7 +16,7 @@
         />
       </GmapMap>
     </v-card-text>
-    <v-card-actions>
+    <v-card-actions v-if="editable">
       <v-container>
         <v-row>
           <v-col cols="6" class="d-flex justify-space-around pa-0">
@@ -24,6 +24,15 @@
           </v-col>
           <v-col cols="6" class="d-flex justify-space-around pa-0">
             <v-btn text @click="saveData">Guardar</v-btn>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-card-actions>
+    <v-card-actions v-else>
+      <v-container>
+        <v-row>
+          <v-col cols="12" class="d-flex justify-space-around pa-0">
+            <v-btn text @click="closeComponent">Cerrar</v-btn>
           </v-col>
         </v-row>
       </v-container>

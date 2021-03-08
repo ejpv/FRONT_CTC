@@ -18,7 +18,7 @@
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn color="new" dark class="mb-2" v-bind="attrs" v-on="on" medium>
                       Nuevo Usuario
-                      <v-icon right>fa-user-plus</v-icon>
+                      <v-icon right>fa-users</v-icon>
                     </v-btn>
                     <v-btn color="info" class="mb-2 ml-4" medium icon>
                       <v-icon medium @click="getUsers()">fa-sync-alt</v-icon>

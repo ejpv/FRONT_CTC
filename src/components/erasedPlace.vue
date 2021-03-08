@@ -2,11 +2,11 @@
   <div>
     <v-data-table
       :headers="headers"
-      :items="users"
+      :items="places"
       class="elevation-1"
       :loading="loading"
       :search="this.texto"
-      loading-text="Obteniendo todos los Usuarios..."
+      loading-text="Obteniendo todos los Lugares..."
     >
       <template v-slot:top>
         <v-toolbar flat>
@@ -15,12 +15,11 @@
               <v-col align="start" cols="3" sm="2"> </v-col>
               <v-col align="end" cols="0" sm="10">
                 <v-btn color="new" class="mb-2" medium disabled>
-                  Nuevo Usuario
-                  <v-icon right>fa-users</v-icon>
+                  Nuevo Lugar
+                  <v-icon right>fa-globe-americas</v-icon>
                 </v-btn>
-
                 <v-btn color="info" class="mb-2 ml-4" medium icon>
-                  <v-icon medium @click="getUsers()">fa-sync-alt</v-icon>
+                  <v-icon medium @click="getPlaces()">fa-sync-alt</v-icon>
                 </v-btn>
               </v-col>
             </v-row>
@@ -40,26 +39,16 @@
               fa-trash-restore
             </v-icon>
           </template>
-          <span> Restaurar un Usuario </span>
+          <span> Restaurar un Lugar </span>
         </v-tooltip>
-      </template>
-
-      <template v-slot:item.activado="{ item }">
-        <v-chip :color="getColor(item)" dark :class="getText(item, 'activado')">
-          {{ getText(item, 'activado') }}
-        </v-chip>
       </template>
 
       <template v-slot:item.estado>
         <v-chip color="error" dark> Borrado </v-chip>
       </template>
-
-      <template v-slot:item.rol="{ item }">
-        <p class="font-weight-black">{{ getText(item, 'rol') }}</p>
-      </template>
     </v-data-table>
 
-    <v-dialog v-model="dialogRestore" max-width="550px">
+    <v-dialog v-model="dialogRestore" max-width="500px">
       <v-card>
         <v-container class="primary">
           <v-row text-centerd>
@@ -68,7 +57,7 @@
             </v-col>
             <v-col cols="12" class="white--text justify-center">
               <div class="text-center primary">
-                <span class="headline"> ¿Está seguro de restaurar este Usuario?</span>
+                <span class="headline"> ¿Está seguro de restaurar este Lugar?</span>
               </div>
             </v-col>
           </v-row>
@@ -97,91 +86,60 @@ export default {
   data() {
     return {
       loading: true,
-      users: [],
+      places: [],
       headers: [
         {
-          text: 'Nombre',
-          value: 'nombre',
+          text: 'Provincia',
+          value: 'provincia',
           align: 'start'
         },
         {
-          text: 'Apellido',
-          value: 'apellido'
+          text: 'Cantón',
+          value: 'canton'
         },
         {
-          text: 'Correo',
-          value: 'email'
+          text: 'Ciudad',
+          value: 'ciudad'
         },
         {
-          text: 'Rol',
-          value: 'rol'
+          text: 'Parroquia',
+          value: 'parroquia'
         },
         {
-          text: 'Estado del correo',
-          value: 'activado',
+          text: 'Coordenadas',
+          value: 'coords',
+          align: 'center',
           sortable: false
         },
         {
-          text: 'Estado de cuenta',
+          text: 'Estado',
           value: 'estado',
+          align: 'center',
           sortable: false
         },
         {
           text: 'Acciones',
           value: 'actions',
+          align: 'center',
           sortable: false
         }
       ],
       dialogRestore: false,
       problem: false,
       editedIndex: -1,
-      editedItem: {
-        _id: '',
-        avatar: '',
-        rol: '',
-        nombre: '',
-        apellido: '',
-        email: '',
-        estado: true,
-        activado: false
-      },
-      defaultItem: {
-        _id: '',
-        avatar: '',
-        rol: '',
-        nombre: '',
-        apellido: '',
-        email: '',
-        estado: true,
-        activado: false
-      }
+      editedItem: {},
+      defaultItem: {}
     }
   },
   methods: {
-    getColor(item) {
-      return item.activado ? 'info' : 'warning'
-    },
-
-    getText(item, detail) {
-      if (detail === 'activado') {
-        return item.activado ? 'Verificado' : 'Aún sin verificar'
-      } else {
-        return item.rol == 'ADMIN_ROLE'
-          ? 'Administrador'
-          : item.rol == 'TECHNICAL_ROLE'
-          ? 'Técnico'
-          : 'Representante'
-      }
-    },
-
-    async getUsers() {
+    async getPlaces() {
       this.loading = true
-      this.users = []
+      this.places = []
       await this.$http
-        .get('/api/usuarios?estado=false')
+        .get('/api/lugares?estado=false')
         .then(res => {
           this.loading = false
-          this.users = res.data.data
+          this.places = res.data.data
         })
         .catch(error => {
           this.loading = false
@@ -194,15 +152,15 @@ export default {
     },
 
     restoreItem(item) {
-      this.editedIndex = this.users.indexOf(item)
+      this.editedIndex = this.places.indexOf(item)
       this.editedItem = item
       this.dialogRestore = true
     },
 
     async restoreItemConfirm() {
-      await this.restoreUser()
+      await this.restorePlace()
       if (!this.problem) {
-        this.users.splice(this.editedIndex, 1)
+        this.places.splice(this.editedIndex, 1)
       }
       this.closeRestore()
       this.problem = false
@@ -216,13 +174,13 @@ export default {
       })
     },
 
-    async restoreUser() {
+    async restorePlace() {
       this.loading = true
-      swalLoading('Restaurando usuario')
+      swalLoading('Restaurando lugar')
       try {
-        await this.$http.put(`/api/usuario/${this.editedItem._id}/restaurar`).then(() => {
+        await this.$http.put(`/api/lugar/${this.editedItem._id}/restaurar`).then(() => {
           this.loading = false
-          swalConfirm('Usuario restaurado')
+          swalConfirm('Lugar restaurado')
         })
         this.problem = false
       } catch (error) {
@@ -242,7 +200,7 @@ export default {
     },
     activator(val) {
       if (val) {
-        this.getUsers()
+        this.getPlaces()
       }
     }
   }

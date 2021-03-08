@@ -16,7 +16,7 @@
               <v-col align="end" cols="0" sm="10">
                 <v-btn color="new" class="mb-2" medium disabled>
                   Nuevo Representante
-                  <v-icon right>fa-user-plus</v-icon>
+                  <v-icon right>fa-user-tag</v-icon>
                 </v-btn>
                 <v-btn color="info" class="mb-2 ml-4" medium icon>
                   <v-icon medium @click="getRepresentants()">fa-sync-alt</v-icon>

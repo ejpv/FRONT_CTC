@@ -18,7 +18,7 @@
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn color="new" dark class="mb-2" v-bind="attrs" v-on="on" medium>
                       Nuevo Lugar
-                      <v-icon right>fa-user-plus</v-icon>
+                      <v-icon right>fa-globe-americas</v-icon>
                     </v-btn>
                     <v-btn color="info" class="mb-2 ml-4" medium icon>
                       <v-icon medium @click="getPlaces()">fa-sync-alt</v-icon>
@@ -235,7 +235,7 @@
 </template>
 
 <script>
-import { swalError } from '@/utils/notify'
+import { swalError, swalConfirm, swalLoading } from '@/utils/notify'
 
 export default {
   props: ['texto', 'activator'],
@@ -340,7 +340,7 @@ export default {
     },
 
     async deleteItemConfirm() {
-      //await this.removeRepresentant()
+      await this.removePlace()
       if (!this.problem) {
         this.places.splice(this.editedIndex, 1)
       }
@@ -397,18 +397,81 @@ export default {
 
     async save() {
       if (this.editedIndex > -1) {
-        //await this.changeRepresentant()
+        await this.changePlace()
         if (!this.problem) {
           Object.assign(this.places[this.editedIndex], this.editedItem)
         }
       } else {
-        //await this.addRepresentant()
+        await this.addPlace()
         if (!this.problem) {
           this.places.push(this.editedItem)
         }
       }
       this.problem = false
       this.close()
+    },
+
+    async addPlace() {
+      this.loading = true
+      swalLoading('Ingresando Lugar')
+      try {
+        await this.$http.post('/api/lugar', this.editedItem).then(async res => {
+          this.loading = false
+          swalConfirm('Lugar nuevo ingresado')
+          this.problem = false
+          this.editedItem = res.data.data
+        })
+      } catch (error) {
+        this.loading = false
+        swalError(
+          error.body.err != undefined
+            ? error.body.err.message
+            : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
+        )
+        this.problem = true
+      }
+    },
+
+    async removePlace() {
+      this.loading = true
+      swalLoading('Eliminando lugar')
+      try {
+        await this.$http.delete(`/api/lugar/${this.editedItem._id}`).then(() => {
+          this.loading = false
+          swalConfirm('Lugar Eliminado')
+        })
+        this.problem = false
+      } catch (error) {
+        this.loading = false
+        swalError(
+          error.body.err != undefined
+            ? error.body.err.message
+            : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
+        )
+        this.problem = true
+      }
+    },
+
+    async changePlace() {
+      this.loading = true
+      swalLoading('Editando lugar')
+      try {
+        await this.$http
+          .put(`/api/lugar/${this.editedItem._id}`, this.editedItem)
+          .then(async () => {
+            this.loading = false
+            swalConfirm('Lugar editado')
+            this.problem = false
+          })
+      } catch (error) {
+        this.loading = false
+        swalError(
+          error.body.err != undefined
+            ? error.body.err.message
+            : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
+        )
+        this.problem = true
+      }
     }
   },
 
