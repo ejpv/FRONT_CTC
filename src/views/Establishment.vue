@@ -12,16 +12,23 @@
           hide-details
         ></v-text-field>
         <v-row>
-          <v-col cols="7" sm="5" md="3">
+          <v-col cols="9" sm="5" md="5">
             <v-switch v-model="erased" label="Establecimientos Borrados"></v-switch>
           </v-col>
         </v-row>
       </v-card-title>
-      
+      <!-- <activeEstablishment v-show="!erased" :texto="search" :activator="erased" /> -->
     </v-container>
   </v-card>
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      erased: false,
+      search: ''
+    }
+  }
+}
 </script>

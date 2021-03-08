@@ -157,7 +157,7 @@
               v-on="on"
               v-bind="attrs"
             >
-              fa-user-edit
+              fa-pen
             </v-icon>
           </template>
           <span> Editar un Usuario </span>
@@ -244,21 +244,25 @@ export default {
         },
         {
           text: 'Rol',
-          value: 'rol'
+          value: 'rol',
+          align: 'center',
         },
         {
           text: 'Estado del correo',
           value: 'activado',
+          align: 'center',
           sortable: false
         },
         {
           text: 'Estado de cuenta',
           value: 'estado',
+          align: 'center',
           sortable: false
         },
         {
           text: 'Acciones',
           value: 'actions',
+          align: 'center',
           sortable: false
         }
       ],

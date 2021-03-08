@@ -229,7 +229,7 @@
               v-on="on"
               v-bind="attrs"
             >
-              fa-user-edit
+              fa-pen
             </v-icon>
           </template>
           <span> Editar un Representante </span>
@@ -459,16 +459,19 @@ export default {
         },
         {
           text: 'Usuario',
-          value: 'usuario'
+          value: 'usuario',
+          align: 'center',
         },
         {
           text: 'Estado',
           value: 'estado',
+          align: 'center',
           sortable: false
         },
         {
           text: 'Acciones',
           value: 'actions',
+          align: 'center',
           sortable: false
         }
       ],

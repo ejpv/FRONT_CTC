@@ -14,7 +14,7 @@
       </v-app-bar>
       <v-navigation-drawer v-model="drawer" class="pt-4" color="secondary" app>
         <template v-slot:prepend>
-          <v-list-item >
+          <v-list-item>
             <v-list-item-avatar size="70" :tile="!user.avatar">
               <v-img :src="user.avatar || '/image-gallery.svg'">
                 <template v-slot:placeholder>
@@ -118,6 +118,16 @@ export default {
         title: 'Representantes',
         icon: 'fa-user-tag',
         link: '/representant'
+      },
+      {
+        title: 'Lugares',
+        icon: 'fa-globe-americas',
+        link: '/place'
+      },
+      {
+        title: 'Áreas Protegidas',
+        icon: 'fa-map-marked-alt',
+        link: ''
       },
       {
         title: 'Prueba',
