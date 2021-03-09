@@ -252,12 +252,20 @@ export default {
         lng: 0
       },
       editedItem: {
+        _id: '',
+        ciudad: '',
+        parroquia: '',
+        estado: '',
         canton: 'Riobamba',
         provincia: 'Chimborazo',
         lat: -1.6519177088279544,
         lng: -78.64296128376385
       },
       defaultItem: {
+        _id: '',
+        ciudad: '',
+        parroquia: '',
+        estado: '',
         canton: 'Riobamba',
         provincia: 'Chimborazo',
         lat: -1.6519177088279544,

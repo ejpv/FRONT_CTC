@@ -3,7 +3,7 @@ import * as GmapVue from 'gmap-vue'
 
 Vue.use(GmapVue, {
   load: {
-    key: 'AIzaSyAmbi0fvFxZZ0hlcbs2VzNMRtpUIWdDHJU',
+    key: 'AQUI LA API KEY',
     libraries: 'places', // This is required if you use the Autocomplete plugin
     // OR: libraries: 'places,drawing'
     // OR: libraries: 'places,drawing,visualization'

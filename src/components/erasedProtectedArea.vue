@@ -2,11 +2,11 @@
   <div>
     <v-data-table
       :headers="headers"
-      :items="places"
+      :items="areas"
       class="elevation-1"
       :loading="loading"
       :search="this.texto"
-      loading-text="Obteniendo todos los Lugares..."
+      loading-text="Obteniendo todos los Áreas..."
     >
       <template v-slot:top>
         <v-toolbar flat>
@@ -15,11 +15,11 @@
               <v-col align="start" cols="3" sm="2"> </v-col>
               <v-col align="end" cols="0" sm="10">
                 <v-btn color="new" class="mb-2" medium disabled>
-                  Nuevo Lugar
-                  <v-icon right>fa-globe-americas</v-icon>
+                  Nueva Área
+                  <v-icon right>fa-map-marked-alt</v-icon>
                 </v-btn>
                 <v-btn color="info" class="mb-2 ml-4" medium icon>
-                  <v-icon medium @click="getPlaces()">fa-sync-alt</v-icon>
+                  <v-icon medium @click="getAreas()">fa-sync-alt</v-icon>
                 </v-btn>
               </v-col>
             </v-row>
@@ -39,7 +39,7 @@
               fa-trash-restore
             </v-icon>
           </template>
-          <span> Restaurar un Lugar </span>
+          <span> Restaurar un Área Protegida </span>
         </v-tooltip>
       </template>
 
@@ -57,7 +57,9 @@
             </v-col>
             <v-col cols="12" class="white--text justify-center">
               <div class="text-center primary">
-                <span class="headline"> ¿Está seguro de restaurar este Lugar?</span>
+                <span class="headline">
+                  ¿Está seguro de restaurar esta Área Protegida?</span
+                >
               </div>
             </v-col>
           </v-row>
@@ -86,30 +88,16 @@ export default {
   data() {
     return {
       loading: true,
-      places: [],
+      areas: [],
       headers: [
         {
-          text: 'Provincia',
-          value: 'provincia',
+          text: 'Nombre',
+          value: 'nombre',
           align: 'start'
         },
         {
-          text: 'Cantón',
-          value: 'canton'
-        },
-        {
-          text: 'Ciudad',
-          value: 'ciudad'
-        },
-        {
-          text: 'Parroquia',
-          value: 'parroquia'
-        },
-        {
-          text: 'Coordenadas',
-          value: 'coords',
-          align: 'center',
-          sortable: false
+          text: 'Tipo',
+          value: 'tipo'
         },
         {
           text: 'Estado',
@@ -127,37 +115,19 @@ export default {
       dialogRestore: false,
       problem: false,
       editedIndex: -1,
-      editedItem: {
-        _id: '',
-        ciudad: '',
-        parroquia: '',
-        canton: '',
-        provincia: '',
-        lat: '',
-        lng: '',
-        estado: ''
-      },
-      defaultItem: {
-        _id: '',
-        ciudad: '',
-        parroquia: '',
-        canton: '',
-        provincia: '',
-        lat: '',
-        lng: '',
-        estado: ''
-      }
+      editedItem: {},
+      defaultItem: {}
     }
   },
   methods: {
-    async getPlaces() {
+    async getAreas() {
       this.loading = true
-      this.places = []
+      this.areas = []
       await this.$http
-        .get('/api/lugares?estado=false')
+        .get('/api/areasProtegidas?estado=false')
         .then(res => {
           this.loading = false
-          this.places = res.data.data
+          this.areas = res.data.data
         })
         .catch(error => {
           this.loading = false
@@ -170,7 +140,7 @@ export default {
     },
 
     restoreItem(item) {
-      this.editedIndex = this.places.indexOf(item)
+      this.editedIndex = this.areas.indexOf(item)
       this.editedItem = item
       this.dialogRestore = true
     },
@@ -178,7 +148,7 @@ export default {
     async restoreItemConfirm() {
       await this.restorePlace()
       if (!this.problem) {
-        this.places.splice(this.editedIndex, 1)
+        this.areas.splice(this.editedIndex, 1)
       }
       this.closeRestore()
       this.problem = false
@@ -194,12 +164,14 @@ export default {
 
     async restorePlace() {
       this.loading = true
-      swalLoading('Restaurando lugar')
+      swalLoading('Restaurando área')
       try {
-        await this.$http.put(`/api/lugar/${this.editedItem._id}/restaurar`).then(() => {
-          this.loading = false
-          swalConfirm('Lugar restaurado')
-        })
+        await this.$http
+          .put(`/api/areaProtegida/${this.editedItem._id}/restaurar`)
+          .then(() => {
+            this.loading = false
+            swalConfirm('Área restaurada')
+          })
         this.problem = false
       } catch (error) {
         this.loading = false
@@ -218,7 +190,7 @@ export default {
     },
     activator(val) {
       if (val) {
-        this.getPlaces()
+        this.getAreas()
       }
     }
   }

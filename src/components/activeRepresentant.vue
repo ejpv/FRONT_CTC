@@ -499,7 +499,10 @@ export default {
       messageUnassign: false
     }
   },
+
+
   methods: {
+
     getColor(item, detail) {
       if (detail === 'estado') {
         return 'success'

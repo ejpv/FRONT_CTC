@@ -35,6 +35,11 @@ const routes = [
         component: () => import('../views/Representant.vue')
       },
       {
+        path: '/protectedArea',
+        name: 'Áreas Protegidas',
+        component: () => import('../views/ProtectedArea.vue')
+      },
+      {
         path: '/place',
         name: 'Lugares',
         component: () => import('../views/Place.vue')

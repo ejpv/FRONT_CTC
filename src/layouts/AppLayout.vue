@@ -127,7 +127,7 @@ export default {
       {
         title: 'Áreas Protegidas',
         icon: 'fa-map-marked-alt',
-        link: ''
+        link: '/protectedArea'
       },
       {
         title: 'Prueba',
