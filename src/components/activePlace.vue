@@ -88,7 +88,7 @@
                                     v-on="on"
                                     v-bind="attrs"
                                   >
-                                    fa-map-marked-alt
+                                    fa-map-marker-alt
                                   </v-icon>
                                 </template>
                                 <span> Elegir punto en mapa </span>

@@ -277,11 +277,10 @@
         </div>
         <div v-else>
           <v-chip :color="getColor(item, 'usuario')" dark>
-          {{ getText(item, 'usuario') }}
-        </v-chip>
+            {{ getText(item, 'usuario') }}
+          </v-chip>
         </div>
       </template>
-      
     </v-data-table>
 
     <v-dialog v-model="dialogDelete" max-width="500px">
@@ -348,50 +347,52 @@
           <span class="headline">Usuario asignado a {{ usuario.nombre }}</span>
         </v-card-title>
         <v-container>
-          <h3>Avatar</h3>
-          <div class="text-center">
-            <v-avatar size="200" :tile="!usuario.avatar">
-              <v-img :src="usuario.avatar || '/image-gallery.svg'">
-                <template v-slot:placeholder>
-                  <v-row class="fill-height ma-0" align="center" justify="center">
-                    <v-progress-circular
-                      indeterminate
-                      color="grey lighten-5"
-                    ></v-progress-circular>
-                  </v-row>
-                </template>
-              </v-img>
-            </v-avatar>
-          </div>
+          <v-container>
+            <h3>Avatar</h3>
+            <div class="text-center">
+              <v-avatar size="200" :tile="!usuario.avatar">
+                <v-img :src="usuario.avatar || '/image-gallery.svg'">
+                  <template v-slot:placeholder>
+                    <v-row class="fill-height ma-0" align="center" justify="center">
+                      <v-progress-circular
+                        indeterminate
+                        color="grey lighten-5"
+                      ></v-progress-circular>
+                    </v-row>
+                  </template>
+                </v-img>
+              </v-avatar>
+            </div>
 
-          <h3 class="pt-2 pb-1">Nombre</h3>
-          <v-text-field
-            filled
-            rounded
-            dense
-            disabled
-            v-model="usuario.nombre"
-          ></v-text-field>
+            <h3 class="pt-2 pb-1">Nombre</h3>
+            <v-text-field
+              filled
+              rounded
+              dense
+              disabled
+              v-model="usuario.nombre"
+            ></v-text-field>
 
-          <h3 class="pb-1">Apellido</h3>
-          <v-text-field
-            filled
-            rounded
-            dense
-            disabled
-            v-model="usuario.apellido"
-          ></v-text-field>
+            <h3 class="pb-1">Apellido</h3>
+            <v-text-field
+              filled
+              rounded
+              dense
+              disabled
+              v-model="usuario.apellido"
+            ></v-text-field>
 
-          <h3 class="pb-1">Correo</h3>
-          <v-text-field
-            disabled
-            filled
-            rounded
-            dense
-            v-model="usuario.email"
-          ></v-text-field>
-          <h3 class="pb-1">Rol</h3>
-          <span class="font-weight-bold pl-2">Representante</span>
+            <h3 class="pb-1">Correo</h3>
+            <v-text-field
+              disabled
+              filled
+              rounded
+              dense
+              v-model="usuario.email"
+            ></v-text-field>
+            <h3 class="pb-1">Rol</h3>
+            <span class="font-weight-bold pl-2">Representante</span>
+          </v-container>
         </v-container>
         <v-card-actions>
           <v-container>
@@ -463,7 +464,7 @@ export default {
         {
           text: 'Usuario',
           value: 'usuario',
-          align: 'center',
+          align: 'center'
         },
         {
           text: 'Estado',
@@ -503,9 +504,7 @@ export default {
     }
   },
 
-
   methods: {
-
     getColor(item, detail) {
       if (detail === 'estado') {
         return 'success'
