@@ -248,11 +248,13 @@
           <span> Eliminar un Representante </span>
         </v-tooltip>
       </template>
+
       <template v-slot:item.estado="{ item }">
         <v-chip :color="getColor(item, 'estado')" dark>
           {{ getText(item, 'estado') }}
         </v-chip>
       </template>
+
       <template v-slot:item.usuario="{ item }">
         <div v-if="item.usuario">
           <v-chip :color="getColor(item, 'usuario')" dark>
@@ -279,6 +281,7 @@
         </v-chip>
         </div>
       </template>
+      
     </v-data-table>
 
     <v-dialog v-model="dialogDelete" max-width="500px">

@@ -54,7 +54,7 @@
                             :rules="fieldRules"
                           ></v-text-field>
 
-                          <h3 class="pb-1">Ciudad</h3>
+                          <h3 class="pb-1">Ciudad o Localidad Próxima</h3>
                           <v-text-field
                             v-model="editedItem.ciudad"
                             filled
@@ -219,8 +219,11 @@
 
     <v-dialog v-model="dialogMap" max-width="600px">
       <v-card>
-        <v-card-title class="primary white--text">
+        <v-card-title class="primary white--text" v-if="editMap">
           <span class="headline">Elija un punto en el mapa</span>
+        </v-card-title>
+        <v-card-title class="primary white--text" v-else>
+          <span class="headline">Localización Actual</span>
         </v-card-title>
         <ctcMap
           :coordinates="coordinates"
@@ -284,7 +287,7 @@ export default {
           value: 'canton'
         },
         {
-          text: 'Ciudad',
+          text: 'Ciudad o Localidad Próxima',
           value: 'ciudad'
         },
         {

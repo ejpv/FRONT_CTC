@@ -12,12 +12,13 @@
           hide-details
         ></v-text-field>
         <v-row>
-          <v-col cols="9" sm="5" md="5">
+          <v-col cols="9" sm="7" md="4">
             <v-switch v-model="erased" label="Establecimientos Borrados"></v-switch>
           </v-col>
         </v-row>
       </v-card-title>
-      <!-- <activeEstablishment v-show="!erased" :texto="search" :activator="erased" /> -->
+      <activeEstablishment v-show="!erased" :texto="search" :activator="erased" />
+      <erasedEstablishment v-show="erased" :texto="search" :activator="erased" />
     </v-container>
   </v-card>
 </template>
