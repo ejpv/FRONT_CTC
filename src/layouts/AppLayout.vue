@@ -133,6 +133,19 @@ export default {
         title: 'Prueba',
         icon: 'fa-vial',
         link: '/test'
+      },
+      {
+        title: 'Diagnósticos',
+        icon:'fa-file-medical-alt',
+      },
+      {
+        title:'Formularios',
+        icon:'fa-clipboard-list',
+        link:'/form'
+      },
+      {
+        title:'Informes',
+        icon:'fa-book-open',
       }
     ]
   }),

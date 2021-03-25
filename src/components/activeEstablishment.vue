@@ -36,7 +36,7 @@
                       </v-stepper-step>
 
                       <v-stepper-content step="1">
-                        <v-card elevation="0">
+                        <v-card flat>
                           <v-card-text>
                             <v-row>
                               <v-col align="end" cols="9" sm="10">
@@ -226,7 +226,7 @@
                       </v-stepper-step>
 
                       <v-stepper-content step="2">
-                        <v-card elevation="0">
+                        <v-card flat>
                           <v-card-text>
                             <v-row>
                               <v-col align="end" cols="9" sm="10">
@@ -327,7 +327,7 @@
                       </v-stepper-step>
 
                       <v-stepper-content step="3">
-                        <v-card elevation="0">
+                        <v-card flat>
                           <v-card-text>
                             <v-row>
                               <v-col align="end" cols="9" sm="10">
@@ -481,7 +481,7 @@
                       </v-stepper-step>
 
                       <v-stepper-content step="4">
-                        <v-card elevation="0">
+                        <v-card flat>
                           <v-card-text>
                             <v-form ref="formSave">
                               <h3 class="pb-1">

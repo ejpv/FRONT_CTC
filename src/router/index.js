@@ -44,6 +44,11 @@ const routes = [
         name: 'Lugares',
         component: () => import('../views/Place.vue')
       },
+      {
+        path: '/form',
+        name: 'Formularios',
+        component: () => import('../views/Form.vue')
+      },
     ]
   },
   {
