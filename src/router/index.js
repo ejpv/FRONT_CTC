@@ -49,6 +49,11 @@ const routes = [
         name: 'Formularios',
         component: () => import('../views/Form.vue')
       },
+      {
+        path: '/editedForm/:form',
+        name: 'Formulario',
+        component: () => import('../views/EditedForm.vue'),
+      },
     ]
   },
   {
@@ -75,7 +80,7 @@ const routes = [
     component: () => import('../views/pruebas.vue')
   },
   {
-    path: '/pruebas2',
+    path: '/pruebas2/:form',
     component: () => import('../views/pruebas2.vue')
   }
 ]
