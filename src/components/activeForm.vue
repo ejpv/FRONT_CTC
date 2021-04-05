@@ -6,6 +6,7 @@
         v-show="loading"
         color="primary"
       ></v-progress-linear>
+
       <div v-if="!forms[0] && !loading">
         <v-row>
           <v-col>
@@ -24,6 +25,7 @@
           </v-col>
         </v-row>
       </div>
+
       <v-row v-for="item in forms" :key="item._id">
         <v-col>
           <v-card>
@@ -62,16 +64,20 @@
 
             <v-card-text>
               <v-container>
-                <v-row v-for="(quest, index) in item.pregunta" :key="quest._id">
-                  <v-col cols="12" md="10">
+                <v-row v-for="(quest, index) in item.pregunta" :key="index">
+                  <v-col cols="12" md="10" v-if="index < 3">
                     <span class="d-block text-truncate text--secondary">
                       <span class="font-weight-black"> {{ index + 1 }}.- </span>
                       {{ quest.enunciado }}
                     </span>
                   </v-col>
-                  <v-col cols="12" md="2">
-                    <span class="font-weight-black"> {{ quest.tipo }} </span>
+                  <v-col cols="12" md="2" v-if="index < 3">
+                    <span class="font-weight-black"> {{ type(quest.tipo) }} </span>
                   </v-col>
+                  <div class="pl-3 pt-2 text--secondary" v-if="index === 3">
+                    <span class="font-weight-black"> 4.- </span>
+                    <span class="headline font-weight-bold"> ... </span>
+                  </div>
                 </v-row>
               </v-container>
             </v-card-text>
@@ -157,7 +163,8 @@ export default {
         .then(res => {
           this.loading = false
           this.forms = res.data.data
-          console.log(this.forms);
+          console.log('formularios')
+          console.log(this.forms)
         })
         .catch(error => {
           this.loading = false
@@ -215,12 +222,27 @@ export default {
     redirect(item) {
       //this.$router.push(`/editedForm/${item._id}`)
       this.$router.push(`/pruebas2/${item._id}`)
+    },
+
+    type(critery) {
+      if (critery === 'SN') {
+        return 'Pregunta de Si y No'
+      } else {
+        if (critery === 'MULTIPLE') {
+          return 'Pregunta de Opción Múltiple'
+        } else {
+          if (critery === 'ABIERTA') {
+            return 'Pregunta Abierta'
+          } else {
+            return 'Pregunta de Selección Múltiple'
+          }
+        }
+      }
     }
   },
   created() {
     this.getForms()
   },
-  computed: {},
   watch: {
     activator(val) {
       if (!val) {

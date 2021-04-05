@@ -17,4 +17,5 @@ Vue.component('erasedEstablishment', () => import('./erasedEstablishment'))
 Vue.component('erasedForm', () => import('./erasedForm'))
 Vue.component('passUser', () => import('./passUser'))
 Vue.component('ctcMap', () => import('./map'))
+Vue.component('tmpQuestions', () => import('./tmpQuestions'))
 
