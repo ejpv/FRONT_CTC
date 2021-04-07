@@ -47,7 +47,7 @@
               bottom
               absolute
               x-small
-              @click="profileUser"
+              to="/profile"
             >
               <v-icon small> fa-pen </v-icon>
             </v-btn>
@@ -59,10 +59,7 @@
         <v-list nav dense shaped>
           <v-list-item-group active-class="deep-purple--text text--accent-4">
             <div v-for="(item, n) in links" :key="n">
-              <v-list-item
-                @click="redirect(item.link)"
-                :class="`${n != 0 ? 'mt-2' : ''}`"
-              >
+              <v-list-item :to="item.link" exact :class="`${n != 0 ? 'mt-2' : ''}`">
                 <v-list-item-icon class="d-block text-center">
                   <v-icon>{{ item.icon }} </v-icon>
                 </v-list-item-icon>
@@ -130,22 +127,21 @@ export default {
         link: '/protectedArea'
       },
       {
-        title: 'Prueba',
-        icon: 'fa-vial',
-        link: '/test'
+        title: 'Formularios',
+        icon: 'fa-clipboard-list',
+        link: '/form'
+      },
+      {
+        title:'Preguntas',
+        icon: 'fa-list-ol'
       },
       {
         title: 'Diagnósticos',
-        icon:'fa-file-medical-alt',
+        icon: 'fa-file-medical-alt'
       },
       {
-        title:'Formularios',
-        icon:'fa-clipboard-list',
-        link:'/form'
-      },
-      {
-        title:'Informes',
-        icon:'fa-book-open',
+        title: 'Informes',
+        icon: 'fa-book-open'
       }
     ]
   }),
@@ -158,9 +154,6 @@ export default {
       this.closeSesion()
       this.$router.replace('/login')
     },
-    redirect(item) {
-      this.$router.push(item)
-    }
   },
   computed: {
     colorChip() {

@@ -10,11 +10,6 @@ const routes = [
     component: () => import('../layouts/AppLayout.vue'),
     children: [
       {
-        path: '/test',
-        name: 'TestPage',
-        component: () => import('../views/TestPage.vue')
-      },
-      {
         path: '/users',
         name: 'Usuarios',
         component: () => import('../views/Users.vue')
@@ -80,7 +75,7 @@ const routes = [
     component: () => import('../views/pruebas.vue')
   },
   {
-    path: '/pruebas2/:form',
+    path: '/pruebas2',
     component: () => import('../views/pruebas2.vue')
   }
 ]

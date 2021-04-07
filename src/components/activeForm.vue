@@ -30,36 +30,41 @@
         <v-col>
           <v-card>
             <v-card-title class="primary white--text">
-              <span class="headline pl-6">{{ item.nombre }}</span>
+              <v-container style="margin-top: -15px; margin-bottom: -15px">
+                <v-row>
+                  <v-col cols="10" md="11" class="justify-center">
+                    <span class="headline">{{ item.nombre }}</span>
+                  </v-col>
+                  <v-col cols="2" md="1">
+                    <v-menu offset-y tile>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn text v-bind="attrs" v-on="on" icon>
+                          <v-icon color="white"> fa-ellipsis-v </v-icon>
+                        </v-btn>
+                      </template>
 
-              <v-spacer></v-spacer>
-
-              <v-menu offset-y tile>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn text v-bind="attrs" v-on="on">
-                    <v-icon color="white"> fa-ellipsis-v </v-icon>
-                  </v-btn>
-                </template>
-
-                <v-list flat tile>
-                  <v-list-item @click="redirect(item)">
-                    <v-list-item-icon
-                      ><v-icon class="ml-2 edit--text">fa-pen </v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-title>
-                      <span> Editar este Formulario </span></v-list-item-title
-                    >
-                  </v-list-item>
-                  <v-list-item @click="deleteItem(item)">
-                    <v-list-item-icon
-                      ><v-icon class="ml-2 delete--text"> fa-trash </v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-title>
-                      <span> Eliminar este Formulario </span></v-list-item-title
-                    >
-                  </v-list-item>
-                </v-list>
-              </v-menu>
+                      <v-list flat tile>
+                        <v-list-item @click="redirect(item)">
+                          <v-list-item-icon
+                            ><v-icon class="ml-2 edit--text">fa-pen </v-icon>
+                          </v-list-item-icon>
+                          <v-list-item-title>
+                            <span> Editar este Formulario </span></v-list-item-title
+                          >
+                        </v-list-item>
+                        <v-list-item @click="deleteItem(item)">
+                          <v-list-item-icon
+                            ><v-icon class="ml-2 delete--text"> fa-trash </v-icon>
+                          </v-list-item-icon>
+                          <v-list-item-title>
+                            <span> Eliminar este Formulario </span></v-list-item-title
+                          >
+                        </v-list-item>
+                      </v-list>
+                    </v-menu>
+                  </v-col>
+                </v-row>
+              </v-container>
             </v-card-title>
 
             <v-card-text>
@@ -75,8 +80,7 @@
                     <span class="font-weight-black"> {{ type(quest.tipo) }} </span>
                   </v-col>
                   <div class="pl-3 pt-2 text--secondary" v-if="index === 3">
-                    <span class="font-weight-black"> 4.- </span>
-                    <span class="headline font-weight-bold"> ... </span>
+                    <span class="font-weight-black"> 4.-... ({{item.pregunta.length}} preguntas en total) </span>
                   </div>
                 </v-row>
               </v-container>
@@ -92,7 +96,7 @@
                   <v-img
                     class="elevation-6"
                     alt=""
-                    :src="item.realizadoPor.avatar"
+                    :src="item.realizadoPor.avatar || '/image-gallery.svg'"
                   ></v-img>
                 </v-list-item-avatar>
 
@@ -220,8 +224,7 @@ export default {
     },
 
     redirect(item) {
-      //this.$router.push(`/editedForm/${item._id}`)
-      this.$router.push(`/pruebas2/${item._id}`)
+      this.$router.push(`/editedForm/${item._id}`)
     },
 
     type(critery) {

@@ -1,6 +1,5 @@
 import Vue from 'vue'
 
-Vue.component('ctc-question', () => import('./question.vue'))
 Vue.component('ctc-session-out', () => import('./sessionOut.vue'))
 Vue.component('activeUser', () => import('./activeUser'))
 Vue.component('activeRepresentant', () => import('./activeRepresentant'))
@@ -17,5 +16,4 @@ Vue.component('erasedEstablishment', () => import('./erasedEstablishment'))
 Vue.component('erasedForm', () => import('./erasedForm'))
 Vue.component('passUser', () => import('./passUser'))
 Vue.component('ctcMap', () => import('./map'))
-Vue.component('tmpQuestions', () => import('./tmpQuestions'))
 
