@@ -49,6 +49,11 @@ const routes = [
         name: 'Formulario',
         component: () => import('../views/EditedForm.vue'),
       },
+      {
+        path: '/question',
+        name: 'Preguntas',
+        component: () => import('../views/Question.vue'),
+      },
     ]
   },
   {

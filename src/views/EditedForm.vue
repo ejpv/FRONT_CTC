@@ -72,7 +72,7 @@
               <v-col cols="12" sm="4" md="2" class="pa-4 mt-3">
                 <v-menu offset-y>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-btn v-bind="attrs" v-on="on" color="primary" block x-large>
+                    <v-btn v-bind="attrs" v-on="on" color="accent" block x-large>
                       <v-icon left>{{ getIcon(item.tipo) }} </v-icon>
                       {{ getTitle(item.tipo) }}
                     </v-btn>
@@ -164,7 +164,7 @@
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn @click="deleteQuestion(item)" v-on="on" v-bind="attrs" icon>
-                  <v-icon class="error--text"> fa-trash </v-icon>
+                  <v-icon class="delete--text"> fa-trash </v-icon>
                 </v-btn>
               </template>
               <span> Eliminar un Lugar </span>

@@ -133,7 +133,8 @@ export default {
       },
       {
         title:'Preguntas',
-        icon: 'fa-list-ol'
+        icon: 'fa-list-ol',
+        link: '/question'
       },
       {
         title: 'Diagnósticos',
