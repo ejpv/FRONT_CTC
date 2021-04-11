@@ -79,14 +79,14 @@
                   </template>
                   <v-list>
                     <v-list-item
-                      v-for="(item, key) in questionItems"
-                      @click="changeQuestionType(index, item)"
+                      v-for="(question, key) in questionItems"
+                      @click="changeQuestionType(index, question)"
                       :key="key"
                     >
                       <v-list-item-icon>
-                        <v-icon v-text="item.icon"></v-icon>
+                        <v-icon v-text="question.icon"></v-icon>
                       </v-list-item-icon>
-                      <v-list-item-title>{{ item.title }}</v-list-item-title>
+                      <v-list-item-title>{{ question.title }}</v-list-item-title>
                     </v-list-item>
                   </v-list>
                 </v-menu>
@@ -447,11 +447,9 @@ export default {
       this.loading = true
       swalLoading('Ingresando Formulario')
       try {
-        await this.$http.post('/api/formulario', item).then(async res => {
+        await this.$http.post('/api/formulario', item).then(async () => {
           this.loading = false
           swalConfirm('Formulario nuevo ingresado')
-          this.problem = false
-          this.form = res.data.data
         })
       } catch (error) {
         this.loading = false

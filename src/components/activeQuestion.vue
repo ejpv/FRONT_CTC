@@ -187,6 +187,19 @@
       <template v-slot:item.opciones="{ item }">
         <div v-if="item.tipo === 'SELECCION' || item.tipo === 'MULTIPLE'">
           <v-chip color="info" dark> {{ item.opciones.length }} Opciones</v-chip>
+          <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon
+              class="info--text mr-2 ml-2"
+              v-on="on"
+              v-bind="attrs"
+              @click="editItem(item, true)"
+            >
+              fa-eye
+            </v-icon>
+          </template>
+          <span> Ver Pregunta</span>
+        </v-tooltip>
         </div>
         <div v-else>
           <v-chip color="secondary" dark> No requiere opciones</v-chip>
@@ -211,19 +224,7 @@
           </template>
           <span> Editar una Pregunta </span>
         </v-tooltip>
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <v-icon
-              class="info--text mr-2 ml-2"
-              v-on="on"
-              v-bind="attrs"
-              @click="editItem(item, true)"
-            >
-              fa-eye
-            </v-icon>
-          </template>
-          <span> Ver Pregunta</span>
-        </v-tooltip>
+        
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-icon

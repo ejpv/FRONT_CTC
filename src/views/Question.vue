@@ -12,7 +12,7 @@
           hide-details
         ></v-text-field>
         <v-row>
-          <v-col cols="7" sm="5" md="4">
+          <v-col cols="8" sm="5" md="4">
             <v-switch v-model="erased" label="Preguntas Borradas"></v-switch>
           </v-col>
         </v-row>
