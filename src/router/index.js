@@ -53,8 +53,17 @@ const routes = [
         path: '/question',
         name: 'Preguntas',
         component: () => import('../views/Question.vue'),
-      },
+      }, {
+        path: '/preDiagnostic',
+        name: 'Diagnosticos',
+        component: () => import('../views/PreDiagnostic.vue'),
+      }
     ]
+  },
+  {
+    path: '/test/:form/:establishment',
+    name: 'Diagnostico',
+    component: () => import('../views/Test.vue'),
   },
   {
     path: "*", component: () => import('../views/404.vue')

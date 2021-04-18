@@ -1,9 +1,12 @@
 <template>
-  <div style="margin: -10px; margin-top: 3px">
+  <div style="margin: -10px; margin-top: 3px; margin-bottom: 20px" id="create">
+    
     <v-toolbar flat>
+
       <v-toolbar-title>
         <h4 class="pb-1 pr-5">Nombre:</h4>
       </v-toolbar-title>
+
       <v-text-field
         autocomplete="off"
         v-model.trim="form.nombre"
@@ -17,20 +20,20 @@
 
       <v-tooltip left>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn @click="searchDialog = true" v-on="on" v-bind="attrs" icon>
-            <v-icon> fa-search </v-icon>
-          </v-btn>
-        </template>
-        <span> Buscar una pregunta para agregar</span>
-      </v-tooltip>
-
-      <v-tooltip left>
-        <template v-slot:activator="{ on, attrs }">
           <v-btn @click="save" v-on="on" v-bind="attrs" icon :disabled="disabledSave">
             <v-icon class="success--text"> fa-save </v-icon>
           </v-btn>
         </template>
         <span> Guardar Formulario</span>
+      </v-tooltip>
+
+      <v-tooltip left>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn @click="searchDialog = true" v-on="on" v-bind="attrs" icon>
+            <v-icon> fa-search </v-icon>
+          </v-btn>
+        </template>
+        <span> Buscar una pregunta para agregar</span>
       </v-tooltip>
 
       <v-tooltip left>
@@ -49,6 +52,7 @@
         <span> Agregar una pregunta </span>
       </v-tooltip>
     </v-toolbar>
+
     <v-progress-linear indeterminate v-show="loading" color="primary" />
 
     <v-card v-if="!(form.pregunta.length > 0) && loading === false">
@@ -69,7 +73,7 @@
 
           <v-container style="margin-bottom: -20px">
             <v-row>
-              <v-col cols="12" sm="4" md="2" class="pa-4 mt-3">
+              <v-col cols="12" sm="4" md="3" class="pa-4 mt-3">
                 <v-menu offset-y>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn v-bind="attrs" v-on="on" color="accent" block x-large>
@@ -92,7 +96,7 @@
                 </v-menu>
               </v-col>
 
-              <v-col cols="12" sm="8" md="10" style="margin-bottom: -20px">
+              <v-col cols="12" sm="8" md="9" style="margin-bottom: -20px">
                 <h3 class="pt-2 pb-1">Pregunta</h3>
                 <v-text-field
                   v-model="item.enunciado"
@@ -174,6 +178,48 @@
       </v-card-text>
     </v-card>
 
+    <v-speed-dial
+      v-model="fab"
+      bottom
+      right
+      direction="left"
+      transition="scale-transition"
+    >
+      <template v-slot:activator>
+        <v-btn v-model="fab" fab class="edit white--text">
+          <v-icon v-if="fab"> fa-times </v-icon>
+          <v-icon v-else> fa-ellipsis-v </v-icon>
+        </v-btn>
+      </template>
+
+      <v-tooltip left>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            @click="
+              form.pregunta.push({ tipo: 'SELECCION', enunciado: '', opciones: [''] })
+            "
+            v-on="on"
+            v-bind="attrs"
+            fab
+            small
+            icon
+          >
+            <v-icon class="info--text"> fa-plus </v-icon>
+          </v-btn>
+        </template>
+        <span> Agregar una pregunta </span>
+      </v-tooltip>
+
+      <v-tooltip left>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn @click="searchDialog = true" v-on="on" v-bind="attrs" fab small icon>
+            <v-icon> fa-search </v-icon>
+          </v-btn>
+        </template>
+        <span> Buscar una pregunta para agregar</span>
+      </v-tooltip>
+    </v-speed-dial>
+
     <v-dialog v-model="searchDialog" max-width="500px">
       <v-card>
         <v-card-title class="primary white--text">
@@ -181,7 +227,7 @@
         </v-card-title>
         <v-card-text>
           <h4 class="pb-1 pt-2">Preguntas:</h4>
-          <v-select
+          <v-autocomplete
             v-model="editedQuest"
             :items="questions"
             item-text="enunciado"
@@ -193,12 +239,11 @@
             dense
           >
             <template slot="item" slot-scope="data">
-              <v-list-item style="margin-left: -20px">
-                <p class="body-2">{{ data.item.enunciado }}</p>
-              </v-list-item>
-              <p class="body-2">{{ type(data.item.tipo) }}</p>
+              <p class="body-2">{{ data.item.enunciado }}</p>
+              <v-spacer></v-spacer>
+              <p class="body-2 ml-2">{{ type(data.item.tipo) }}</p>
             </template>
-          </v-select>
+          </v-autocomplete>
           <div v-if="editedQuest.tipo">
             <h4 class="pb-1">Enunciado</h4>
             <span>{{ editedQuest.enunciado }}</span>
@@ -242,12 +287,12 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
   </div>
 </template>
 
 <script>
 import { swalError, swalLoading, swalConfirm } from '@/utils/notify'
-import { mapState } from 'vuex'
 export default {
   data() {
     return {
@@ -262,6 +307,7 @@ export default {
       ],
       questions: [],
       editedQuest: {},
+      fab: false,
       searchDialog: false,
       loading: false,
       problem: false,
@@ -436,8 +482,6 @@ export default {
         delete formObject.pregunta
       }
 
-      formObject.realizadoPor = this.user._id
-
       return formObject
     },
 
@@ -514,7 +558,6 @@ export default {
   },
 
   computed: {
-    ...mapState(['user']),
     disabled() {
       return this.editedQuest.tipo ? false : true
     },
@@ -530,3 +573,9 @@ export default {
   }
 }
 </script>
+
+<style>
+#create .v-speed-dial {
+  position: absolute;
+}
+</style>

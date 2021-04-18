@@ -15,6 +15,7 @@
               <v-col align="start" cols="3" sm="2"> </v-col>
               <v-col align="end" cols="0" sm="10">
                 <v-dialog v-model="dialog" max-width="500px">
+
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn color="new" dark class="mb-2" v-bind="attrs" v-on="on" medium>
                       Nuevo Establecimiento
@@ -29,6 +30,7 @@
                     <v-card-title class="primary white--text">
                       <span class="headline">{{ formTitle }}</span>
                     </v-card-title>
+                    
                     <v-stepper v-model="step" vertical>
                       <v-stepper-step :complete="step > 1" step="1" :editable="editable">
                         Seleccione un Lugar
@@ -1508,7 +1510,7 @@ export default {
     async getAreas() {
       this.loading = true
       await this.$http
-        .get('/api/areasProtegidas/noAsignados')
+        .get('/api/areasProtegidas')
         .then(res => {
           this.loading = false
           this.defaultAreas = res.data.data
@@ -1744,7 +1746,6 @@ export default {
           swalConfirm('Establecimiento nuevo ingresado')
           this.problem = false
           this.editedItem = res.data.data
-          console.log(res.data.data)
         })
       } catch (error) {
         this.loading = false

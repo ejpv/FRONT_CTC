@@ -132,13 +132,14 @@ export default {
         link: '/form'
       },
       {
-        title:'Preguntas',
+        title: 'Preguntas',
         icon: 'fa-list-ol',
         link: '/question'
       },
       {
         title: 'Diagnósticos',
-        icon: 'fa-file-medical-alt'
+        icon: 'fa-file-medical-alt',
+        link: '/preDiagnostic'
       },
       {
         title: 'Informes',
@@ -154,7 +155,7 @@ export default {
     logOut() {
       this.closeSesion()
       this.$router.replace('/login')
-    },
+    }
   },
   computed: {
     colorChip() {
