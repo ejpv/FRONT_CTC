@@ -11,9 +11,11 @@
             </template>
           </v-img>
         </v-col>
+
         <v-col cols="8" align="center" justify="center" class="primary white--text">
           <span class="headline">{{ editedForm.nombre }}</span>
         </v-col>
+
         <v-col class="d-flex child-flex">
           <v-img contain src="..\assets\turismo.png" aspect-ratio="2">
             <template v-slot:placeholder>
@@ -46,7 +48,7 @@
                     filled
                     rounded
                     dense
-                    disabled
+                    readonly
                   ></v-text-field>
                 </v-col>
 
@@ -97,11 +99,12 @@
                       v-model="editedItem.respuesta[index].valor[checkIndex]"
                       :label="check"
                       style="margin-bottom: -15px"
-                      :value="1 / editedItem.respuesta[index].valor.length"
+                      :value="item.peso / editedItem.respuesta[index].valor.length"
                       @change="getPoint(item, index)"
                     ></v-checkbox>
                   </div>
                 </v-col>
+                {{ editedItem.respuesta[index] }}
               </v-row>
             </v-container>
           </v-container>
@@ -114,9 +117,10 @@
               icon
               class="info"
               v-if="editedItem.respuesta[index].puntaje === 0"
-              @click="changePoint(index, 1)"
-              >1</v-btn
+              @click="changePoint(index, item.peso)"
             >
+              {{ item.peso }}
+            </v-btn>
             <v-btn icon class="edit" plain v-else @click="changePoint(index, 0)">0</v-btn>
             <h3 class="pl-2">Puntaje</h3>
             <v-col cols="4" sm="2" md="2">
@@ -136,8 +140,8 @@
           <h3>Total:</h3>
           {{ getTotal }}
         </v-col>
-        <v-col cols="1" >
-          <v-btn class="success"> Guardar </v-btn>
+        <v-col cols="1">
+          <v-btn class="success" @click="save"> Guardar </v-btn>
         </v-col>
       </v-footer>
     </v-card>
@@ -145,7 +149,7 @@
 </template>
 
 <script>
-import { swalError } from '@/utils/notify'
+import { swalError, swalLoading, swalConfirm } from '@/utils/notify'
 
 export default {
   data() {
@@ -163,13 +167,42 @@ export default {
         { tipo: 'MULTIPLE', title: 'Opción multiple', icon: 'fa-check-square' }
       ],
       editedItem: {
-        respuesta: [{}]
+        respuesta: [{}],
+        total: 0
       },
-      editedForm: {},
+      editedForm: { pregunta: [] },
       editedEstablishment: {}
     }
   },
   methods: {
+    async save() {
+      this.editedItem.total = this.getTotal
+      await this.addDiagnostic()
+      if (!this.problem) {
+        this.$router.replace('/preDiagnostic')
+      }
+    },
+
+    async addDiagnostic() {
+      this.loading = true
+      swalLoading('Ingresando Diagnóstico')
+      try {
+        await this.$http.post('/api/diagnostico', this.editedItem).then(async () => {
+          this.loading = false
+          swalConfirm('Diagnostico nuevo ingresado')
+          this.problem = false
+        })
+      } catch (error) {
+        this.loading = false
+        swalError(
+          error.body.err != undefined
+            ? error.body.err.message
+            : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
+        )
+        this.problem = true
+      }
+    },
+
     getPoint(item, index) {
       if (item.tipo === 'MULTIPLE') {
         var number = 0
@@ -180,19 +213,19 @@ export default {
       } else {
         if (item.tipo === 'SN') {
           if (this.editedItem.respuesta[index].valor) {
-            this.editedItem.respuesta[index].puntaje = 1
+            this.editedItem.respuesta[index].puntaje = item.peso
           } else {
             this.editedItem.respuesta[index].puntaje = 0
           }
         } else {
           if (item.tipo === 'ABIERTA') {
             if (this.editedItem.respuesta[index].valor.trim() != '') {
-              this.editedItem.respuesta[index].puntaje = 1
+              this.editedItem.respuesta[index].puntaje = item.peso
             } else {
               this.editedItem.respuesta[index].puntaje = 0
             }
           } else {
-            this.editedItem.respuesta[index].puntaje = 1
+            this.editedItem.respuesta[index].puntaje = item.peso
           }
         }
       }
@@ -246,7 +279,7 @@ export default {
     isValid(item, index) {
       if (item.tipo === 'MULTIPLE') {
         if (this.editedItem.respuesta[index].puntaje === 0) {
-          return 'secondary lighten-3'
+          return 'secondary lighten-4'
         } else {
           return ''
         }
@@ -254,7 +287,7 @@ export default {
         if (this.editedItem.respuesta[index].valor != null) {
           return ''
         } else {
-          return 'secondary lighten-3'
+          return 'secondary lighten-4'
         }
       }
     },
@@ -293,11 +326,15 @@ export default {
   },
   computed: {
     getTotal() {
-      var valor = 0
+      var valorActual = 0
+      var totalEsperado = 0
       this.editedItem.respuesta.forEach(v => {
-        valor = valor + v.puntaje
+        valorActual = parseInt(valorActual) + parseInt(v.puntaje)
       })
-      return ((valor / this.editedItem.respuesta.length) * 100).toFixed(2) + '%'
+      this.editedForm.pregunta.forEach(v => {
+        totalEsperado = parseInt(totalEsperado) + parseInt(v.peso)
+      })
+      return ((parseInt(valorActual) / parseInt(totalEsperado)) * 100).toFixed(2) + '%'
     }
   }
 }

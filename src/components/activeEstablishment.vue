@@ -533,6 +533,14 @@
                                 dense
                               ></v-text-field>
 
+                              <h3 class="pb-1">LUAF</h3>
+                              <v-text-field
+                                v-model="editedItem.LUAF"
+                                filled
+                                rounded
+                                dense
+                              ></v-text-field>
+
                               <h3 class="pb-1">Página web</h3>
                               <v-text-field
                                 v-model="editedItem.web"
@@ -610,6 +618,7 @@
                       </v-stepper-content>
                     </v-stepper>
                   </v-card>
+
                 </v-dialog>
               </v-col>
             </v-row>
@@ -888,6 +897,14 @@
               <h3 class="pb-1">Registro</h3>
               <v-text-field
                 v-model="editedItem.registro"
+                filled
+                rounded
+                dense
+              ></v-text-field>
+
+               <h3 class="pb-1">LUAF</h3>
+              <v-text-field
+                v-model="editedItem.LUAF"
                 filled
                 rounded
                 dense

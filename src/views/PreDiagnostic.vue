@@ -53,6 +53,15 @@
                     disabled
                   ></v-text-field>
 
+                  <h3 class="pb-1">LUAF</h3>
+                  <v-text-field
+                    v-model="editedEstablishment.LUAF"
+                    filled
+                    rounded
+                    dense
+                    disabled
+                  ></v-text-field>
+
                   <h3 class="pb-1">Teléfono</h3>
                   <v-text-field
                     v-model="editedEstablishment.telefono"
@@ -137,18 +146,36 @@
 
           <v-stepper-content step="2">
             <v-container>
-              <v-autocomplete
-                v-model="editedForm"
-                :items="forms"
-                item-text="nombre"
-                persistent-hint
-                return-object
-                single-line
-                filled
-                rounded
-                dense
-              >
-              </v-autocomplete>
+              <v-row>
+                <v-col :cols="editedForm.nombre != '' ? '11' : '12'" class="pa-0"
+                  ><v-autocomplete
+                    v-model="editedForm"
+                    :items="forms"
+                    item-text="nombre"
+                    persistent-hint
+                    return-object
+                    single-line
+                    filled
+                    rounded
+                    dense
+                  >
+                  </v-autocomplete
+                ></v-col>
+                <v-col
+                  cols="1"
+                  v-if="editedForm.nombre != ''"
+                  class="d-flex justify-center pa-0 pl-2 pt-1"
+                >
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn v-on="on" v-bind="attrs" icon @click="$vuetify.goTo(9999)">
+                        <v-icon> fa-angle-down </v-icon>
+                      </v-btn>
+                    </template>
+                    <span> Ir al final </span>
+                  </v-tooltip>
+                </v-col>
+              </v-row>
             </v-container>
             <v-card v-if="editedForm.nombre != ''" flat>
               <v-card-title class="secondary white--text">
@@ -199,15 +226,29 @@
                   <v-col cols="6" class="d-flex justify-space-around pa-0">
                     <v-btn :disabled="step === 1" text @click="step--"> Volver </v-btn>
                   </v-col>
-                  <v-col cols="6" class="d-flex justify-space-around pa-0">
+                  <v-col cols="5" class="d-flex justify-space-around pa-0">
                     <v-btn
                       :disabled="disabled"
                       @click="redirect(editedForm, editedEstablishment)"
                       class="primary"
                     >
                       Siguiente
-                    </v-btn></v-col
+                    </v-btn>
+                  </v-col>
+                  <v-col
+                    cols="1"
+                    v-if="editedForm.nombre != ''"
+                    class="d-flex justify-center pa-0 pl-1"
                   >
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn v-on="on" v-bind="attrs" icon @click="$vuetify.goTo(0)">
+                          <v-icon> fa-angle-up </v-icon>
+                        </v-btn>
+                      </template>
+                      <span> Ir al inicio </span>
+                    </v-tooltip>
+                  </v-col>
                 </v-row>
               </v-container>
             </v-card-actions>

@@ -1,8 +1,6 @@
 <template>
   <div style="margin: -10px; margin-top: 3px; margin-bottom: 20px" id="create">
-    
     <v-toolbar flat>
-
       <v-toolbar-title>
         <h4 class="pb-1 pr-5">Nombre:</h4>
       </v-toolbar-title>
@@ -163,6 +161,17 @@
           </v-container>
 
           <v-card-actions>
+            <h3 class="pl-2">Peso de la pregunta</h3>
+            <v-col cols="4" sm="2" md="2">
+              <v-text-field
+                style="margin-bottom: -30px"
+                filled
+                rounded
+                dense
+                @input="newQuest(index)"
+                v-model="item.peso"
+              />
+            </v-col>
             <v-spacer></v-spacer>
             <v-divider vertical class="mx-2" />
             <v-tooltip bottom>
@@ -174,6 +183,8 @@
               <span> Eliminar un Lugar </span>
             </v-tooltip>
           </v-card-actions>
+
+          {{ item }}
         </v-card>
       </v-card-text>
     </v-card>
@@ -287,7 +298,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
   </div>
 </template>
 
