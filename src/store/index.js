@@ -7,7 +7,7 @@ export default new Vuex.Store({
   state: {
     user: JSON.parse(sessionStorage.getItem('user')) ? JSON.parse(sessionStorage.getItem('user')) :
       {
-        _id:'',
+        _id: '',
         avatar: '',
         rol: '',
         nombre: '',
@@ -17,16 +17,35 @@ export default new Vuex.Store({
         email: '',
         activado: true
       },
+    establishment: JSON.parse(sessionStorage.getItem('establishment')) ? JSON.parse(sessionStorage.getItem('establishment')) : {
+      _id: '',
+      nombre: '',
+      administrador: '',
+      lugar: {},
+      areaProtegida: {},
+      representante: {},
+      registro: '',
+      LUAF: '',
+      email: '',
+      nacionalidad: '',
+      web: '',
+      telefono: ''
+    },
     token: sessionStorage.getItem('token') ? sessionStorage.getItem('token') : '',
     expira: sessionStorage.getItem('expira') ? sessionStorage.getItem('expira') : '',
   },
+
   mutations: {
     changeSesion(state, payload) {
       state.user = payload.user
       state.token = payload.token
       state.expira = payload.expira
     },
+    changeEstablishment(state, payload) {
+      state.establishment = payload.establishment
+    }
   },
+
   actions: {
     loadUserLoged({ commit }) {
       if (JSON.parse(sessionStorage.getItem('user'))) {
@@ -47,7 +66,7 @@ export default new Vuex.Store({
       sessionStorage.clear()
       var data = {
         user: {
-          _id:'',
+          _id: '',
           avatar: '',
           rol: '',
           nombre: '',
@@ -58,11 +77,38 @@ export default new Vuex.Store({
           activado: true
         },
         token: '',
-        expira: ''
+        expira: '',
+        establishment: {
+          _id: '',
+          nombre: '',
+          administrador: '',
+          lugar: {},
+          areaProtegida: {},
+          representante: {},
+          registro: '',
+          LUAF: '',
+          email: '',
+          nacionalidad: '',
+          web: '',
+          telefono: ''
+        }
       }
       commit('changeSesion', data)
+      commit('changeEstablishment', data)
+      return
+    },
+
+    prepareEnvironment({ commit }) {
+      if (JSON.parse(sessionStorage.getItem('establishment'))) {
+        var data = {
+          establishment: {}
+        }
+        data.establishment = JSON.parse(sessionStorage.getItem('establishment'));
+        commit('changeEstablishment', data)
+      }
       return
     }
   },
+
   modules: {}
 })

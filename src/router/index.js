@@ -54,9 +54,9 @@ const routes = [
         name: 'Preguntas',
         component: () => import('../views/Question.vue'),
       }, {
-        path: '/preDiagnostic',
-        name: 'Diagnosticos',
-        component: () => import('../views/PreDiagnostic.vue'),
+        path: '/selectForm',
+        name: 'Seleccionar Formulario',
+        component: () => import('../views/SelectForm.vue'),
       }
     ]
   },
@@ -64,6 +64,11 @@ const routes = [
     path: '/test/:form/:establishment',
     name: 'Diagnostico',
     component: () => import('../views/Test.vue'),
+  },
+  {
+    path: '/selectEstablishment',
+    name: 'Seleccionar Establecimiento',
+    component: () => import('../views/SelectEstablishment.vue'),
   },
   {
     path: "*", component: () => import('../views/404.vue')

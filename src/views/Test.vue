@@ -104,7 +104,6 @@
                     ></v-checkbox>
                   </div>
                 </v-col>
-                {{ editedItem.respuesta[index] }}
               </v-row>
             </v-container>
           </v-container>
@@ -150,6 +149,7 @@
 
 <script>
 import { swalError, swalLoading, swalConfirm } from '@/utils/notify'
+import { mapState } from 'vuex'
 
 export default {
   data() {
@@ -320,10 +320,20 @@ export default {
       return this.questionItems.find(v => v.tipo === item).title
     }
   },
+
   async created() {
-    await this.getForm()
-    await this.getEstablishment()
+    if (this.user.rol != '') {
+      if (this.user.rol === 'TECHNICAL_ROLE') {
+        await this.getForm()
+        await this.getEstablishment()
+      } else {
+        this.$router.replace('/')
+      }
+    } else {
+      this.$router.replace('/login')
+    }
   },
+
   computed: {
     getTotal() {
       var valorActual = 0
@@ -335,7 +345,9 @@ export default {
         totalEsperado = parseInt(totalEsperado) + parseInt(v.peso)
       })
       return ((parseInt(valorActual) / parseInt(totalEsperado)) * 100).toFixed(2) + '%'
-    }
+    },
+
+    ...mapState(['user'])
   }
 }
 </script>

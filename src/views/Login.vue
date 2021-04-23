@@ -16,11 +16,13 @@
                   filled
                   rounded
                   dense
+                  autocomplete
                   v-model.trim="email"
                   :rules="emailRules"
                 ></v-text-field>
                 <h3>Contraseña</h3>
                 <v-text-field
+                  autocomplete
                   filled
                   rounded
                   dense
@@ -84,7 +86,11 @@ export default {
             Vue.http.headers.common['token'] = res.body.token
             //aqui estoy cargando el usuario en storage con lo que se tiene en el sesionstorage
             this.loadUserLoged()
-            this.$router.replace('/')
+            if (this.user.rol === 'TECHNICAL_ROLE') {
+              this.$router.replace('/selectEstablishment')
+            } else {
+              this.$router.replace('/')
+            }
           })
           .catch(error => {
             swalError(

@@ -8,10 +8,36 @@
         <v-toolbar-title> {{ this.$route.name }} </v-toolbar-title>
         <v-spacer></v-spacer>
 
+        <v-autocomplete
+          v-if="user.rol === 'TECHNICAL_ROLE'"
+          v-model="editedEstablishment"
+          :items="establishments"
+          item-text="nombre"
+          persistent-hint
+          @input="changeEstablishement"
+          return-object
+          single-line
+          filled
+          rounded
+          dense
+          dark
+          :loading="loading"
+          class="mt-7"
+        ></v-autocomplete>
+        <v-btn
+          v-if="user.rol === 'TECHNICAL_ROLE'"
+          icon
+          @click="getEstablishments()"
+          class="pa-0 ma-0"
+        >
+          <v-icon> fa-sync-alt </v-icon>
+        </v-btn>
+
         <v-btn icon small class="info mr-1">
           <v-icon>fa-info-circle</v-icon>
         </v-btn>
       </v-app-bar>
+
       <v-navigation-drawer v-model="drawer" class="pt-4" color="secondary" app>
         <template v-slot:prepend>
           <v-list-item>
@@ -59,15 +85,17 @@
         <v-list nav dense shaped>
           <v-list-item-group active-class="deep-purple--text text--accent-4">
             <div v-for="(item, n) in links" :key="n">
-              <v-list-item :to="item.link" exact :class="`${n != 0 ? 'mt-2' : ''}`">
-                <v-list-item-icon class="d-block text-center">
-                  <v-icon>{{ item.icon }} </v-icon>
-                </v-list-item-icon>
-                <v-list-item-title class="d-block text-left">
-                  {{ item.title }}
-                </v-list-item-title>
-              </v-list-item>
-              <v-divider></v-divider>
+              <div v-if="verifyRol(item)">
+                <v-list-item :to="item.link" exact :class="`${n != 0 ? 'mt-2' : ''}`">
+                  <v-list-item-icon class="d-block text-center">
+                    <v-icon>{{ item.icon }} </v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title class="d-block text-left">
+                    {{ item.title }}
+                  </v-list-item-title>
+                </v-list-item>
+                <v-divider></v-divider>
+              </div>
             </div>
           </v-list-item-group>
         </v-list>
@@ -91,6 +119,7 @@
 </template>
 
 <script>
+import { swalError } from '@/utils/notify'
 import { mapActions, mapState } from 'vuex'
 export default {
   data: () => ({
@@ -99,64 +128,114 @@ export default {
       {
         title: 'Inicio',
         icon: 'fa-home',
+        rol: 'noMatter',
         link: '/'
       },
       {
         title: 'Usuarios',
         icon: 'fa-users',
+        rol: 'ADMIN_ROLE',
         link: '/users'
       },
       {
         title: 'Establecimientos',
         icon: 'fa-store-alt',
+        rol: 'ADMIN_ROLE',
         link: '/establishment'
       },
       {
         title: 'Representantes',
         icon: 'fa-user-tag',
+        rol: 'ADMIN_ROLE',
         link: '/representant'
       },
       {
         title: 'Lugares',
+        rol: 'ADMIN_ROLE',
         icon: 'fa-globe-americas',
         link: '/place'
       },
       {
         title: 'Áreas Protegidas',
         icon: 'fa-map-marked-alt',
+        rol: 'ADMIN_ROLE',
         link: '/protectedArea'
       },
       {
         title: 'Formularios',
         icon: 'fa-clipboard-list',
+        rol: 'ADMIN_ROLE',
         link: '/form'
       },
       {
         title: 'Preguntas',
         icon: 'fa-list-ol',
+        rol: 'ADMIN_ROLE',
         link: '/question'
       },
       {
         title: 'Diagnósticos',
         icon: 'fa-file-medical-alt',
-        link: '/preDiagnostic'
+        rol: 'TECHNICAL_ROLE',
+        link: '/selectForm'
       },
       {
-        title: 'Informes',
+        title: 'Informes', //aqui toca cambiarle de nombre dependiendo del rol que tenga aun en desarollo
+        rol: 'ADMIN_ROLE',
+        icon: 'fa-book-open'
+      },
+      {
+        title: 'Informes', //aqui toca cambiarle de nombre dependiendo del rol que tenga aun en desarollo
+        rol: 'TECHNICAL_ROLE',
         icon: 'fa-book-open'
       }
-    ]
+    ],
+    establishments: [],
+    editedEstablishment: {}
   }),
   methods: {
-    ...mapActions(['closeSesion']),
+    ...mapActions(['closeSesion', 'prepareEnvironment']),
+
     profileUser() {
       this.$router.replace('/profile')
     },
+
     logOut() {
       this.closeSesion()
       this.$router.replace('/login')
+    },
+
+    verifyRol(item) {
+      return this.user.rol == item.rol ? true : item.rol === 'noMatter' ? true : false
+    },
+
+    async getEstablishments() {
+      this.loading = true
+      this.establishments = []
+      await this.$http
+        .get('/api/establecimientos')
+        .then(res => {
+          this.loading = false
+          this.establishments = res.data.data
+        })
+        .catch(error => {
+          this.loading = false
+          swalError(
+            error.body.err != undefined
+              ? error.body.err.message
+              : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
+          )
+        })
+    },
+
+    changeEstablishement() {
+      if (this.editedEstablishment) {
+        sessionStorage.setItem('establishment', JSON.stringify(this.editedEstablishment))
+        this.prepareEnvironment()
+      }
     }
   },
+
   computed: {
     colorChip() {
       return this.user.rol == 'ADMIN_ROLE'
@@ -165,6 +244,7 @@ export default {
         ? 'green accent-4'
         : 'orange accent-4'
     },
+
     textoRol() {
       return this.user.rol == 'ADMIN_ROLE'
         ? 'Administrador'
@@ -172,11 +252,21 @@ export default {
         ? 'Técnico'
         : 'Representante'
     },
-    ...mapState(['user'])
+    ...mapState(['user', 'establishment'])
   },
-  created() {
+
+  async created() {
     if (this.user.rol == '') {
       this.$router.replace('/login')
+    } else {
+      if (this.user.rol === 'TECHNICAL_ROLE') {
+        if (JSON.parse(sessionStorage.getItem('establishment'))) {
+          await this.getEstablishments()
+          this.editedEstablishment = JSON.parse(sessionStorage.getItem('establishment'))
+        } else {
+          this.$router.replace('/selectEstablishment')
+        }
+      }
     }
   }
 }
