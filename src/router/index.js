@@ -57,6 +57,10 @@ const routes = [
         path: '/selectForm',
         name: 'Seleccionar Formulario',
         component: () => import('../views/SelectForm.vue'),
+      }, {
+        path: '/technicalInform',
+        name: 'Crear un Informe',
+        component: () => import('../views/TechnicalInform.vue'),
       }
     ]
   },

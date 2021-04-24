@@ -180,14 +180,20 @@ export default {
         link: '/selectForm'
       },
       {
-        title: 'Informes', //aqui toca cambiarle de nombre dependiendo del rol que tenga aun en desarollo
+        title: 'Aprobar Informes', //aqui toca cambiarle de nombre dependiendo del rol que tenga aun en desarollo
         rol: 'ADMIN_ROLE',
         icon: 'fa-book-open'
       },
       {
-        title: 'Informes', //aqui toca cambiarle de nombre dependiendo del rol que tenga aun en desarollo
+        title: 'Realizar Informes',
         rol: 'TECHNICAL_ROLE',
-        icon: 'fa-book-open'
+        icon: 'fa-book-open',
+        link: '/technicalInform'
+      },
+      {
+        title: 'Estado de Informes',
+        rol: 'TECHNICAL_ROLE',
+        icon: 'fa-folder-open'
       }
     ],
     establishments: [],

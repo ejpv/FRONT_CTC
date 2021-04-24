@@ -179,7 +179,7 @@ export default {
       this.editedItem.total = this.getTotal
       await this.addDiagnostic()
       if (!this.problem) {
-        this.$router.replace('/preDiagnostic')
+        this.$router.replace('/selectForm')
       }
     },
 
