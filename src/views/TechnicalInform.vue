@@ -206,6 +206,12 @@ export default {
         conclusion: [''],
         recomendacion: [''],
         observacion: ['']
+      },
+      defaultInform: {
+        diagnostico: [],
+        conclusion: [''],
+        recomendacion: [''],
+        observacion: ['']
       }
     }
   },
@@ -285,10 +291,19 @@ export default {
     },
 
     async save() {
+      await this.middlewareDiagnostics()
       await this.addInform()
       if (!this.problem) {
-        this.$router.replace('/')
+        this.editedInform = this.defaultInform
       }
+    },
+
+    async middlewareDiagnostics() {
+      var diagnosticosNotNull = []
+      diagnosticosNotNull = this.editedInform.diagnostico.filter(v => {
+        return v != null
+      })
+      this.editedInform.diagnostico = diagnosticosNotNull
     },
 
     async addInform() {

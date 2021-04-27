@@ -16,13 +16,13 @@
                   filled
                   rounded
                   dense
-                  autocomplete
+                  autocomplete="off"
                   v-model.trim="email"
                   :rules="emailRules"
                 ></v-text-field>
                 <h3>Contraseña</h3>
                 <v-text-field
-                  autocomplete
+                  autocomplete="off"
                   filled
                   rounded
                   dense

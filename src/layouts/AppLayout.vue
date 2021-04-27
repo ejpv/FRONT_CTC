@@ -180,7 +180,7 @@ export default {
         link: '/selectForm'
       },
       {
-        title: 'Aprobar Informes', //aqui toca cambiarle de nombre dependiendo del rol que tenga aun en desarollo
+        title: 'Aprobar Informes',
         rol: 'ADMIN_ROLE',
         icon: 'fa-book-open'
       },
@@ -193,7 +193,8 @@ export default {
       {
         title: 'Estado de Informes',
         rol: 'TECHNICAL_ROLE',
-        icon: 'fa-folder-open'
+        icon: 'fa-folder-open',
+        link:'/statusInform'
       }
     ],
     establishments: [],

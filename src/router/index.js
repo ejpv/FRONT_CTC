@@ -61,6 +61,10 @@ const routes = [
         path: '/technicalInform',
         name: 'Crear un Informe',
         component: () => import('../views/TechnicalInform.vue'),
+      }, {
+        path: '/statusInform',
+        name: 'Ver estado de los Informes',
+        component: () => import('../views/StatusInform.vue'),
       }
     ]
   },
