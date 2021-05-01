@@ -703,7 +703,7 @@
         </div>
       </template>
 
-      <template v-slot:item.lugar="{ item }">
+      <template v-slot:item.lugar.parroquia="{ item }">
         <v-chip color="success" dark> {{ item.lugar.parroquia }} </v-chip>
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
@@ -1311,7 +1311,7 @@ export default {
         },
         {
           text: 'Lugar',
-          value: 'lugar',
+          value: 'lugar.parroquia',
           align: 'center'
         },
         {

@@ -10,6 +10,7 @@
       <v-tab>Formularios Activos</v-tab>
       <v-tab>Formularios Borrados</v-tab>
     </v-tabs>
+    
     <v-tabs-items v-model="tabs">
       <v-tab-item>
         <v-tooltip left>
