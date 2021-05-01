@@ -1,304 +1,322 @@
 <template>
   <div>
-    <v-container>
-      <v-row>
-        <v-col cols="12" :sm="sm">
+    <v-row>
+      <v-col cols="12" :sm="sm">
+        <v-card>
+          <v-card-title class="primary white--text">
+            <span class="headline">Informes </span>
+            <v-spacer></v-spacer>
+            <v-btn icon @click="seeInforms = !seeInforms">
+              <v-icon v-if="seeInforms"> fa-angle-up </v-icon>
+              <v-icon v-else> fa-angle-down</v-icon>
+            </v-btn>
+          </v-card-title>
+
+          <v-card-text v-if="seeInforms" class="pa-0">
+            <div v-if="informs.length > 0 && !loading">
+              <div
+                v-for="(fecha, i) in dateNotRepeted"
+                :key="i"
+                style="margin-bottom: -15px"
+              >
+                <v-card-title class="secondary lighten-1">
+                  <span class="headline">{{ fecha }}</span>
+                </v-card-title>
+
+                <v-card-text>
+                  <div v-for="(item, index) in informs" :key="item._id">
+                    <div v-if="item.fechaCreacion.includes(fecha)">
+                      <v-row>
+                        <v-col>
+                          <h4 class="pt-2">
+                            Informe del
+                            <span class="font-weight-black">
+                              {{ informs[index].fechaCreacion }}
+                            </span>
+                            --
+                            <span class="font-weight-black">
+                              {{ informs[index].diagnostico.length }}
+                            </span>
+                            Diagnosticos,
+                            <span class="font-weight-black">
+                              {{ informs[index].conclusion.length }}
+                            </span>
+                            Conclusiones,
+                            <span class="font-weight-black">
+                              {{ informs[index].recomendacion.length }}
+                            </span>
+                            Recomendaciones y
+                            <span class="font-weight-black">
+                              {{ informs[index].observacion.length }}</span
+                            >
+                            Observaciones
+                          </h4>
+                        </v-col>
+
+                        <v-col
+                          cols="4"
+                          sm="2"
+                          class="d-flex align-content-center flex-wrap"
+                        >
+                          <v-chip
+                            :class="`${getColor(item.estado)} white--text`"
+                            style="margin-right: -10px; margin-left: -15px"
+                          >
+                            {{ getText(item.estado) }}
+                          </v-chip>
+                          <v-spacer> </v-spacer>
+                          <v-menu offset-y tile>
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-btn text v-bind="attrs" v-on="on" icon>
+                                <v-icon> fa-ellipsis-v </v-icon>
+                              </v-btn>
+                            </template>
+
+                            <v-list flat tile>
+                              <v-list-item @click="prepareWorkStation(item, 'see')">
+                                <v-list-item-icon>
+                                  <v-icon class="ml-2 blue--text">fa-eye </v-icon>
+                                </v-list-item-icon>
+                                <v-list-item-title>
+                                  <span> Ver este Informe </span>
+                                </v-list-item-title>
+                              </v-list-item>
+                              <v-list-item
+                                @click="prepareWorkStation(item, 'edit')"
+                                :disabled="item.estado"
+                              >
+                                <v-list-item-icon>
+                                  <v-icon class="ml-2 edit--text" :disabled="item.estado"
+                                    >fa-pen
+                                  </v-icon>
+                                </v-list-item-icon>
+                                <v-list-item-title>
+                                  <span> Editar este Informe </span>
+                                </v-list-item-title>
+                              </v-list-item>
+                              <v-list-item
+                                @click="deleteItem(item)"
+                                :disabled="item.estado"
+                              >
+                                <v-list-item-icon>
+                                  <v-icon
+                                    class="ml-2 delete--text"
+                                    :disabled="item.estado"
+                                  >
+                                    fa-trash
+                                  </v-icon>
+                                </v-list-item-icon>
+                                <v-list-item-title>
+                                  <span> Eliminar este Informe </span>
+                                </v-list-item-title>
+                              </v-list-item>
+                            </v-list>
+                          </v-menu>
+                        </v-col>
+                      </v-row>
+                    </div>
+                  </div>
+                </v-card-text>
+              </div>
+            </div>
+
+            <div v-else>
+              <v-card-title class="secondary lighten-1">
+                <span class="headline"
+                  >No has realizado Informes para este Establecimiento</span
+                >
+              </v-card-title>
+            </div>
+          </v-card-text>
+        </v-card>
+
+        <v-card class="pt-1 pb-1" flat>
+          <v-progress-linear
+            indeterminate
+            color="primary"
+            v-show="loading"
+          ></v-progress-linear>
+        </v-card>
+      </v-col>
+
+      <v-col cols="12" :sm="sm">
+        <div v-if="action != ''">
           <v-card>
             <v-card-title class="primary white--text">
-              <span class="headline">Informes </span>
+              <span class="headline">Informe {{ editedInform.fechaCreacion }} </span>
               <v-spacer></v-spacer>
-              <v-btn icon @click="seeInforms = !seeInforms">
-                <v-icon v-if="seeInforms"> fa-angle-up </v-icon>
-                <v-icon v-else> fa-angle-down</v-icon>
-              </v-btn>
+              <v-chip
+                :class="`${getColor(editedInform.estado)} white--text`"
+                style="margin-left: -5px"
+              >
+                {{ getText(editedInform.estado) }}
+              </v-chip>
+              <v-btn icon @click="restoreDefault" style="margin-left: -5px">
+                <v-icon> fa-times</v-icon></v-btn
+              >
             </v-card-title>
 
-            <v-card-text v-if="seeInforms" class="pa-0">
-              <div v-if="informs.length > 0 && !loading">
-                <div
-                  v-for="(fecha, i) in dateNotRepeted"
-                  :key="i"
-                  style="margin-bottom: -15px"
+            <v-card-text class="pl-5 pr-5 pt-2">
+              <h3 class="pt-2 pb-1">Diagnosticos</h3>
+              <div v-for="(item, index) in editedInform.diagnostico" :key="index">
+                <h3 class="pl-4 pb-3">
+                  {{ item.formulario.nombre }} - {{ item.fecha }} --
+                  <span :class="getColorTotal(item) + '--text'">
+                    {{ item.total }}
+                  </span>
+                </h3>
+              </div>
+
+              <h3 class="pt-2">
+                Conclusiones
+                <v-tooltip right>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      :disabled="disableItem"
+                      icon
+                      @click="editedInform.conclusion.push('')"
+                      small
+                      v-on="on"
+                      v-bind="attrs"
+                    >
+                      <v-icon class="info--text" small> fa-plus </v-icon>
+                    </v-btn>
+                  </template>
+                  <span> Agregar una conclusion </span>
+                </v-tooltip>
+              </h3>
+
+              <v-textarea
+                :disabled="disableItem"
+                v-for="(item, indice) in editedInform.conclusion"
+                :key="'C' + indice"
+                v-model="editedInform.conclusion[indice]"
+                auto-grow
+                filled
+                rounded
+                dense
+                rows="1"
+                style="margin-bottom: -10px"
+              >
+                <template
+                  v-if="editedInform.conclusion.length > 1 && !disableItem"
+                  v-slot:append
                 >
-                  <v-card-title class="secondary lighten-1">
-                    <span class="headline">{{ fecha }}</span>
-                  </v-card-title>
-
-                  <v-card-text>
-                    <div v-for="(item, index) in informs" :key="item._id">
-                      <div v-if="item.fechaCreacion.includes(fecha)">
-                        <v-row>
-                          <v-col>
-                            <h4 class="pt-2">
-                              Informe del
-                              <span class="font-weight-black">
-                                {{ informs[index].fechaCreacion }}
-                              </span>
-                              --
-                              <span class="font-weight-black">
-                                {{ informs[index].diagnostico.length }}
-                              </span>
-                              Diagnosticos,
-                              <span class="font-weight-black">
-                                {{ informs[index].conclusion.length }}
-                              </span>
-                              Conclusiones,
-                              <span class="font-weight-black">
-                                {{ informs[index].recomendacion.length }}
-                              </span>
-                              Recomendaciones y
-                              <span class="font-weight-black">
-                                {{ informs[index].observacion.length }}</span
-                              >
-                              Observaciones
-                            </h4>
-                          </v-col>
-
-                          <v-col
-                            cols="4"
-                            sm="2"
-                            class="d-flex align-content-center flex-wrap"
-                          >
-                            <v-chip
-                              :class="`${getColor(item.estado)} white--text`"
-                              style="margin-right: -10px; margin-left: -15px "
-                            >
-                              {{ getText(item.estado) }}
-                            </v-chip>
-                            <v-spacer> </v-spacer>
-                            <v-menu offset-y tile>
-                              <template v-slot:activator="{ on, attrs }">
-                                <v-btn text v-bind="attrs" v-on="on" icon>
-                                  <v-icon> fa-ellipsis-v </v-icon>
-                                </v-btn>
-                              </template>
-
-                              <v-list flat tile>
-                                <v-list-item @click="prepareWorkStation(item, 'see')">
-                                  <v-list-item-icon>
-                                    <v-icon class="ml-2 blue--text">fa-eye </v-icon>
-                                  </v-list-item-icon>
-                                  <v-list-item-title>
-                                    <span> Ver este Informe </span>
-                                  </v-list-item-title>
-                                </v-list-item>
-                                <v-list-item
-                                  @click="prepareWorkStation(item, 'edit')"
-                                  :disabled="item.estado"
-                                >
-                                  <v-list-item-icon>
-                                    <v-icon
-                                      class="ml-2 edit--text"
-                                      :disabled="item.estado"
-                                      >fa-pen
-                                    </v-icon>
-                                  </v-list-item-icon>
-                                  <v-list-item-title>
-                                    <span> Editar este Informe </span>
-                                  </v-list-item-title>
-                                </v-list-item>
-                                <v-list-item
-                                  @click="deleteItem(item)"
-                                  :disabled="item.estado"
-                                >
-                                  <v-list-item-icon>
-                                    <v-icon
-                                      class="ml-2 delete--text"
-                                      :disabled="item.estado"
-                                    >
-                                      fa-trash
-                                    </v-icon>
-                                  </v-list-item-icon>
-                                  <v-list-item-title>
-                                    <span> Eliminar este Informe </span>
-                                  </v-list-item-title>
-                                </v-list-item>
-                              </v-list>
-                            </v-menu>
-                          </v-col>
-                        </v-row>
-                      </div>
-                    </div>
-                  </v-card-text>
-
-                </div>
-              </div>
-
-              <div v-else>
-                <v-card-title class="secondary lighten-1">
-                  <span class="headline"
-                    >No has realizado Informes para este Establecimiento</span
+                  <v-icon @click="removeOption('conclusion', indice)"
+                    >far fa-times-circle</v-icon
                   >
-                </v-card-title>
-              </div>
+                </template>
+              </v-textarea>
+
+              <h3 class="pt-2">
+                Recomendaciones
+                <v-tooltip right>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      icon
+                      :disabled="disableItem"
+                      @click="editedInform.recomendacion.push('')"
+                      small
+                      v-on="on"
+                      v-bind="attrs"
+                    >
+                      <v-icon class="info--text" small> fa-plus </v-icon>
+                    </v-btn>
+                  </template>
+                  <span> Agregar una recomendacion </span>
+                </v-tooltip>
+              </h3>
+
+              <v-textarea
+                :disabled="disableItem"
+                v-for="(item, indice) in editedInform.recomendacion"
+                :key="'A' + indice"
+                v-model="editedInform.recomendacion[indice]"
+                auto-grow
+                filled
+                rounded
+                dense
+                rows="1"
+                style="margin-bottom: -10px"
+              >
+                <template
+                  v-if="editedInform.recomendacion.length > 1 && !disableItem"
+                  v-slot:append
+                >
+                  <v-icon @click="removeOption('recomendacion', indice)"
+                    >far fa-times-circle</v-icon
+                  >
+                </template>
+              </v-textarea>
+
+              <h3 class="pt-2">
+                Observaciones
+                <v-tooltip right>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      icon
+                      :disabled="disableItem"
+                      @click="editedInform.observacion.push('')"
+                      small
+                      v-on="on"
+                      v-bind="attrs"
+                    >
+                      <v-icon class="info--text" small> fa-plus </v-icon>
+                    </v-btn>
+                  </template>
+                  <span> Agregar una observacion </span>
+                </v-tooltip>
+              </h3>
+
+              <v-textarea
+                :disabled="disableItem"
+                v-for="(item, indice) in editedInform.observacion"
+                :key="'B' + indice"
+                v-model="editedInform.observacion[indice]"
+                auto-grow
+                filled
+                rounded
+                dense
+                rows="1"
+                style="margin-bottom: -10px"
+              >
+                <template
+                  v-if="editedInform.observacion.length > 1 && !disableItem"
+                  v-slot:append
+                >
+                  <v-icon @click="removeOption('observacion', indice)"
+                    >far fa-times-circle</v-icon
+                  >
+                </template>
+              </v-textarea>
+              <v-card v-if="editedInform.estado === false">
+                <v-container>
+                  <h3 class="pt-2">Retroalimentación:</h3>
+                  <v-textarea
+                    disabled
+                    v-model="editedInform.retroalimentacion"
+                    :label="
+                      editedInform.retroalimentacion ? '' : 'No existe retroalimentación'
+                    "
+                    auto-grow
+                    filled
+                    rounded
+                    dense
+                    rows="1"
+                    style="margin-bottom: -10px"
+                  >
+                  </v-textarea>
+                </v-container>
+              </v-card>
             </v-card-text>
+
+            <v-card-actions v-if="!disableItem">
+              <v-btn class="success" @click="save" block> Guardar Informe </v-btn>
+            </v-card-actions>
           </v-card>
-
-          <v-card class="pt-1 pb-1" flat>
-            <v-progress-linear
-              indeterminate
-              color="primary"
-              v-show="loading"
-            ></v-progress-linear>
-          </v-card>
-        </v-col>
-
-        <v-col cols="12" :sm="sm">
-
-          <div v-if="action != ''">
-            <v-card>
-              <v-card-title class="primary white--text">
-                <span class="headline">Informe {{ editedInform.fechaCreacion }} </span>
-                <v-spacer></v-spacer>
-                <v-btn icon @click="restoreDefault"> <v-icon> fa-times</v-icon></v-btn>
-              </v-card-title>
-
-              <v-card-text class="pl-5 pr-5 pt-2">
-
-                <h3 class="pt-2 pb-1">Diagnosticos</h3>
-                <div v-for="(item, index) in editedInform.diagnostico" :key="index">
-                  <h3 class="pl-4 pb-3">
-                    {{ item.formulario.nombre }} - {{ item.fecha }} --
-                    <span :class="getColorTotal(item) + '--text'">
-                      {{ item.total }}
-                    </span>
-                  </h3>
-                </div>
-
-                <h3 class="pt-2">
-                  Conclusiones
-                  <v-tooltip right>
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-btn
-                        :disabled="disableItem"
-                        icon
-                        @click="editedInform.conclusion.push('')"
-                        small
-                        v-on="on"
-                        v-bind="attrs"
-                      >
-                        <v-icon class="info--text" small> fa-plus </v-icon>
-                      </v-btn>
-                    </template>
-                    <span> Agregar una conclusion </span>
-                  </v-tooltip>
-                </h3>
-
-                <v-textarea
-                  :disabled="disableItem"
-                  v-for="(item, indice) in editedInform.conclusion"
-                  :key="'C' + indice"
-                  v-model="editedInform.conclusion[indice]"
-                  auto-grow
-                  filled
-                  rounded
-                  dense
-                  rows="1"
-                  style="margin-bottom: -10px"
-                >
-                  <template
-                    v-if="editedInform.conclusion.length > 1 && !disableItem"
-                    v-slot:append
-                  >
-                    <v-icon @click="removeOption('conclusion', indice)"
-                      >far fa-times-circle</v-icon
-                    >
-                  </template>
-                </v-textarea>
-
-                <h3 class="pt-2">
-                  Recomendaciones
-                  <v-tooltip right>
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-btn
-                        icon
-                        :disabled="disableItem"
-                        @click="editedInform.recomendacion.push('')"
-                        small
-                        v-on="on"
-                        v-bind="attrs"
-                      >
-                        <v-icon class="info--text" small> fa-plus </v-icon>
-                      </v-btn>
-                    </template>
-                    <span> Agregar una recomendacion </span>
-                  </v-tooltip>
-                </h3>
-
-                <v-textarea
-                  :disabled="disableItem"
-                  v-for="(item, indice) in editedInform.recomendacion"
-                  :key="'A' + indice"
-                  v-model="editedInform.recomendacion[indice]"
-                  auto-grow
-                  filled
-                  rounded
-                  dense
-                  rows="1"
-                  style="margin-bottom: -10px"
-                >
-                  <template
-                    v-if="editedInform.recomendacion.length > 1 && !disableItem"
-                    v-slot:append
-                  >
-                    <v-icon @click="removeOption('recomendacion', indice)"
-                      >far fa-times-circle</v-icon
-                    >
-                  </template>
-                </v-textarea>
-
-                <h3 class="pt-2">
-                  Observaciones
-                  <v-tooltip right>
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-btn
-                        icon
-                        :disabled="disableItem"
-                        @click="editedInform.observacion.push('')"
-                        small
-                        v-on="on"
-                        v-bind="attrs"
-                      >
-                        <v-icon class="info--text" small> fa-plus </v-icon>
-                      </v-btn>
-                    </template>
-                    <span> Agregar una observacion </span>
-                  </v-tooltip>
-                </h3>
-
-                <v-textarea
-                  :disabled="disableItem"
-                  v-for="(item, indice) in editedInform.observacion"
-                  :key="'B' + indice"
-                  v-model="editedInform.observacion[indice]"
-                  auto-grow
-                  filled
-                  rounded
-                  dense
-                  rows="1"
-                  style="margin-bottom: -10px"
-                >
-                  <template
-                    v-if="editedInform.observacion.length > 1 && !disableItem"
-                    v-slot:append
-                  >
-                    <v-icon @click="removeOption('observacion', indice)"
-                      >far fa-times-circle</v-icon
-                    >
-                  </template>
-                </v-textarea>
-
-              </v-card-text>
-
-              <v-card-actions v-if="!disableItem">
-                <v-btn class="success" @click="save" block> Guardar Informe </v-btn>
-              </v-card-actions>
-            </v-card>
-          </div>
-
-        </v-col>
-      </v-row>
-    </v-container>
+        </div>
+      </v-col>
+    </v-row>
 
     <v-dialog v-model="dialogDelete" max-width="500px">
       <v-card>
@@ -379,7 +397,7 @@ export default {
           this.loading = false
           this.informs = res.data.data
           this.getDate()
-          console.log(this.informs)
+          this.editedInform = this.defaultItem
         })
         .catch(error => {
           this.loading = false
