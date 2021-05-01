@@ -65,6 +65,10 @@ const routes = [
         path: '/statusInform',
         name: 'Ver estado de los Informes',
         component: () => import('../views/StatusInform.vue'),
+      }, {
+        path: '/reports',
+        name: 'Aprobar o Rechazar Informes',
+        component: () => import('../views/Reports.vue'),
       }
     ]
   },

@@ -18,4 +18,6 @@ Vue.component('erasedForm', () => import('./erasedForm'))
 Vue.component('erasedQuestion', () => import('./erasedQuestion'))
 Vue.component('passUser', () => import('./passUser'))
 Vue.component('ctcMap', () => import('./map'))
+Vue.component('approveReport', () => import('./approveReport'))
+Vue.component('seeDiagnostic', () => import('./seeDiagnostic'))
 
