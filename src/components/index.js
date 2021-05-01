@@ -19,5 +19,8 @@ Vue.component('erasedQuestion', () => import('./erasedQuestion'))
 Vue.component('passUser', () => import('./passUser'))
 Vue.component('ctcMap', () => import('./map'))
 Vue.component('approveReport', () => import('./approveReport'))
+Vue.component('rejectedInform', () => import('./rejectedInform'))
+Vue.component('approvedInform', () => import('./approvedInform'))
 Vue.component('seeDiagnostic', () => import('./seeDiagnostic'))
+
 

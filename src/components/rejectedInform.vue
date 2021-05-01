@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card-title class="d-block text-center">
-      <span class="headline">Informes por revisar</span>
+      <span class="headline">Informes rechazados</span>
       <v-spacer></v-spacer>
       <v-text-field
         v-model="search"
@@ -30,8 +30,8 @@
             <v-card-title class="primary white--text">
               <span class="headline">Informe {{ item.fechaCreacion }} </span>
               <v-spacer></v-spacer>
-              <v-chip class="edit white--text" style="margin-left: -5px">
-                Pendiente
+              <v-chip class="error white--text" style="margin-left: -5px">
+                Rechazado
               </v-chip>
             </v-card-title>
           </v-card>
@@ -104,26 +104,28 @@
               rows="1"
               style="margin-bottom: -10px"
             ></v-textarea>
-          </v-card-text>
 
-          <v-card-actions>
-            <v-row>
-              <v-col
-                cols="6"
-                class="d-flex justify-space-around pa-0"
-                @click="rejectInform(item)"
-                ><v-btn> Rechazar</v-btn></v-col
+            <v-container>
+              <h3 class="pt-2">Retroalimentación:</h3>
+              <v-textarea
+                disabled
+                v-model="item.retroalimentacion"
+                :label="item.retroalimentacion ? '' : 'No existe retroalimentación'"
+                auto-grow
+                filled
+                rounded
+                dense
+                rows="1"
+                style="margin-bottom: -10px"
               >
-              <v-col cols="6" class="d-flex justify-space-around pa-0"
-                ><v-btn class="success" @click="approve(item)"> Aprobar</v-btn></v-col
-              >
-            </v-row>
-          </v-card-actions>
+              </v-textarea>
+            </v-container>
+          </v-card-text>
         </td>
       </template>
 
       <template v-slot:item.estado="">
-        <v-chip color="edit" dark> Pendiente </v-chip>
+        <v-chip color="error" dark> Rechazado </v-chip>
       </template>
 
       <template v-slot:item.conclusion.length="{ item }">
@@ -143,41 +145,6 @@
       </template>
     </v-data-table>
 
-    <v-dialog v-model="dialogReject" max-width="500px">
-      <v-card>
-        <v-container class="primary">
-          <v-row text-centerd>
-            <v-col cols="12" class="text-center">
-              <v-icon dark large> fa-exclamation-triangle </v-icon>
-            </v-col>
-          </v-row>
-        </v-container>
-        <v-card-actions>
-          <v-container>
-            <div class="text-center pb-2">
-              <span class="headline"> Escriba el motivo del Rechazo</span>
-            </div>
-            <v-textarea
-              v-model="editedInform.retroalimentacion"
-              auto-grow
-              filled
-              rounded
-              dense
-              rows="1"
-            ></v-textarea>
-            <v-row>
-              <v-col cols="6" class="d-flex justify-space-around pa-0"
-                ><v-btn text @click="closeDialog">Cancelar</v-btn></v-col
-              >
-              <v-col cols="6" class="d-flex justify-space-around pa-0"
-                ><v-btn text @click="rejectConfirm">Continuar</v-btn>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
     <v-dialog v-model="dialogDiagnostic" max-width="700px">
       <seeDiagnostic :diagnostic="diagnostic" @accion="closeDiagnostic" />
     </v-dialog>
@@ -185,21 +152,16 @@
 </template>
 
 <script>
-import { swalError, swalConfirm, swalLoading } from '@/utils/notify'
+import { swalError } from '@/utils/notify'
 
 export default {
   props: ['activator'],
 
   data() {
     return {
-      loading: false,
-      problem: false,
-      dialogReject: false,
-      dialogDiagnostic: false,
       search: '',
-      editedIndex: -1,
-      editedInform: {},
-      editedDefault: {},
+      dialogDiagnostic: false,
+      loading: false,
       diagnostic: {
         formulario: {
           nombre: ''
@@ -212,6 +174,14 @@ export default {
           value: 'realizadoPor.nombre'
         },
         {
+          text: 'Rechazado Por',
+          value: 'responsable.nombre'
+        },
+        {
+          text: 'Retroalimentación',
+          value: 'retroalimentacion'
+        },
+        {
           text: 'Establecimiento',
           value: 'diagnostico[0].establecimiento.nombre',
           align: 'center'
@@ -219,6 +189,10 @@ export default {
         {
           text: 'Fecha Creación',
           value: 'fechaCreacion'
+        },
+        {
+          text: 'Fecha Final',
+          value: 'fechaFinal'
         },
         {
           text: '# de Diagnósticos',
@@ -246,15 +220,17 @@ export default {
       ]
     }
   },
+
   methods: {
     async getInforms() {
       this.loading = true
       this.informs = []
       await this.$http
-        .get('/api/informes')
+        .get('/api/informes?estado=false')
         .then(res => {
           this.loading = false
           this.informs = res.data.data
+          console.log(this.informs[0])
         })
         .catch(error => {
           this.loading = false
@@ -291,90 +267,19 @@ export default {
         }
       }
       this.dialogDiagnostic = false
-    },
-
-    rejectInform(item) {
-      this.editedIndex = this.informs.indexOf(item)
-      this.editedInform = item
-      this.dialogReject = true
-    },
-
-    async rejectConfirm() {
-      await this.changeEstado(false)
-      if (!this.problem) {
-        this.informs.splice(this.editedIndex, 1)
-      }
-      this.closeDialog()
-      this.problem = false
-    },
-
-    async approve(item) {
-      this.editedIndex = this.informs.indexOf(item)
-      this.editedInform = item
-      await this.changeEstado(true)
-      if (!this.problem) {
-        this.informs.splice(this.editedIndex, 1)
-      }
-      this.problem = false
-    },
-
-    closeDialog() {
-      this.dialogReject = false
-      this.$nextTick(() => {
-        this.editedInform = Object.assign({}, this.editedDefault)
-        this.editedIndex = -1
-      })
-    },
-
-    async changeEstado(estado) {
-      this.loading = true
-      if (estado) {
-        swalLoading('Aprobando Informe')
-      } else {
-        swalLoading('Rechazando Informe')
-      }
-      try {
-        await this.$http
-          .put(
-            `/api/informe/cambiarEstado/${this.editedInform._id}/${estado}`,
-            this.editedInform
-          )
-          .then(() => {
-            this.loading = false
-            if (estado) {
-              swalConfirm('Informe Aprobado')
-            } else {
-              swalConfirm('Informe Rechazado')
-            }
-          })
-        this.problem = false
-      } catch (error) {
-        this.loading = false
-        swalError(
-          error.body.err != undefined
-            ? error.body.err.message
-            : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
-        )
-        this.problem = true
-      }
     }
   },
 
   async created() {
     await this.getInforms()
   },
-
+  
   watch: {
-    dialogReject(val) {
-      val || this.closeDialog()
-    },
-
     dialogDiagnostic(val) {
       val || this.closeDiagnostic()
     },
-
     async activator(val) {
-      if (val === 0) {
+      if (val === 2) {
         await this.getInforms()
       }
     }
