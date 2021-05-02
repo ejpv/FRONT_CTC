@@ -168,19 +168,17 @@ export default {
     async changeUser() {
       this.loading = true
       try {
-        await this.$http
-          .put(`/api/usuario/${this.editUser._id}`, this.editUser)
-          .then(res => {
-            this.loading = false
-            swalConfirm('Usuario editado')
-            sessionStorage.setItem('token', res.body.token)
-            sessionStorage.setItem('user', JSON.stringify(res.body.usuario))
-            sessionStorage.setItem('expira', res.body.expireAt)
-            Vue.http.headers.common['token'] = res.body.token
-            //aqui estoy cargando el usuario en storage con lo que se tiene en el sesionstorage
-            this.loadUserLoged()
-            this.restore()
-          })
+        await this.$http.put('/api/usuario', this.editUser).then(res => {
+          this.loading = false
+          swalConfirm('Usuario editado')
+          sessionStorage.setItem('token', res.body.token)
+          sessionStorage.setItem('user', JSON.stringify(res.body.usuario))
+          sessionStorage.setItem('expira', res.body.expireAt)
+          Vue.http.headers.common['token'] = res.body.token
+          //aqui estoy cargando el usuario en storage con lo que se tiene en el sesionstorage
+          this.loadUserLoged()
+          this.restore()
+        })
       } catch (error) {
         this.loading = false
         swalError(

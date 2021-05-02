@@ -7,7 +7,7 @@
             <v-card-title class="primary white--text">
               Información del Representante
             </v-card-title>
-            <v-container>
+            <v-container v-if="representant.nombre">
               <v-container>
                 <h3 class="pb-2 pt-1">Nombre</h3>
                 {{ representant.nombre }}
@@ -21,6 +21,13 @@
                 {{ representant.telefono }}
               </v-container>
             </v-container>
+          </v-card>
+          <v-card class="pt-1 pb-1" flat>
+            <v-progress-linear
+              indeterminate
+              color="primary"
+              v-show="loading"
+            ></v-progress-linear>
           </v-card>
         </v-container>
       </v-col>
@@ -72,6 +79,13 @@
               <div v-else>No tiene un Establecimiento Asignado</div>
             </v-container>
           </v-container>
+        </v-card>
+        <v-card class="pt-1 pb-1" flat>
+          <v-progress-linear
+            indeterminate
+            color="primary"
+            v-show="loading"
+          ></v-progress-linear>
         </v-card>
       </v-col>
     </v-row>

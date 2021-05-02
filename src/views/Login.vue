@@ -55,8 +55,8 @@ import Vue from 'vue'
 export default {
   data() {
     return {
-      email: 'erickjpv@hotmail.es',
-      password: 'passADM',
+      email: '',
+      password: '',
       message: '',
       show: false,
       loading: false,
