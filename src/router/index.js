@@ -69,6 +69,18 @@ const routes = [
         path: '/reports',
         name: 'Aprobar o Rechazar Informes',
         component: () => import('../views/Reports.vue'),
+      }, {
+        path: '/informationRepresentant',
+        name: 'Información Básica',
+        component: () => import('../views/InformationRepresentant.vue'),
+      }, {
+        path: '/diagnosticRepresentant',
+        name: 'Diagnosticos',
+        component: () => import('../views/DiagnosticsRepresentant.vue'),
+      }, {
+        path: '/reportRepresentant',
+        name: 'Informes',
+        component: () => import('../views/ReportRepresentant.vue'),
       }
     ]
   },

@@ -15,7 +15,6 @@
               <v-col align="start" cols="3" sm="2"> </v-col>
               <v-col align="end" cols="0" sm="10">
                 <v-dialog v-model="dialog" max-width="500px">
-
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn color="new" dark class="mb-2" v-bind="attrs" v-on="on" medium>
                       Nuevo Establecimiento
@@ -30,7 +29,7 @@
                     <v-card-title class="primary white--text">
                       <span class="headline">{{ formTitle }}</span>
                     </v-card-title>
-                    
+
                     <v-stepper v-model="step" vertical>
                       <v-stepper-step :complete="step > 1" step="1" :editable="editable">
                         Seleccione un Lugar
@@ -618,7 +617,6 @@
                       </v-stepper-content>
                     </v-stepper>
                   </v-card>
-
                 </v-dialog>
               </v-col>
             </v-row>
@@ -902,13 +900,8 @@
                 dense
               ></v-text-field>
 
-               <h3 class="pb-1">LUAF</h3>
-              <v-text-field
-                v-model="editedItem.LUAF"
-                filled
-                rounded
-                dense
-              ></v-text-field>
+              <h3 class="pb-1">LUAF</h3>
+              <v-text-field v-model="editedItem.LUAF" filled rounded dense></v-text-field>
 
               <h3 class="pb-1">Página web</h3>
               <v-text-field v-model="editedItem.web" filled rounded dense></v-text-field>
@@ -1593,7 +1586,7 @@ export default {
       this.editedIndex = this.establishments.indexOf(item)
       this.editedItem = Object.assign({}, item)
       if (this.editedItem.representante) {
-       this.editedRepresentant = Object.assign({}, this.editedItem.representante) 
+        this.editedRepresentant = Object.assign({}, this.editedItem.representante)
       }
       this.dialogEdit = true
     },
@@ -1800,15 +1793,14 @@ export default {
     async changeEstablishment() {
       this.loading = true
       swalLoading('Editando establecimiento')
-      var establishmentEdit =  Object.assign({}, this.editedItem)
+      var establishmentEdit = Object.assign({}, this.editedItem)
       if (establishmentEdit.areaProtegida) {
         establishmentEdit.areaProtegida = establishmentEdit.areaProtegida._id
       } else {
         delete establishmentEdit.areaProtegida
       }
       if (establishmentEdit.representante) {
-        if (this.editedRepresentant === this.editedItem.representante)
-        {
+        if (this.editedRepresentant._id === this.editedItem.representante._id) {
           delete establishmentEdit.representante
         } else {
           establishmentEdit.representante = establishmentEdit.representante._id

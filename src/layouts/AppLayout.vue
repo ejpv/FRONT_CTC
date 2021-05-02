@@ -196,6 +196,24 @@ export default {
         rol: 'TECHNICAL_ROLE',
         icon: 'fa-folder-open',
         link: '/statusInform'
+      },
+      {
+        title: 'Información Básica',
+        rol: 'REPRESENTANT_ROLE',
+        icon: 'fa-user-tag',
+        link: '/informationRepresentant'
+      },
+      {
+        title: 'Diagnósticos',
+        rol: 'REPRESENTANT_ROLE',
+        icon: 'fa-file-medical-alt',
+        link: '/diagnosticRepresentant'
+      },
+      {
+        title: 'Informes',
+        rol: 'REPRESENTANT_ROLE',
+        icon: 'fa-folder-open',
+        link: '/reportRepresentant'
       }
     ],
     establishments: [],
