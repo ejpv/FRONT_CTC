@@ -1,5 +1,5 @@
 module.exports = {
-  outputDir: process.env.OUTPUT || './dist',
+  outputDir: process.env.VUE_APP_OUTPUT || './dist',
   transpileDependencies: ['vuetify'],
   devServer: {
     proxy: {

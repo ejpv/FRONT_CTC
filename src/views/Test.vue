@@ -3,13 +3,13 @@
     <v-card>
       <v-card-title>
         <v-col class="d-flex child-flex">
-          <v-img contain src="..\assets\unach.png" aspect-ratio="2">
+          <!--v-img contain src="..\assets\unach.png" aspect-ratio="2">
             <template v-slot:placeholder>
               <v-row class="fill-height ma-0" align="center" justify="center">
                 <v-progress-circular indeterminate color="primary"></v-progress-circular>
               </v-row>
             </template>
-          </v-img>
+          </v-img-->
         </v-col>
 
         <v-col cols="8" align="center" justify="center" class="primary white--text">
@@ -17,13 +17,13 @@
         </v-col>
 
         <v-col class="d-flex child-flex">
-          <v-img contain src="..\assets\turismo.png" aspect-ratio="2">
+          <!--v-img contain src="..\assets\turismo.png" aspect-ratio="2">
             <template v-slot:placeholder>
               <v-row class="fill-height ma-0" align="center" justify="center">
                 <v-progress-circular indeterminate color="primary"></v-progress-circular>
               </v-row>
             </template>
-          </v-img>
+          </v-img-->
         </v-col>
       </v-card-title>
       <v-card-text>
