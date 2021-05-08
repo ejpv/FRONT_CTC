@@ -11,8 +11,8 @@
           single-line
           hide-details
         ></v-text-field>
-        <v-row >
-          <v-col cols="9" sm="5" md="5" >
+        <v-row>
+          <v-col cols="9" sm="5" md="5">
             <v-switch v-model="erased" label="Representantes Borrados"></v-switch>
           </v-col>
         </v-row>

@@ -3,144 +3,149 @@
     <v-card>
       <v-card-title>
         <v-col class="d-flex child-flex">
-          <!--v-img contain src="..\assets\unach.png" aspect-ratio="2">
+          <v-img contain src="..\..\public\img\unachDiagnostico.png" aspect-ratio="2">
             <template v-slot:placeholder>
               <v-row class="fill-height ma-0" align="center" justify="center">
                 <v-progress-circular indeterminate color="primary"></v-progress-circular>
               </v-row>
             </template>
-          </v-img-->
+          </v-img>
         </v-col>
 
         <v-col cols="8" align="center" justify="center" class="primary white--text">
-          <span class="headline">{{ editedForm.nombre }}</span>
+          <span>{{ editedForm.nombre }}</span>
         </v-col>
 
         <v-col class="d-flex child-flex">
-          <!--v-img contain src="..\assets\turismo.png" aspect-ratio="2">
+          <v-img contain src="..\..\public\img\turismoDiagnostico.png" aspect-ratio="2">
             <template v-slot:placeholder>
               <v-row class="fill-height ma-0" align="center" justify="center">
                 <v-progress-circular indeterminate color="primary"></v-progress-circular>
               </v-row>
             </template>
-          </v-img-->
+          </v-img>
         </v-col>
       </v-card-title>
-      <v-card-text>
-        <v-card
-          v-for="(item, index) in editedForm.pregunta"
-          :key="index"
-          :color="isValid(item, index)"
-          class="mb-3"
-        >
-          <v-system-bar height="30" color="primary">
-            <span class="ml-4 subtitle-1 white--text">Pregunta {{ index + 1 }}</span>
-          </v-system-bar>
+      <v-form ref="testForm">
+        <v-card-text>
+          <v-card
+            v-for="(item, index) in editedForm.pregunta"
+            :key="index"
+            :color="isValid(item, index)"
+            class="mb-3"
+          >
+            <v-system-bar height="30" color="primary">
+              <span class="ml-4 subtitle-1 white--text">Pregunta {{ index + 1 }}</span>
+            </v-system-bar>
 
-          <v-container style="margin-bottom: -20px">
-            <v-container>
-              <v-row>
-                <v-col cols="12" sm="8" md="10" style="margin-bottom: -20px">
-                  <h3 class="pt-2 pb-1">Pregunta</h3>
-                  <v-text-field
-                    v-model="item.enunciado"
-                    autocomplete="off"
-                    filled
-                    rounded
-                    dense
-                    readonly
-                  ></v-text-field>
-                </v-col>
+            <v-container style="margin-bottom: -20px">
+              <v-container>
+                <v-row>
+                  <v-col cols="12" sm="8" md="10" style="margin-bottom: -20px">
+                    <h3 class="pt-2 pb-1">Pregunta</h3>
+                    <v-text-field
+                      v-model="item.enunciado"
+                      autocomplete="off"
+                      filled
+                      rounded
+                      dense
+                      readonly
+                    ></v-text-field>
+                  </v-col>
 
-                <v-col cols="12" xs="12" v-if="item.tipo === 'ABIERTA'">
-                  <h3 class="pt-2 pb-1">Respuesta</h3>
-                  <v-text-field
-                    autocomplete="off"
-                    filled
-                    rounded
-                    dense
-                    @change="getPoint(item, index)"
-                    v-model="editedItem.respuesta[index].valor"
-                  />
-                </v-col>
-
-                <v-col cols="12" xs="12" v-else-if="item.tipo === 'SN'">
-                  <h3 class="pt-2 pb-1">Respuesta</h3>
-                  <v-switch
-                    class="pa-1"
-                    :label="yesNoLabel(editedItem.respuesta[index].valor)"
-                    filled
-                    rounded
-                    dense
-                    @change="getPoint(item, index)"
-                    v-model="editedItem.respuesta[index].valor"
-                  />
-                </v-col>
-
-                <v-col cols="12" xs="12" v-else-if="item.tipo === 'SELECCION'">
-                  <h3 class="pt-2 pb-1">Respuesta</h3>
-                  <v-radio-group v-model="editedItem.respuesta[index].valor">
-                    <div v-for="(option, number) in item.opciones" :key="number">
-                      <v-radio
-                        :label="option"
-                        :value="number"
-                        class="mb-4"
-                        @change="getPoint(item, index)"
-                      >
-                      </v-radio>
-                    </div>
-                  </v-radio-group>
-                </v-col>
-
-                <v-col cols="12" xs="12" v-else-if="item.tipo === 'MULTIPLE'">
-                  <h3 class="pt-2 pb-1">Respuesta</h3>
-                  <div v-for="(check, checkIndex) in item.opciones" :key="checkIndex">
-                    <v-checkbox
-                      v-model="editedItem.respuesta[index].valor[checkIndex]"
-                      :label="check"
-                      style="margin-bottom: -15px"
-                      :value="item.peso / editedItem.respuesta[index].valor.length"
+                  <v-col cols="12" xs="12" v-if="item.tipo === 'ABIERTA'">
+                    <h3 class="pt-2 pb-1">Respuesta</h3>
+                    <v-text-field
+                      autocomplete="off"
+                      filled
+                      rounded
+                      dense
                       @change="getPoint(item, index)"
-                    ></v-checkbox>
-                  </div>
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-container>
+                      v-model="editedItem.respuesta[index].valor"
+                    />
+                  </v-col>
 
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-divider vertical class="mx-2" />
-            <v-btn
-              plain
-              icon
-              class="info"
-              v-if="editedItem.respuesta[index].puntaje === 0"
-              @click="changePoint(index, item.peso)"
-            >
-              {{ item.peso }}
-            </v-btn>
-            <v-btn icon class="edit" plain v-else @click="changePoint(index, 0)">0</v-btn>
-            <h3 class="pl-2">Puntaje</h3>
-            <v-col cols="4" sm="2" md="2">
-              <v-text-field
-                style="margin-bottom: -30px"
-                filled
-                rounded
-                dense
-                v-model="editedItem.respuesta[index].puntaje"
-              />
-            </v-col>
-          </v-card-actions>
-        </v-card>
-      </v-card-text>
+                  <v-col cols="12" xs="12" v-else-if="item.tipo === 'SN'">
+                    <h3 class="pt-2 pb-1">Respuesta</h3>
+                    <v-switch
+                      class="pa-1"
+                      :label="yesNoLabel(editedItem.respuesta[index].valor)"
+                      filled
+                      rounded
+                      dense
+                      @change="getPoint(item, index)"
+                      v-model="editedItem.respuesta[index].valor"
+                    />
+                  </v-col>
+
+                  <v-col cols="12" xs="12" v-else-if="item.tipo === 'SELECCION'">
+                    <h3 class="pt-2 pb-1">Respuesta</h3>
+                    <v-radio-group v-model="editedItem.respuesta[index].valor">
+                      <div v-for="(option, number) in item.opciones" :key="number">
+                        <v-radio
+                          :label="option"
+                          :value="number"
+                          class="mb-4"
+                          @change="getPoint(item, index)"
+                        >
+                        </v-radio>
+                      </div>
+                    </v-radio-group>
+                  </v-col>
+
+                  <v-col cols="12" xs="12" v-else-if="item.tipo === 'MULTIPLE'">
+                    <h3 class="pt-2 pb-1">Respuesta</h3>
+                    <div v-for="(check, checkIndex) in item.opciones" :key="checkIndex">
+                      <v-checkbox
+                        v-model="editedItem.respuesta[index].valor[checkIndex]"
+                        :label="check"
+                        style="margin-bottom: -15px"
+                        :value="item.peso / editedItem.respuesta[index].valor.length"
+                        @change="getPoint(item, index)"
+                      ></v-checkbox>
+                    </div>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-container>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-divider vertical class="mx-2" />
+              <v-btn
+                plain
+                icon
+                class="info"
+                v-if="editedItem.respuesta[index].puntaje === 0"
+                @click="changePoint(index, item.peso)"
+              >
+                {{ item.peso }}
+              </v-btn>
+              <v-btn icon class="edit" plain v-else @click="changePoint(index, 0)"
+                >0</v-btn
+              >
+              <h3 class="pl-2">Puntaje</h3>
+              <v-col cols="4" sm="2" md="2">
+                <v-text-field
+                  style="margin-bottom: -30px"
+                  filled
+                  rounded
+                  dense
+                  :rules="numberRules"
+                  v-model="editedItem.respuesta[index].puntaje"
+                />
+              </v-col>
+            </v-card-actions>
+          </v-card>
+        </v-card-text>
+      </v-form>
       <v-footer padless>
         <v-col class="text-center" cols="8" sm="10" md="10">
           <h3>Total:</h3>
           {{ getTotal }}
         </v-col>
         <v-col cols="1">
-          <v-btn class="success" @click="save"> Guardar </v-btn>
+          <v-btn class="success" @click="save" :disabled="disableSave()"> Guardar </v-btn>
         </v-col>
       </v-footer>
     </v-card>
@@ -156,16 +161,17 @@ export default {
     return {
       loading: false,
       problem: false,
-      codes: {
-        form: this.$route.params.form,
-        establishment: this.$route.params.establishment
-      },
       questionItems: [
         { tipo: 'ABIERTA', title: 'Abierta', icon: 'fa-spell-check' },
         { tipo: 'SN', title: 'Si/No', icon: 'fa-check' },
         { tipo: 'SELECCION', title: 'Selección', icon: 'fa-chevron-circle-down' },
         { tipo: 'MULTIPLE', title: 'Opción multiple', icon: 'fa-check-square' }
       ],
+      numberRules: [v => Number.isInteger(parseInt(v)) || 'Solo se permiten números'],
+      codes: {
+        form: this.$route.params.form,
+        establishment: this.$route.params.establishment
+      },
       editedItem: {
         respuesta: [{}],
         total: 0
@@ -318,6 +324,14 @@ export default {
 
     getTitle(item) {
       return this.questionItems.find(v => v.tipo === item).title
+    },
+
+    disableSave() {
+      if (this.$refs.testForm) {
+        return this.$refs.testForm.validate() ? false : true
+      } else {
+        return true
+      }
     }
   },
 

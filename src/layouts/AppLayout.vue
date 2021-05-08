@@ -32,10 +32,6 @@
         >
           <v-icon> fa-sync-alt </v-icon>
         </v-btn>
-
-        <v-btn icon small class="info mr-1">
-          <v-icon>fa-info-circle</v-icon>
-        </v-btn>
       </v-app-bar>
 
       <v-navigation-drawer v-model="drawer" class="pt-4" color="secondary" app>
@@ -259,6 +255,17 @@ export default {
         sessionStorage.setItem('establishment', JSON.stringify(this.editedEstablishment))
         this.prepareEnvironment()
       }
+    },
+
+    security(item) {
+      var actualPage = this.links.filter(v => {
+        return v.link === item ? v : false
+      })
+      if (actualPage[0]) {
+        if (actualPage[0].rol != this.user.rol && actualPage[0].rol != 'noMatter') {
+          this.$router.replace('/unknowPage')
+        }
+      }
     }
   },
 
@@ -293,6 +300,12 @@ export default {
           this.$router.replace('/selectEstablishment')
         }
       }
+    }
+  },
+
+  watch: {
+    '$route.path'(v) {
+      this.security(v)
     }
   }
 }

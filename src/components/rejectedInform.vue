@@ -273,7 +273,7 @@ export default {
   async created() {
     await this.getInforms()
   },
-  
+
   watch: {
     dialogDiagnostic(val) {
       val || this.closeDiagnostic()

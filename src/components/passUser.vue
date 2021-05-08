@@ -92,7 +92,7 @@ export default {
         )
       }
     },
-    
+
     changeSection() {
       this.$emit('accion')
       this.password = ''

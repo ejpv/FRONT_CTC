@@ -30,6 +30,20 @@
             <v-card-title class="primary white--text">
               <span class="headline">Informe {{ item.fechaCreacion }} </span>
               <v-spacer></v-spacer>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    icon
+                    class="mr-2 white--text"
+                    v-on="on"
+                    v-bind="attrs"
+                    @click="download(item)"
+                  >
+                    <v-icon> fa-download </v-icon>
+                  </v-btn>
+                </template>
+                <span> Descargar como PDF </span>
+              </v-tooltip>
               <v-chip class="success white--text" style="margin-left: -5px">
                 Aprobado
               </v-chip>
@@ -138,9 +152,11 @@
 <script>
 import { swalError } from '@/utils/notify'
 
+import { downloadPDF } from '@/utils/pdfmake'
+
 export default {
   props: ['activator'],
-  
+
   data() {
     return {
       search: '',
@@ -247,6 +263,11 @@ export default {
         }
       }
       this.dialogDiagnostic = false
+    },
+
+    download(item) {
+      console.log(item)
+      downloadPDF(item)
     }
   },
 

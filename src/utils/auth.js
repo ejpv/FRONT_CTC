@@ -1,4 +1,3 @@
-
 /**
  * Verify if exists a valid access token.
  */

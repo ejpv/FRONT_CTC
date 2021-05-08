@@ -16,11 +16,11 @@ export default new Vuetify({
         accent: '#4DB6AC',
         error: '#D32F2F',
         info: '#00B8D4',
-        success:'#66BB6A',
+        success: '#66BB6A',
         warning: '#F57C00',
         new: '#00BFA5',
-        edit: '#FF8F00',
-        delete: '#FF5252',
+        edit: '#FFB300',
+        delete: '#FF5252'
       }
     }
   },

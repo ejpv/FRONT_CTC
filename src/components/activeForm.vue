@@ -80,7 +80,9 @@
                     <span class="font-weight-black"> {{ type(quest.tipo) }} </span>
                   </v-col>
                   <div class="pl-3 pt-2 text--secondary" v-if="index === 3">
-                    <span class="font-weight-black"> 4.-... ({{item.pregunta.length}} preguntas en total) </span>
+                    <span class="font-weight-black">
+                      4.-... ({{ item.pregunta.length }} preguntas en total)
+                    </span>
                   </div>
                 </v-row>
               </v-container>

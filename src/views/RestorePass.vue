@@ -24,8 +24,8 @@
             >
             <v-col cols="10"
               ><span class="primary--text">
-                El mensaje de restauración de contraseña ya expiró, por favor envie el mensaje 
-                nuevamente.
+                El mensaje de restauración de contraseña ya expiró, por favor envie el
+                mensaje nuevamente.
               </span></v-col
             >
           </v-row>
@@ -60,7 +60,7 @@ export default {
     launch() {
       if (this.expiresAt) {
         const now = new Date()
-         this.dialog = !(now.getTime() < Number(this.expiresAt) * 1000)
+        this.dialog = !(now.getTime() < Number(this.expiresAt) * 1000)
       }
     },
     onClose() {

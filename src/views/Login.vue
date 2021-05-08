@@ -46,7 +46,6 @@
   </v-container>
 </template>
 
-
 <script>
 import { swalError } from '@/utils/notify'
 import { mapActions, mapState } from 'vuex'

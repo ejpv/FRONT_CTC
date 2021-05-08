@@ -47,79 +47,89 @@ const routes = [
       {
         path: '/editedForm/:form',
         name: 'Formulario',
-        component: () => import('../views/EditedForm.vue'),
+        component: () => import('../views/EditedForm.vue')
       },
       {
         path: '/question',
         name: 'Preguntas',
-        component: () => import('../views/Question.vue'),
-      }, {
+        component: () => import('../views/Question.vue')
+      },
+      {
         path: '/selectForm',
         name: 'Seleccionar Formulario',
-        component: () => import('../views/SelectForm.vue'),
-      }, {
+        component: () => import('../views/SelectForm.vue')
+      },
+      {
         path: '/technicalInform',
         name: 'Crear un Informe',
-        component: () => import('../views/TechnicalInform.vue'),
-      }, {
+        component: () => import('../views/TechnicalInform.vue')
+      },
+      {
         path: '/statusInform',
         name: 'Ver estado de los Informes',
-        component: () => import('../views/StatusInform.vue'),
-      }, {
+        component: () => import('../views/StatusInform.vue')
+      },
+      {
         path: '/reports',
         name: 'Aprobar o Rechazar Informes',
-        component: () => import('../views/Reports.vue'),
-      }, {
+        component: () => import('../views/Reports.vue')
+      },
+      {
         path: '/informationRepresentant',
         name: 'Información Básica',
-        component: () => import('../views/InformationRepresentant.vue'),
-      }, {
+        component: () => import('../views/InformationRepresentant.vue')
+      },
+      {
         path: '/diagnosticRepresentant',
-        name: 'Diagnosticos',
-        component: () => import('../views/DiagnosticsRepresentant.vue'),
-      }, {
+        name: 'Ver Diagnósticos',
+        component: () => import('../views/DiagnosticsRepresentant.vue')
+      },
+      {
         path: '/reportRepresentant',
-        name: 'Informes',
-        component: () => import('../views/ReportRepresentant.vue'),
+        name: 'Ver Informes',
+        component: () => import('../views/ReportRepresentant.vue')
       }
     ]
   },
   {
     path: '/test/:form/:establishment',
     name: 'Diagnostico',
-    component: () => import('../views/Test.vue'),
+    component: () => import('../views/Test.vue')
+  },
+  {
+    path: '/pruebas',
+    name: 'Pruebas',
+    component: () => import('../views/pruebas.vue')
   },
   {
     path: '/selectEstablishment',
     name: 'Seleccionar Establecimiento',
-    component: () => import('../views/SelectEstablishment.vue'),
+    component: () => import('../views/SelectEstablishment.vue')
   },
   {
-    path: "*", component: () => import('../views/404.vue')
+    name: 'Página no encontrada',
+    path: '*',
+    component: () => import('../views/404.vue')
   },
   {
+    name: 'Ingreso',
     path: '/login',
-    component: () => import('../views/Login.vue'),
+    component: () => import('../views/Login.vue')
   },
   {
+    name: '¿Olvidaste tu contraseña?',
     path: '/forgetPass',
-    component: () => import('../views/ForgetPass.vue'),
+    component: () => import('../views/ForgetPass.vue')
   },
   {
+    name: 'Reestablecer Contraseña',
     path: '/restorePass/:token/:exp',
-    component: () => import('../views/RestorePass.vue'),
+    component: () => import('../views/RestorePass.vue')
   },
   {
+    name: 'Activar Cuenta',
     path: '/activateAccount/:token/:password',
-    component: () => import('../views/ActivateAccount.vue'),
-  },
-  {
-    path: '/pruebas',
-    component: () => import('../views/pruebas.vue')
-  },
-  {
-    path: '/pruebas2',
-    component: () => import('../views/pruebas2.vue')
+    component: () => import('../views/ActivateAccount.vue')
   }
 ]
 

@@ -57,7 +57,9 @@
             </v-col>
             <v-col cols="12" class="white--text justify-center">
               <div class="text-center primary">
-                <span class="headline"> ¿Está seguro de restaurar este Representante?</span>
+                <span class="headline">
+                  ¿Está seguro de restaurar este Representante?</span
+                >
               </div>
             </v-col>
           </v-row>
@@ -76,7 +78,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    
   </div>
 </template>
 
@@ -198,11 +199,13 @@ export default {
       this.loading = true
       swalLoading('Restaurando representante')
       try {
-        console.log(this.editedItem);
-        await this.$http.put(`/api/representante/${this.editedItem._id}/restaurar`).then(() => {
-          this.loading = false
-          swalConfirm('Representante restaurado')
-        })
+        console.log(this.editedItem)
+        await this.$http
+          .put(`/api/representante/${this.editedItem._id}/restaurar`)
+          .then(() => {
+            this.loading = false
+            swalConfirm('Representante restaurado')
+          })
         this.problem = false
       } catch (error) {
         this.loading = false

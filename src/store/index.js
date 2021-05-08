@@ -5,34 +5,37 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    user: JSON.parse(sessionStorage.getItem('user')) ? JSON.parse(sessionStorage.getItem('user')) :
-      {
-        _id: '',
-        avatar: '',
-        rol: '',
-        nombre: '',
-        apellido: '',
-        password: '',
-        verificacionToken: '',
-        email: '',
-        activado: true
-      },
-    establishment: JSON.parse(sessionStorage.getItem('establishment')) ? JSON.parse(sessionStorage.getItem('establishment')) : {
-      _id: '',
-      nombre: '',
-      administrador: '',
-      lugar: {},
-      areaProtegida: {},
-      representante: {},
-      registro: '',
-      LUAF: '',
-      email: '',
-      nacionalidad: '',
-      web: '',
-      telefono: ''
-    },
+    user: JSON.parse(sessionStorage.getItem('user'))
+      ? JSON.parse(sessionStorage.getItem('user'))
+      : {
+          _id: '',
+          avatar: '',
+          rol: '',
+          nombre: '',
+          apellido: '',
+          password: '',
+          verificacionToken: '',
+          email: '',
+          activado: true
+        },
+    establishment: JSON.parse(sessionStorage.getItem('establishment'))
+      ? JSON.parse(sessionStorage.getItem('establishment'))
+      : {
+          _id: '',
+          nombre: '',
+          administrador: '',
+          lugar: {},
+          areaProtegida: {},
+          representante: {},
+          registro: '',
+          LUAF: '',
+          email: '',
+          nacionalidad: '',
+          web: '',
+          telefono: ''
+        },
     token: sessionStorage.getItem('token') ? sessionStorage.getItem('token') : '',
-    expira: sessionStorage.getItem('expira') ? sessionStorage.getItem('expira') : '',
+    expira: sessionStorage.getItem('expira') ? sessionStorage.getItem('expira') : ''
   },
 
   mutations: {
@@ -54,9 +57,9 @@ export default new Vuex.Store({
           token: '',
           expira: ''
         }
-        data.user = JSON.parse(sessionStorage.getItem('user'));
-        data.token = sessionStorage.getItem('token');
-        data.exp = sessionStorage.getItem('expira');
+        data.user = JSON.parse(sessionStorage.getItem('user'))
+        data.token = sessionStorage.getItem('token')
+        data.exp = sessionStorage.getItem('expira')
         commit('changeSesion', data)
         return
       }
@@ -103,7 +106,7 @@ export default new Vuex.Store({
         var data = {
           establishment: {}
         }
-        data.establishment = JSON.parse(sessionStorage.getItem('establishment'));
+        data.establishment = JSON.parse(sessionStorage.getItem('establishment'))
         commit('changeEstablishment', data)
       }
       return

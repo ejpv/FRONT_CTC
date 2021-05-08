@@ -29,7 +29,9 @@
 
       <template v-slot:item.representante="{ item }">
         <div v-if="item.representante">
-          <v-chip color="success" dark> Asignado: {{item.representante.nombre}} </v-chip>
+          <v-chip color="success" dark>
+            Asignado: {{ item.representante.nombre }}
+          </v-chip>
         </div>
         <div v-else>
           <v-chip color="warning" dark> Sin Asignar </v-chip>
@@ -38,7 +40,9 @@
 
       <template v-slot:item.areaProtegida="{ item }">
         <div v-if="item.areaProtegida">
-          <v-chip color="success" dark> Asignado: {{item.areaProtegida.nombre}} </v-chip>
+          <v-chip color="success" dark>
+            Asignado: {{ item.areaProtegida.nombre }}
+          </v-chip>
         </div>
         <div v-else>
           <v-chip color="warning" dark> Sin Asignar </v-chip>

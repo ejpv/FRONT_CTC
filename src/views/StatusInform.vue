@@ -145,6 +145,21 @@
             <v-card-title class="primary white--text">
               <span class="headline">Informe {{ editedInform.fechaCreacion }} </span>
               <v-spacer></v-spacer>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    v-if="editedInform.estado"
+                    icon
+                    class="mr-2 white--text"
+                    v-on="on"
+                    v-bind="attrs"
+                    @click="download(item)"
+                  >
+                    <v-icon> fa-download </v-icon>
+                  </v-btn>
+                </template>
+                <span> Descargar como PDF </span>
+              </v-tooltip>
               <v-chip
                 :class="`${getColor(editedInform.estado)} white--text`"
                 style="margin-left: -5px"
@@ -351,6 +366,7 @@
 
 <script>
 import { swalError, swalConfirm, swalLoading } from '@/utils/notify'
+import { downloadPDF } from '@/utils/pdfmake'
 import { mapState } from 'vuex'
 
 export default {
@@ -543,6 +559,10 @@ export default {
         )
         this.problem = true
       }
+    },
+
+    download(item) {
+      downloadPDF(item)
     }
   },
 

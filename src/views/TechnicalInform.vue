@@ -29,7 +29,9 @@
                         <v-checkbox
                           v-model="editedInform.diagnostico[index]"
                           :value="item._id"
-                          :label="`${item.formulario.nombre} -- ${item.fecha} -- ${item.total}`"
+                          :label="
+                            `${item.formulario.nombre} -- ${item.fecha} -- ${item.total}`
+                          "
                         ></v-checkbox>
                       </div>
                     </div>

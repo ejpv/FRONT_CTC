@@ -32,70 +32,71 @@
                     <v-card-text>
                       <v-container>
                         <v-form ref="form">
-                        <h3>Avatar</h3>
-                        <div class="text-center">
-                          <v-avatar size="200" :tile="!editedItem.avatar">
-                            <v-img :src="editedItem.avatar || '/image-gallery.svg'">
-                              <template v-slot:placeholder>
-                                <v-row
-                                  class="fill-height ma-0"
-                                  align="center"
-                                  justify="center"
-                                >
-                                  <v-progress-circular
-                                    indeterminate
-                                    color="grey lighten-5"
-                                  ></v-progress-circular>
-                                </v-row>
-                              </template>
-                            </v-img>
-                          </v-avatar>
-                        </div>
+                          <h3>Avatar</h3>
+                          <div class="text-center">
+                            <v-avatar size="200" :tile="!editedItem.avatar">
+                              <v-img :src="editedItem.avatar || '/image-gallery.svg'">
+                                <template v-slot:placeholder>
+                                  <v-row
+                                    class="fill-height ma-0"
+                                    align="center"
+                                    justify="center"
+                                  >
+                                    <v-progress-circular
+                                      indeterminate
+                                      color="grey lighten-5"
+                                    ></v-progress-circular>
+                                  </v-row>
+                                </template>
+                              </v-img>
+                            </v-avatar>
+                          </div>
 
-                        <h3 class="pt-2 pb-1">
-                          <strong class="error--text">*</strong> Nombre
-                        </h3>
-                        <v-text-field
-                          v-model="editedItem.nombre"
-                          filled
-                          rounded
-                          dense
-                          :rules="fieldRules"
-                        ></v-text-field>
+                          <h3 class="pt-2 pb-1">
+                            <strong class="error--text">*</strong> Nombre
+                          </h3>
+                          <v-text-field
+                            v-model="editedItem.nombre"
+                            filled
+                            rounded
+                            dense
+                            :rules="fieldRules"
+                          ></v-text-field>
 
-                        <h3 class="pb-1">
-                          <strong class="error--text">*</strong> Apellido
-                        </h3>
-                        <v-text-field
-                          v-model="editedItem.apellido"
-                          filled
-                          rounded
-                          dense
-                          :rules="fieldRules"
-                        ></v-text-field>
+                          <h3 class="pb-1">
+                            <strong class="error--text">*</strong> Apellido
+                          </h3>
+                          <v-text-field
+                            v-model="editedItem.apellido"
+                            filled
+                            rounded
+                            dense
+                            :rules="fieldRules"
+                          ></v-text-field>
 
-                        <h3 class="pb-1">
-                          <strong class="error--text">*</strong> Correo
-                        </h3>
-                        <v-text-field
-                          v-model="editedItem.email"
-                          filled
-                          rounded
-                          dense
-                          :rules="emailRules"
-                        ></v-text-field>
-                        <h3 class="pb-1"><strong class="error--text">*</strong> Rol</h3>
-                        <v-radio-group v-model="editedItem.rol" class="ma-0">
-                          <v-radio :value="roles.admin" label="Administrador"> </v-radio>
-                          <v-radio :value="roles.representant" label="Representante">
-                          </v-radio>
-                          <v-radio :value="roles.technical" label="Técnico"> </v-radio>
-                        </v-radio-group>
-                        <v-checkbox
-                          v-if="editedIndex === -1"
-                          v-model="sendMail"
-                          label="Enviar email al correo para verificación."
-                        ></v-checkbox>
+                          <h3 class="pb-1">
+                            <strong class="error--text">*</strong> Correo
+                          </h3>
+                          <v-text-field
+                            v-model="editedItem.email"
+                            filled
+                            rounded
+                            dense
+                            :rules="emailRules"
+                          ></v-text-field>
+                          <h3 class="pb-1"><strong class="error--text">*</strong> Rol</h3>
+                          <v-radio-group v-model="editedItem.rol" class="ma-0">
+                            <v-radio :value="roles.admin" label="Administrador">
+                            </v-radio>
+                            <v-radio :value="roles.representant" label="Representante">
+                            </v-radio>
+                            <v-radio :value="roles.technical" label="Técnico"> </v-radio>
+                          </v-radio-group>
+                          <v-checkbox
+                            v-if="editedIndex === -1"
+                            v-model="sendMail"
+                            label="Enviar email al correo para verificación."
+                          ></v-checkbox>
                         </v-form>
                       </v-container>
                     </v-card-text>
@@ -208,7 +209,6 @@
       <template v-slot:item.rol="{ item }">
         <p class="font-weight-black">{{ getText(item, 'rol') }}</p>
       </template>
-      
     </v-data-table>
   </div>
 </template>
@@ -245,7 +245,7 @@ export default {
         {
           text: 'Rol',
           value: 'rol',
-          align: 'center',
+          align: 'center'
         },
         {
           text: 'Estado del correo',

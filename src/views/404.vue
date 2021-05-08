@@ -30,7 +30,7 @@ export default {
         this.$router.replace('/')
       } else {
         this.$router.replace('/login')
-      }   
+      }
     }
   },
   computed: {
@@ -38,6 +38,3 @@ export default {
   }
 }
 </script>
-
-<style>
-</style>

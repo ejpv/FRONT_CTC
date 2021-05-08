@@ -1,13 +1,17 @@
 <template>
-  <div></div>
+  <div>
+    <v-btn @click="openReport()"> ver Reporte </v-btn>
+  </div>
 </template>
 
 <script>
-export default {
+import { Report } from '@/utils/pdfmake'
 
+export default {
+  methods: {
+    async openReport() {
+      await Report.openPDF()
+    }
+  }
 }
 </script>
-
-<style>
-
-</style>

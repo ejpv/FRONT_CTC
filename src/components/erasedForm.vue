@@ -37,7 +37,6 @@
             <template v-slot:item.pregunta="{ item }">
               <v-chip color="info" dark> {{ item.pregunta.length }} </v-chip>
             </template>
-
           </v-data-table>
         </v-col>
       </v-row>
@@ -184,7 +183,7 @@ export default {
   async created() {
     await this.getForms()
   },
-  
+
   watch: {
     activator(val) {
       if (val) {

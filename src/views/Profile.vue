@@ -167,6 +167,7 @@ export default {
 
     async changeUser() {
       this.loading = true
+      swalLoading('Editando Usuario')
       try {
         await this.$http.put('/api/usuario', this.editUser).then(res => {
           this.loading = false
@@ -226,7 +227,7 @@ export default {
         this.loadingAvatar = true
         var formData = new FormData()
         formData.append('avatar', file)
-
+        swalLoading('Editando Avatar')
         try {
           await this.$http
             .post(`/api/avatar/usuario/${this.editUser._id}`, formData, {

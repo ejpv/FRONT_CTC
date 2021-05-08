@@ -12,7 +12,7 @@
               contraseña para su cuenta.
             </h3>
           </v-card-text>
-          <passUser :token="tokenUrl" @accion="redirect" :activate="!this.pass"/>
+          <passUser :token="tokenUrl" @accion="redirect" :activate="!this.pass" />
         </v-card>
       </v-flex>
       <v-dialog v-model="dialog" persistent width="500">
@@ -60,7 +60,7 @@ export default {
     return {
       tokenUrl: this.$route.params.token,
       dialog: false,
-      loading: false,
+      loading: false
     }
   },
   async created() {
@@ -86,10 +86,10 @@ export default {
       } catch (error) {
         this.loading = false
         swalError(
-            error.body.err != undefined
-              ? error.body.err.message
-              : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
-          )
+          error.body.err != undefined
+            ? error.body.err.message
+            : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
+        )
         this.dialog = false
       }
     }
