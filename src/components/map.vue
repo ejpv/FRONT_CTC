@@ -16,6 +16,7 @@
         />
       </GmapMap>
     </v-card-text>
+    
     <v-card-actions v-if="editable">
       <v-container>
         <v-row>
@@ -28,6 +29,7 @@
         </v-row>
       </v-container>
     </v-card-actions>
+
     <v-card-actions v-else>
       <v-container>
         <v-row>
@@ -43,6 +45,7 @@
 <script>
 export default {
   props: ['coordinates', 'mapChange', 'edit'],
+
   data() {
     return {
       editable: false,
@@ -59,6 +62,7 @@ export default {
       center: {}
     }
   },
+
   methods: {
     updateCoordinates(data) {
       if (this.editable) {
@@ -66,19 +70,23 @@ export default {
       }
       this.center = data.latLng
     },
+
     updatePosition(latLng) {
       this.marker = latLng
     },
+
     closeComponent() {
       this.$emit('close')
     },
+
     saveData() {
       let data = {
-        lat: this.marker.lat(),
-        lng: this.marker.lng()
+        lat: this.marker.lat,
+        lng: this.marker.lng
       }
       this.$emit('save', data)
     },
+
     sync() {
       this.editable = this.edit
       this.marker = {
@@ -88,9 +96,11 @@ export default {
       this.center = this.marker
     }
   },
+
   created() {
     this.sync()
   },
+
   watch: {
     mapChange(val) {
       if (val) {

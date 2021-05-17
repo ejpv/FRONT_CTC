@@ -146,12 +146,6 @@ export default {
         link: '/representant'
       },
       {
-        title: 'Lugares',
-        rol: 'ADMIN_ROLE',
-        icon: 'fa-globe-americas',
-        link: '/place'
-      },
-      {
         title: 'Áreas Protegidas',
         icon: 'fa-map-marked-alt',
         rol: 'ADMIN_ROLE',
@@ -168,6 +162,12 @@ export default {
         icon: 'fa-list-ol',
         rol: 'ADMIN_ROLE',
         link: '/question'
+      },
+      {
+        title: 'Información básica',
+        rol: 'TECHNICAL_ROLE',
+        icon: 'fa-store-alt',
+        link: '/editEstablishment'
       },
       {
         title: 'Diagnósticos',
@@ -210,6 +210,12 @@ export default {
         rol: 'REPRESENTANT_ROLE',
         icon: 'fa-folder-open',
         link: '/reportRepresentant'
+      },
+      {
+        title: 'Categorías',
+        icon: 'fa-list',
+        rol: 'ADMIN_ROLE',
+        link: '/category'
       }
     ],
     establishments: [],
@@ -306,6 +312,13 @@ export default {
   watch: {
     '$route.path'(v) {
       this.security(v)
+    },
+
+    establishment(v) {
+      if (v) {
+        this.getEstablishments()
+        this.editedEstablishment = this.establishment
+      }
     }
   }
 }

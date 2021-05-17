@@ -45,7 +45,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(['prepareEnvironment']),
+    ...mapActions(['prepareEnvironment', 'prepareBasicService']),
 
     async getEstablishments() {
       this.loading = true
@@ -55,6 +55,7 @@ export default {
         .then(res => {
           this.loading = false
           this.establishments = res.data.data
+          this.prepareBasicService(this.establishments)
         })
         .catch(error => {
           this.loading = false

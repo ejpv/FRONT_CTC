@@ -35,11 +35,6 @@ const routes = [
         component: () => import('../views/ProtectedArea.vue')
       },
       {
-        path: '/place',
-        name: 'Lugares',
-        component: () => import('../views/Place.vue')
-      },
-      {
         path: '/form',
         name: 'Formularios',
         component: () => import('../views/Form.vue')
@@ -88,6 +83,16 @@ const routes = [
         path: '/reportRepresentant',
         name: 'Ver Informes',
         component: () => import('../views/ReportRepresentant.vue')
+      },
+      {
+        path: '/category',
+        name: 'Categorías',
+        component: () => import('../views/Category.vue')
+      },
+      {
+        path: '/editEstablishment',
+        name: 'Establecimiento e Información básica',
+        component: () => import('../views/EditEstablishment.vue')
       }
     ]
   },

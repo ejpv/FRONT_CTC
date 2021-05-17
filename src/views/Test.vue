@@ -38,10 +38,15 @@
               <span class="ml-4 subtitle-1 white--text">Pregunta {{ index + 1 }}</span>
             </v-system-bar>
 
-            <v-container style="margin-bottom: -20px">
+            <v-container style="margin-bottom: -20px; margin-top: -5px">
               <v-container>
                 <v-row>
-                  <v-col cols="12" sm="8" md="10" style="margin-bottom: -20px">
+                  <v-col
+                    cols="12"
+                    sm="8"
+                    md="10"
+                    style="margin-bottom: -25px; margin-top: -10px"
+                  >
                     <h3 class="pt-2 pb-1">Pregunta</h3>
                     <v-text-field
                       v-model="item.enunciado"
@@ -53,7 +58,12 @@
                     ></v-text-field>
                   </v-col>
 
-                  <v-col cols="12" xs="12" v-if="item.tipo === 'ABIERTA'">
+                  <v-col
+                    cols="12"
+                    xs="12"
+                    v-if="item.tipo === 'ABIERTA'"
+                    style="margin-bottom: -25px"
+                  >
                     <h3 class="pt-2 pb-1">Respuesta</h3>
                     <v-text-field
                       autocomplete="off"
@@ -65,7 +75,12 @@
                     />
                   </v-col>
 
-                  <v-col cols="12" xs="12" v-else-if="item.tipo === 'SN'">
+                  <v-col
+                    cols="12"
+                    xs="12"
+                    v-else-if="item.tipo === 'SN'"
+                    style="margin-bottom: -25px"
+                  >
                     <h3 class="pt-2 pb-1">Respuesta</h3>
                     <v-switch
                       class="pa-1"
@@ -78,7 +93,12 @@
                     />
                   </v-col>
 
-                  <v-col cols="12" xs="12" v-else-if="item.tipo === 'SELECCION'">
+                  <v-col
+                    cols="12"
+                    xs="12"
+                    v-else-if="item.tipo === 'SELECCION'"
+                    style="margin-bottom: -40px"
+                  >
                     <h3 class="pt-2 pb-1">Respuesta</h3>
                     <v-radio-group v-model="editedItem.respuesta[index].valor">
                       <div v-for="(option, number) in item.opciones" :key="number">
@@ -93,13 +113,18 @@
                     </v-radio-group>
                   </v-col>
 
-                  <v-col cols="12" xs="12" v-else-if="item.tipo === 'MULTIPLE'">
+                  <v-col
+                    cols="12"
+                    xs="12"
+                    v-else-if="item.tipo === 'MULTIPLE'"
+                    style="margin-bottom: -10px"
+                  >
                     <h3 class="pt-2 pb-1">Respuesta</h3>
                     <div v-for="(check, checkIndex) in item.opciones" :key="checkIndex">
                       <v-checkbox
                         v-model="editedItem.respuesta[index].valor[checkIndex]"
                         :label="check"
-                        style="margin-bottom: -15px"
+                        style="margin-bottom: -25px"
                         :value="item.peso / editedItem.respuesta[index].valor.length"
                         @change="getPoint(item, index)"
                       ></v-checkbox>

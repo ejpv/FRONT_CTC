@@ -20,7 +20,7 @@
                       Nuevo Establecimiento
                       <v-icon right>fa-store-alt</v-icon>
                     </v-btn>
-                    <v-btn color="info" class="mb-2 ml-4" medium icon>
+                    <v-btn color="info" class="mb-2 ml-2" medium icon>
                       <v-icon medium @click="getEstablishments()">fa-sync-alt</v-icon>
                     </v-btn>
                   </template>
@@ -29,593 +29,234 @@
                     <v-card-title class="primary white--text">
                       <span class="headline">{{ formTitle }}</span>
                     </v-card-title>
+                    <v-card-text>
+                      <v-container>
+                        <h3 class="pt-2 pb-1">
+                          <strong class="error--text">*</strong> Nombre
+                        </h3>
 
-                    <v-stepper v-model="step" vertical>
-                      <v-stepper-step :complete="step > 1" step="1" :editable="editable">
-                        Seleccione un Lugar
-                        <small>Seleccione o cree un Lugar.</small>
-                      </v-stepper-step>
+                        <v-text-field
+                          v-model="editedItem.nombre"
+                          filled
+                          rounded
+                          dense
+                        ></v-text-field>
 
-                      <v-stepper-content step="1">
-                        <v-card flat>
-                          <v-card-text>
-                            <v-row>
-                              <v-col align="end" cols="9" sm="10">
-                                <v-text-field
-                                  v-model="searchPlace"
-                                  filled
-                                  rounded
-                                  dense
-                                ></v-text-field>
-                              </v-col>
-                              <v-col align="start" cols="2">
-                                <v-menu offset-y>
-                                  <template v-slot:activator="{ on, attrs }">
-                                    <v-btn
-                                      v-bind="attrs"
-                                      v-on="on"
-                                      text
-                                      rounded
-                                      dense
-                                      style="margin-left: -15px"
-                                      :disabled="places.length === 0"
-                                      class="secondary--text"
-                                    >
-                                      <v-tooltip bottom>
-                                        <template v-slot:activator="{ on, attrs }">
-                                          <v-icon v-on="on" v-bind="attrs">
-                                            fa-caret-down</v-icon
-                                          >
-                                        </template>
-                                        <span> Lugares sin asignar </span>
-                                      </v-tooltip>
-                                    </v-btn>
-                                  </template>
-                                  <v-list>
-                                    <v-list-item
-                                      v-for="(item, index) in places"
-                                      :key="index"
-                                    >
-                                      <v-list-item-title @click="selectPlace(item)"
-                                        >{{ item.canton }} - {{ item.parroquia }}
-                                      </v-list-item-title>
-                                      <v-list-item-icon class="d-block text-center">
-                                        <v-tooltip bottom>
-                                          <template v-slot:activator="{ on, attrs }">
-                                            <v-icon
-                                              class="edit--text"
-                                              @click="showMap(false, item)"
-                                              v-on="on"
-                                              v-bind="attrs"
-                                            >
-                                              fa-map-marker-alt
-                                            </v-icon>
-                                          </template>
-                                          <span> Elegir punto en mapa </span>
-                                        </v-tooltip>
-                                      </v-list-item-icon>
-                                    </v-list-item>
-                                    <v-divider></v-divider>
-                                  </v-list>
-                                </v-menu>
-                              </v-col>
-                            </v-row>
-                            <v-form ref="formPlace">
-                              <h3 class="pb-1">
-                                <strong class="error--text">*</strong> Provincia
-                              </h3>
-                              <v-text-field
-                                v-model="editedPlace.provincia"
-                                filled
-                                rounded
-                                dense
-                                :disabled="disable"
-                                :rules="fieldRules"
-                              ></v-text-field>
+                        <h3 class="pb-1">
+                          <strong class="error--text">*</strong> Administrador
+                        </h3>
+                        <v-text-field
+                          v-model="editedItem.administrador"
+                          filled
+                          rounded
+                          dense
+                        ></v-text-field>
 
-                              <h3 class="pb-1">
-                                <strong class="error--text">*</strong> Cantón
-                              </h3>
-                              <v-text-field
-                                v-model="editedPlace.canton"
-                                filled
-                                rounded
-                                dense
-                                :disabled="disable"
-                                :rules="fieldRules"
-                              ></v-text-field>
+                        <h3 class="pb-1">Correo</h3>
+                        <v-text-field
+                          v-model="editedItem.email"
+                          filled
+                          rounded
+                          dense
+                        ></v-text-field>
 
-                              <h3 class="pb-1">Ciudad</h3>
-                              <v-text-field
-                                v-model="editedPlace.ciudad"
-                                filled
-                                rounded
-                                dense
-                                :disabled="disable"
-                              ></v-text-field>
+                        <h3 class="pb-1">Nacionalidad / Pueblo</h3>
+                        <v-text-field
+                          v-model="editedItem.nacionalidad"
+                          filled
+                          rounded
+                          dense
+                        ></v-text-field>
 
-                              <h3 class="pb-1">
-                                <strong class="error--text">*</strong> Parroquia
-                              </h3>
-                              <v-text-field
-                                v-model="editedPlace.parroquia"
-                                filled
-                                rounded
-                                dense
-                                :disabled="disable"
-                                :rules="fieldRules"
-                              ></v-text-field>
+                        <h3 class="pb-1">Registro</h3>
+                        <v-text-field
+                          v-model="editedItem.registro"
+                          filled
+                          rounded
+                          dense
+                        ></v-text-field>
 
-                              <v-row style="margin-top: -15px">
-                                <v-col>
-                                  <h3 class="pb-3">
-                                    <strong class="error--text">*</strong> Coordenadas
-                                  </h3>
-                                </v-col>
-                                <v-col align="end">
-                                  <v-tooltip bottom>
-                                    <template v-slot:activator="{ on, attrs }">
-                                      <v-icon
-                                        class="edit--text"
-                                        @click="showMap(!disable)"
-                                        v-on="on"
-                                        v-bind="attrs"
-                                      >
-                                        fa-map-marker-alt
-                                      </v-icon>
-                                    </template>
-                                    <span> Elegir punto en mapa </span>
-                                  </v-tooltip>
-                                </v-col>
-                              </v-row>
+                        <h3 class="pb-1">LUAF</h3>
+                        <v-text-field
+                          v-model="editedItem.LUAF"
+                          filled
+                          rounded
+                          dense
+                        ></v-text-field>
 
-                              <h4 class="pb-1">Latitud</h4>
-                              <v-text-field
-                                v-model="editedPlace.lat"
-                                filled
-                                rounded
-                                dense
-                                :disabled="disable"
-                                :rules="numberRules"
-                              ></v-text-field>
+                        <h3 class="pb-1">Página web</h3>
+                        <v-text-field
+                          v-model="editedItem.web"
+                          filled
+                          rounded
+                          dense
+                        ></v-text-field>
 
-                              <h4 class="pb-1">Longitud</h4>
-                              <v-text-field
-                                v-model="editedPlace.lng"
-                                filled
-                                rounded
-                                dense
-                                :disabled="disable"
-                                :rules="numberRules"
-                              ></v-text-field>
-                            </v-form>
-                          </v-card-text>
-                        </v-card>
-                        <v-card-actions>
-                          <v-container>
-                            <v-row>
-                              <v-col cols="5" class="d-flex justify-space-around pa-0">
-                                <v-btn text @click="close">Cancelar</v-btn>
-                              </v-col>
-                              <v-col cols="5" class="d-flex justify-space-around pa-0">
-                                <v-btn text @click="validateForm('place')"
-                                  >Continuar</v-btn
+                        <h3 class="pb-1">Teléfono</h3>
+                        <v-text-field
+                          v-model="editedItem.telefono"
+                          filled
+                          rounded
+                          dense
+                        ></v-text-field>
+
+                        <h3 class="pb-1">Lugar</h3>
+                        <v-divider></v-divider>
+                        <h4 class="pt-2 pb-1">Provincia</h4>
+                        <v-text-field
+                          v-model="editedItem.provincia"
+                          filled
+                          rounded
+                          dense
+                        ></v-text-field>
+
+                        <h4 class="pb-1">Cantón</h4>
+                        <v-text-field
+                          v-model="editedItem.canton"
+                          filled
+                          rounded
+                          dense
+                        ></v-text-field>
+
+                        <h4 class="pb-1">Ciudad o Localidad Próxima</h4>
+                        <v-text-field
+                          v-model="editedItem.ciudad"
+                          filled
+                          rounded
+                          dense
+                        ></v-text-field>
+
+                        <h4 class="pb-1">Parroquia</h4>
+                        <v-text-field
+                          v-model="editedItem.parroquia"
+                          filled
+                          rounded
+                          dense
+                        ></v-text-field>
+
+                        <v-row style="margin-top: -15px">
+                          <v-col>
+                            <h4 class="pb-3">Coordenadas</h4>
+                          </v-col>
+                          <v-col align="end">
+                            <v-tooltip bottom>
+                              <template v-slot:activator="{ on, attrs }">
+                                <v-icon
+                                  class="mr-2 edit--text"
+                                  @click="showMap(true)"
+                                  v-on="on"
+                                  v-bind="attrs"
                                 >
-                              </v-col>
-                              <v-col cols="2" class="d-flex justify-end pa-0">
-                                <v-tooltip bottom>
-                                  <template v-slot:activator="{ on, attrs }">
-                                    <v-icon
-                                      class="warning--text"
-                                      @click="clear('place')"
-                                      v-on="on"
-                                      v-bind="attrs"
-                                    >
-                                      fa-undo-alt
-                                    </v-icon>
-                                  </template>
-                                  <span> Reestablecer item </span>
-                                </v-tooltip>
-                              </v-col>
-                            </v-row>
-                          </v-container>
-                        </v-card-actions>
-                      </v-stepper-content>
+                                  fa-map-marker-alt
+                                </v-icon>
+                              </template>
+                              <span> Elegir punto en mapa </span>
+                            </v-tooltip>
+                          </v-col>
+                        </v-row>
 
-                      <v-stepper-step :complete="step > 2" step="2" :editable="editable">
-                        Seleccione un Área Protegida
-                      </v-stepper-step>
+                        <h5 class="pb-1">Latitud</h5>
+                        <v-text-field
+                          v-model="editedItem.lat"
+                          filled
+                          rounded
+                          dense
+                          :rules="numberRules"
+                        ></v-text-field>
 
-                      <v-stepper-content step="2">
-                        <v-card flat>
-                          <v-card-text>
-                            <v-row>
-                              <v-col align="end" cols="9" sm="10">
-                                <v-text-field
-                                  v-model="searchArea"
-                                  filled
-                                  rounded
-                                  dense
-                                ></v-text-field>
-                              </v-col>
-                              <v-col align="start" cols="2">
-                                <v-menu offset-y>
-                                  <template v-slot:activator="{ on, attrs }">
-                                    <v-btn
-                                      v-bind="attrs"
-                                      v-on="on"
-                                      text
-                                      rounded
-                                      dense
-                                      style="margin-left: -15px"
-                                      :disabled="areas.length === 0"
-                                      class="secondary--text"
-                                    >
-                                      <v-tooltip bottom>
-                                        <template v-slot:activator="{ on, attrs }">
-                                          <v-icon v-on="on" v-bind="attrs">
-                                            fa-caret-down</v-icon
-                                          >
-                                        </template>
-                                        <span> Áreas Protegidas sin asignar </span>
-                                      </v-tooltip>
-                                    </v-btn>
-                                  </template>
-                                  <v-list>
-                                    <v-list-item
-                                      v-for="(item, index) in areas"
-                                      :key="index"
-                                    >
-                                      <v-list-item-title @click="selectArea(item)"
-                                        >{{ item.nombre }} - {{ item.tipo }}
-                                      </v-list-item-title>
-                                    </v-list-item>
-                                    <v-divider></v-divider>
-                                  </v-list>
-                                </v-menu>
-                              </v-col>
-                            </v-row>
-                            <h3 class="pt-2 pb-1">Nombre</h3>
-                            <v-text-field
-                              v-model="editedArea.nombre"
-                              filled
-                              rounded
-                              dense
-                              disabled
-                            ></v-text-field>
+                        <h5 class="pb-1">Longitud</h5>
+                        <v-text-field
+                          v-model="editedItem.lng"
+                          filled
+                          rounded
+                          dense
+                          :rules="numberRules"
+                        ></v-text-field>
 
-                            <h3>Tipo</h3>
-                            <v-text-field
-                              v-model="editedArea.tipo"
-                              filled
-                              rounded
-                              dense
-                              disabled
-                            ></v-text-field>
-                          </v-card-text>
-                        </v-card>
-                        <v-card-actions>
-                          <v-container>
-                            <v-row>
-                              <v-col cols="5" class="d-flex justify-space-around pa-0">
-                                <v-btn text @click="close">Cancelar</v-btn>
-                              </v-col>
-                              <v-col cols="5" class="d-flex justify-space-around pa-0">
-                                <v-btn text @click="step = 3">Continuar</v-btn>
-                              </v-col>
-                              <v-col cols="2" class="d-flex justify-end pa-0">
-                                <v-tooltip bottom>
-                                  <template v-slot:activator="{ on, attrs }">
-                                    <v-icon
-                                      class="warning--text"
-                                      @click="clear('area')"
-                                      v-on="on"
-                                      v-bind="attrs"
-                                    >
-                                      fa-undo-alt
-                                    </v-icon>
-                                  </template>
-                                  <span> Reestablecer item </span>
-                                </v-tooltip>
-                              </v-col>
-                            </v-row>
-                          </v-container>
-                        </v-card-actions>
-                      </v-stepper-content>
+                        <h3 class="pb-1">Servicios Básicos</h3>
+                        <v-divider></v-divider>
+                        <h4 class="pb-1">Agua</h4>
+                        <v-combobox
+                          v-model="editedItem.agua"
+                          :items="waters"
+                          filled
+                          rounded
+                          dense
+                          :loading="loading"
+                        ></v-combobox>
 
-                      <v-stepper-step :complete="step > 3" step="3" :editable="editable">
-                        Seleccione un Representante
-                      </v-stepper-step>
+                        <h4 class="pb-1">Saneamiento</h4>
+                        <v-combobox
+                          v-model="editedItem.saneamiento"
+                          :items="sanitation"
+                          filled
+                          rounded
+                          dense
+                          :loading="loading"
+                        ></v-combobox>
 
-                      <v-stepper-content step="3">
-                        <v-card flat>
-                          <v-card-text>
-                            <v-row>
-                              <v-col align="end" cols="9" sm="10">
-                                <v-text-field
-                                  v-model="searchRepresentant"
-                                  filled
-                                  rounded
-                                  dense
-                                ></v-text-field>
-                              </v-col>
-                              <v-col align="start" cols="2">
-                                <v-menu offset-y>
-                                  <template v-slot:activator="{ on, attrs }">
-                                    <v-btn
-                                      v-bind="attrs"
-                                      v-on="on"
-                                      text
-                                      rounded
-                                      dense
-                                      style="margin-left: -15px"
-                                      :disabled="representants.length === 0"
-                                      class="secondary--text"
-                                    >
-                                      <v-tooltip bottom>
-                                        <template v-slot:activator="{ on, attrs }">
-                                          <v-icon v-on="on" v-bind="attrs">
-                                            fa-caret-down</v-icon
-                                          >
-                                        </template>
-                                        <span>
-                                          Representantes con usuario, sin asignar
-                                        </span>
-                                      </v-tooltip>
-                                    </v-btn>
-                                  </template>
-                                  <v-list>
-                                    <v-list-item
-                                      v-for="(item, index) in representants"
-                                      :key="index"
-                                    >
-                                      <v-list-item-title
-                                        @click="selectRepresentant(item)"
-                                      >
-                                        {{ item.nombre }} {{ item.apellido }} -
-                                        {{ item.cedula }}
-                                      </v-list-item-title>
-                                    </v-list-item>
-                                    <v-divider></v-divider>
-                                  </v-list>
-                                </v-menu>
-                              </v-col>
-                            </v-row>
-                            <h3 class="pb-1">Nombre</h3>
-                            <v-text-field
-                              v-model="editedRepresentant.nombre"
-                              filled
-                              rounded
-                              dense
-                              disabled
-                            ></v-text-field>
+                        <h4 class="pb-1">Energía Eléctrica</h4>
+                        <v-combobox
+                          v-model="editedItem.energia"
+                          :items="energies"
+                          filled
+                          rounded
+                          dense
+                          :loading="loading"
+                          tags
+                        ></v-combobox>
 
-                            <h3 class="pb-1">Apellido</h3>
-                            <v-text-field
-                              v-model="editedRepresentant.apellido"
-                              filled
-                              rounded
-                              dense
-                              disabled
-                            ></v-text-field>
+                        <h4 class="pb-1">Disposición de Desechos</h4>
+                        <v-combobox
+                          v-model="editedItem.desechos"
+                          :items="waste"
+                          filled
+                          rounded
+                          dense
+                          :loading="loading"
+                        ></v-combobox>
 
-                            <h3 class="pb-1">Cédula</h3>
-                            <v-text-field
-                              v-model="editedRepresentant.cedula"
-                              filled
-                              rounded
-                              dense
-                              disabled
-                            ></v-text-field>
+                        <v-divider></v-divider>
 
-                            <h3 class="pb-1">Correo</h3>
-                            <v-text-field
-                              v-model="editedRepresentant.email"
-                              filled
-                              rounded
-                              dense
-                              disabled
-                            ></v-text-field>
+                        <h3 class="pb-1 pt-1">Área Protegida</h3>
+                        <v-autocomplete
+                          v-model="editedItem.areaProtegida"
+                          :items="areas"
+                          item-text="nombre"
+                          return-object
+                          filled
+                          rounded
+                          dense
+                          clearable
+                          :loading="loading"
+                        ></v-autocomplete>
 
-                            <h3 class="pb-1">Teléfono</h3>
-                            <v-text-field
-                              v-model="editedRepresentant.telefono"
-                              filled
-                              rounded
-                              dense
-                              disabled
-                            ></v-text-field>
-
-                            <h3 class="pb-1">Dirección</h3>
-                            <v-textarea
-                              auto-grow
-                              filled
-                              rounded
-                              dense
-                              rows="1"
-                              row-height="15"
-                              v-model="editedRepresentant.direccion"
-                              disabled
-                            ></v-textarea>
-
-                            <h3 class="pb-1">Usuario Asignado</h3>
-                            <v-text-field
-                              v-model="editedRepresentant.usuario.nombre"
-                              filled
-                              rounded
-                              dense
-                              disabled
-                            ></v-text-field>
-                          </v-card-text>
-                        </v-card>
-                        <v-card-actions>
-                          <v-container>
-                            <v-row>
-                              <v-col cols="5" class="d-flex justify-space-around pa-0">
-                                <v-btn text @click="close">Cancelar</v-btn>
-                              </v-col>
-                              <v-col cols="5" class="d-flex justify-space-around pa-0">
-                                <v-btn text @click="step = 4">Continuar</v-btn>
-                              </v-col>
-                              <v-col cols="2" class="d-flex justify-end pa-0">
-                                <v-tooltip bottom>
-                                  <template v-slot:activator="{ on, attrs }">
-                                    <v-icon
-                                      class="warning--text"
-                                      @click="clear('representant')"
-                                      v-on="on"
-                                      v-bind="attrs"
-                                    >
-                                      fa-undo-alt
-                                    </v-icon>
-                                  </template>
-                                  <span> Reestablecer item </span>
-                                </v-tooltip>
-                              </v-col>
-                            </v-row>
-                          </v-container>
-                        </v-card-actions>
-                      </v-stepper-content>
-
-                      <v-stepper-step :complete="step > 4" step="4" :editable="editable">
-                        Cree un Establecimiento
-                      </v-stepper-step>
-
-                      <v-stepper-content step="4">
-                        <v-card flat>
-                          <v-card-text>
-                            <v-form ref="formSave">
-                              <h3 class="pb-1">
-                                <strong class="error--text">*</strong>
-                                Nombre
-                              </h3>
-                              <v-text-field
-                                v-model="editedItem.nombre"
-                                filled
-                                rounded
-                                dense
-                                :rules="fieldRules"
-                              ></v-text-field>
-
-                              <h3 class="pb-1">
-                                <strong class="error--text">*</strong>Administrador
-                              </h3>
-                              <v-text-field
-                                v-model="editedItem.administrador"
-                                filled
-                                rounded
-                                dense
-                                :rules="fieldRules"
-                              ></v-text-field>
-
-                              <h3 class="pb-1">Correo</h3>
-                              <v-text-field
-                                v-model="editedItem.email"
-                                filled
-                                rounded
-                                dense
-                              ></v-text-field>
-
-                              <h3 class="pb-1">Nacionalidad / Pueblo</h3>
-                              <v-text-field
-                                v-model="editedItem.nacionalidad"
-                                filled
-                                rounded
-                                dense
-                              ></v-text-field>
-
-                              <h3 class="pb-1">Registro</h3>
-                              <v-text-field
-                                v-model="editedItem.registro"
-                                filled
-                                rounded
-                                dense
-                              ></v-text-field>
-
-                              <h3 class="pb-1">LUAF</h3>
-                              <v-text-field
-                                v-model="editedItem.LUAF"
-                                filled
-                                rounded
-                                dense
-                              ></v-text-field>
-
-                              <h3 class="pb-1">Página web</h3>
-                              <v-text-field
-                                v-model="editedItem.web"
-                                filled
-                                rounded
-                                dense
-                              ></v-text-field>
-
-                              <h3 class="pb-1">Teléfono</h3>
-                              <v-text-field
-                                v-model="editedItem.telefono"
-                                filled
-                                rounded
-                                dense
-                              ></v-text-field>
-
-                              <h3 class="pb-1">Lugar</h3>
-                              <v-text-field
-                                v-model="editedPlace.parroquia"
-                                filled
-                                rounded
-                                dense
-                                disabled
-                              ></v-text-field>
-
-                              <h3 class="pb-1">Área Protegida</h3>
-                              <v-text-field
-                                v-model="editedArea.nombre"
-                                filled
-                                rounded
-                                dense
-                                disabled
-                              ></v-text-field>
-
-                              <h3 class="pb-1">Representante</h3>
-                              <v-text-field
-                                v-model="editedRepresentant.nombre"
-                                filled
-                                rounded
-                                dense
-                                disabled
-                              ></v-text-field>
-                            </v-form>
-                          </v-card-text>
-                        </v-card>
-                        <v-card-actions>
-                          <v-container>
-                            <v-row>
-                              <v-col cols="5" class="d-flex justify-space-around pa-0">
-                                <v-btn text @click="close">Cancelar</v-btn>
-                              </v-col>
-                              <v-col cols="5" class="d-flex justify-space-around pa-0">
-                                <v-btn text @click="validateForm('establishment')"
-                                  >Continuar</v-btn
-                                >
-                              </v-col>
-                              <v-col cols="2" class="d-flex justify-end pa-0">
-                                <v-tooltip bottom>
-                                  <template v-slot:activator="{ on, attrs }">
-                                    <v-icon
-                                      class="warning--text"
-                                      @click="editedItem = defaultItem"
-                                      v-on="on"
-                                      v-bind="attrs"
-                                    >
-                                      fa-undo-alt
-                                    </v-icon>
-                                  </template>
-                                  <span> Reestablecer item </span>
-                                </v-tooltip>
-                              </v-col>
-                            </v-row>
-                          </v-container>
-                        </v-card-actions>
-                      </v-stepper-content>
-                    </v-stepper>
+                        <h3 class="pb-1">Representante</h3>
+                        <v-autocomplete
+                          v-model="editedItem.representante"
+                          :items="representants"
+                          item-text="nombre"
+                          return-object
+                          filled
+                          rounded
+                          dense
+                          clearable
+                          :loading="loading"
+                        ></v-autocomplete>
+                      </v-container>
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-container>
+                        <v-row>
+                          <v-col cols="6" class="d-flex justify-space-around pa-0">
+                            <v-btn text @click="close">Cancelar</v-btn>
+                          </v-col>
+                          <v-col cols="6" class="d-flex justify-space-around pa-0">
+                            <v-btn text @click="save"> Guardar </v-btn>
+                          </v-col>
+                        </v-row>
+                      </v-container>
+                    </v-card-actions>
                   </v-card>
                 </v-dialog>
               </v-col>
@@ -624,55 +265,32 @@
         </v-toolbar>
       </template>
 
-      <template v-slot:item.actions="{ item }">
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <v-icon
-              class="mr-2 edit--text"
-              @click="editItem(item)"
-              v-on="on"
-              v-bind="attrs"
-            >
-              fa-pen
-            </v-icon>
-          </template>
-          <span> Editar un Establecimiento </span>
-        </v-tooltip>
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <v-icon
-              class="ma-2 delete--text"
-              @click="deleteItem(item)"
-              v-on="on"
-              v-bind="attrs"
-            >
-              fa-trash
-            </v-icon>
-          </template>
-          <span> Eliminar un Establecimiento </span>
-        </v-tooltip>
-      </template>
-
       <template v-slot:item.estado="">
         <v-chip color="success" dark> Activo </v-chip>
       </template>
 
       <template v-slot:item.representante="{ item }">
         <div v-if="item.representante">
-          <v-chip color="success" dark> Asignado </v-chip>
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
-              <v-icon
-                class="info--text ml-2"
-                v-on="on"
-                v-bind="attrs"
-                @click="showObject('representant', item)"
-              >
-                fa-eye
-              </v-icon>
-            </template>
-            <span> Ver Representante</span>
-          </v-tooltip>
+          <v-row class="pa-0 ma-0">
+            <v-col cols="10" class="ma-0 pa-0">
+              <v-chip color="success" dark> Asignado </v-chip>
+            </v-col>
+            <v-col cols="2" class="ma-0 pa-0 pt-1 pl-1">
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon
+                    class="info--text"
+                    v-on="on"
+                    v-bind="attrs"
+                    @click="showObject('representant', item)"
+                  >
+                    fa-eye
+                  </v-icon>
+                </template>
+                <span> Ver Representante</span>
+              </v-tooltip>
+            </v-col>
+          </v-row>
         </div>
         <div v-else>
           <v-chip color="warning" dark> Sin Asignar </v-chip>
@@ -681,43 +299,167 @@
 
       <template v-slot:item.areaProtegida="{ item }">
         <div v-if="item.areaProtegida">
-          <v-chip color="success" dark> Asignado </v-chip>
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
-              <v-icon
-                class="info--text ml-2"
-                v-on="on"
-                v-bind="attrs"
-                @click="showObject('area', item)"
-              >
-                fa-eye
-              </v-icon>
-            </template>
-            <span> Ver Área Protegida</span>
-          </v-tooltip>
+          <v-row class="pa-0 ma-0">
+            <v-col cols="10" class="ma-0 pa-0">
+              <v-chip color="success" dark> Asignado </v-chip>
+            </v-col>
+            <v-col cols="2" class="ma-0 pa-0 pt-1 pl-1">
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon
+                    class="info--text"
+                    v-on="on"
+                    v-bind="attrs"
+                    @click="showObject('area', item)"
+                  >
+                    fa-eye
+                  </v-icon>
+                </template>
+                <span> Ver Área Protegida</span>
+              </v-tooltip>
+            </v-col>
+          </v-row>
         </div>
         <div v-else>
           <v-chip color="warning" dark> Sin Asignar </v-chip>
         </div>
       </template>
 
-      <template v-slot:item.lugar.parroquia="{ item }">
-        <v-chip color="success" dark> {{ item.lugar.parroquia }} </v-chip>
+      <template v-slot:item.actions="{ item }">
+        <v-row class="pa-0 ma-0">
+          <v-col cols="6" class="pa-0 ma-0">
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon
+                  class="edit--text ma-1 mr-2"
+                  @click="editItem(item)"
+                  v-on="on"
+                  v-bind="attrs"
+                >
+                  fa-pen
+                </v-icon>
+              </template>
+              <span> Editar un Establecimiento </span>
+            </v-tooltip>
+          </v-col>
+
+          <v-col cols="6" class="pa-0 ma-0">
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon
+                  class="delete--text ma-1 ml-2"
+                  @click="deleteItem(item)"
+                  v-on="on"
+                  v-bind="attrs"
+                >
+                  fa-trash
+                </v-icon>
+              </template>
+              <span> Eliminar un Establecimiento </span>
+            </v-tooltip>
+          </v-col>
+        </v-row>
+      </template>
+
+      <template v-slot:item.lugar="{ item }">
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-icon
-              class="info--text ml-2"
+              v-if="item.lat || item.lng"
+              class="info--text pa-1"
+              @click="showObject('place', item)"
               v-on="on"
               v-bind="attrs"
-              @click="showObject('place', item)"
             >
               fa-eye
             </v-icon>
+            <v-icon v-else class="gray--text pa-1" v-on="on" v-bind="attrs">
+              fa-eye-slash
+            </v-icon>
           </template>
-          <span> Ver Lugar</span>
+          <span v-if="item.lat || item.lng"> Ver Información de Ubicación </span>
+          <span v-else>No se encuentra Información de Ubicación</span>
+        </v-tooltip>
+      </template>
+
+      <template v-slot:item.servicios="{ item }">
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon
+              v-if="item.energia || item.agua || item.saneamiento || item.desechos"
+              class="info--text pa-1"
+              @click="showObject('service', item)"
+              v-on="on"
+              v-bind="attrs"
+            >
+              fa-eye
+            </v-icon>
+            <v-icon v-else class="gray--text pa-1" v-on="on" v-bind="attrs">
+              fa-eye-slash
+            </v-icon>
+          </template>
+          <span v-if="item.energia || item.agua || item.saneamiento || item.desechos">
+            Ver Servicios Básicos
+          </span>
+          <span v-else>No se han registrado Servicios Básicos</span>
         </v-tooltip>
       </template>
     </v-data-table>
+
+    <v-dialog v-model="dialogService" max-width="500px">
+      <v-card>
+        <v-card-title class="primary white--text">
+          <span class="headline">Servicios Básicos</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <h3 class="pb-1">Agua</h3>
+            <v-text-field
+              v-model="editedItem.agua"
+              filled
+              rounded
+              dense
+              disabled
+            ></v-text-field>
+
+            <h3 class="pb-1">Saneamiento</h3>
+            <v-text-field
+              v-model="editedItem.saneamiento"
+              filled
+              rounded
+              dense
+              disabled
+            ></v-text-field>
+
+            <h3 class="pb-1">Energía Eléctrica</h3>
+            <v-text-field
+              v-model="editedItem.energia"
+              filled
+              rounded
+              dense
+              disabled
+            ></v-text-field>
+
+            <h3 class="pb-1">Disposición de Desechos</h3>
+            <v-text-field
+              v-model="editedItem.desechos"
+              filled
+              rounded
+              dense
+              disabled
+            ></v-text-field>
+          </v-container>
+
+          <v-card-actions>
+            <v-row>
+              <v-col cols="12" class="d-flex justify-space-around pa-0">
+                <v-btn text @click="closeObject('service')">Cerrar</v-btn>
+              </v-col>
+            </v-row>
+          </v-card-actions>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
 
     <v-dialog v-model="dialogDelete" max-width="500px">
       <v-card>
@@ -747,24 +489,6 @@
             </v-row>
           </v-container>
         </v-card-actions>
-      </v-card>
-    </v-dialog>
-
-    <v-dialog v-model="dialogMap" max-width="600px">
-      <v-card>
-        <v-card-title class="primary white--text" v-if="editMap">
-          <span class="headline">Elija un punto en el mapa</span>
-        </v-card-title>
-        <v-card-title class="primary white--text" v-else>
-          <span class="headline">Localización Actual</span>
-        </v-card-title>
-        <ctcMap
-          :coordinates="coordinates"
-          @close="closeMap"
-          @save="saveCoordinates"
-          :mapChange="dialogMap"
-          :edit="editMap"
-        />
       </v-card>
     </v-dialog>
 
@@ -851,246 +575,39 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="dialogEdit" max-width="500px">
-      <v-card>
+    <v-dialog v-model="dialogArea" max-width="500px">
+      <v-card v-if="editedItem.areaProtegida">
         <v-card-title class="primary white--text">
-          <span class="headline">Editar un Establecimiento</span>
+          <span class="headline">Área Protegida</span>
         </v-card-title>
         <v-card-text>
           <v-container>
-            <v-form ref="form">
-              <h3 class="pt-2 pb-1"><strong class="error--text">*</strong> Nombre</h3>
+            <h3 class="pt-2 pb-1">Nombre</h3>
+            <v-text-field
+              v-model="editedItem.areaProtegida.nombre"
+              filled
+              rounded
+              dense
+              disabled
+            ></v-text-field>
 
-              <v-text-field
-                v-model="editedItem.nombre"
-                filled
-                rounded
-                dense
-              ></v-text-field>
-
-              <h3 class="pb-1"><strong class="error--text">*</strong> Administrador</h3>
-              <v-text-field
-                v-model="editedItem.administrador"
-                filled
-                rounded
-                dense
-              ></v-text-field>
-
-              <h3 class="pb-1">Correo</h3>
-              <v-text-field
-                v-model="editedItem.email"
-                filled
-                rounded
-                dense
-              ></v-text-field>
-
-              <h3 class="pb-1">Nacionalidad / Pueblo</h3>
-              <v-text-field
-                v-model="editedItem.nacionalidad"
-                filled
-                rounded
-                dense
-              ></v-text-field>
-
-              <h3 class="pb-1">Registro</h3>
-              <v-text-field
-                v-model="editedItem.registro"
-                filled
-                rounded
-                dense
-              ></v-text-field>
-
-              <h3 class="pb-1">LUAF</h3>
-              <v-text-field v-model="editedItem.LUAF" filled rounded dense></v-text-field>
-
-              <h3 class="pb-1">Página web</h3>
-              <v-text-field v-model="editedItem.web" filled rounded dense></v-text-field>
-
-              <h3 class="pb-1">Teléfono</h3>
-              <v-text-field
-                v-model="editedItem.telefono"
-                filled
-                rounded
-                dense
-              ></v-text-field>
-
-              <h3 class="pb-1"><strong class="error--text">*</strong> Lugar</h3>
-              <v-row>
-                <v-col align="end" cols="10">
-                  <v-text-field
-                    v-model="editedItem.lugar.parroquia"
-                    filled
-                    rounded
-                    dense
-                    :rules="fieldRules"
-                    append-icon="fa-eye"
-                    color="orange"
-                    @click:append="showObject('place', editedItem)"
-                  ></v-text-field>
-                </v-col>
-                <v-col align="start" cols="1">
-                  <v-menu offset-y>
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-btn
-                        v-bind="attrs"
-                        v-on="on"
-                        text
-                        rounded
-                        dense
-                        style="margin-left: -15px"
-                        :disabled="places.length === 0"
-                        class="secondary--text"
-                      >
-                        <v-tooltip bottom>
-                          <template v-slot:activator="{ on, attrs }">
-                            <v-icon v-on="on" v-bind="attrs"> fa-caret-down</v-icon>
-                          </template>
-                          <span> Lugares sin asignar </span>
-                        </v-tooltip>
-                      </v-btn>
-                    </template>
-                    <v-list>
-                      <v-list-item v-for="(item, index) in places" :key="index">
-                        <v-list-item-title @click="selectItemEdit('place', item)"
-                          >{{ item.canton }} - {{ item.parroquia }}
-                        </v-list-item-title>
-                        <v-list-item-icon class="d-block text-center">
-                          <v-tooltip bottom>
-                            <template v-slot:activator="{ on, attrs }">
-                              <v-icon
-                                class="edit--text"
-                                @click="showMap(false, item)"
-                                v-on="on"
-                                v-bind="attrs"
-                              >
-                                fa-map-marker-alt
-                              </v-icon>
-                            </template>
-                            <span> Elegir punto en mapa </span>
-                          </v-tooltip>
-                        </v-list-item-icon>
-                      </v-list-item>
-                      <v-divider></v-divider>
-                    </v-list>
-                  </v-menu>
-                </v-col>
-              </v-row>
-
-              <h3 class="pb-1">Área Protegida</h3>
-              <v-row>
-                <v-col align="end" cols="10">
-                  <div v-if="editedItem.areaProtegida">
-                    <v-text-field
-                      v-model="editedItem.areaProtegida.nombre"
-                      filled
-                      rounded
-                      dense
-                      :append-icon="editedItem.areaProtegida.nombre ? 'fa-eye' : null"
-                      color="orange"
-                      @click:append="showObject('area', editedItem)"
-                    ></v-text-field>
-                  </div>
-                  <div v-else>
-                    <v-text-field filled rounded dense></v-text-field>
-                  </div>
-                </v-col>
-                <v-col align="start" cols="1">
-                  <v-menu offset-y>
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-btn
-                        v-bind="attrs"
-                        v-on="on"
-                        text
-                        rounded
-                        dense
-                        style="margin-left: -15px"
-                        :disabled="areas.length === 0"
-                        class="secondary--text"
-                      >
-                        <v-tooltip bottom>
-                          <template v-slot:activator="{ on, attrs }">
-                            <v-icon v-on="on" v-bind="attrs"> fa-caret-down</v-icon>
-                          </template>
-                          <span> Áreas Protegidas sin asignar </span>
-                        </v-tooltip>
-                      </v-btn>
-                    </template>
-                    <v-list>
-                      <v-list-item v-for="(item, index) in areas" :key="index">
-                        <v-list-item-title @click="selectItemEdit('area', item)"
-                          >{{ item.nombre }} - {{ item.tipo }}
-                        </v-list-item-title>
-                      </v-list-item>
-                      <v-divider></v-divider>
-                    </v-list>
-                  </v-menu>
-                </v-col>
-              </v-row>
-
-              <h3 class="pb-1">Representante</h3>
-              <v-row>
-                <v-col align="end" cols="10">
-                  <div v-if="editedItem.representante">
-                    <v-text-field
-                      v-model="editedItem.representante.nombre"
-                      filled
-                      rounded
-                      dense
-                      :append-icon="editedItem.representante.nombre ? 'fa-eye' : null"
-                      color="orange"
-                      @click:append="showObject('representant', editedItem)"
-                    ></v-text-field>
-                  </div>
-                  <div v-else>
-                    <v-text-field filled rounded dense></v-text-field>
-                  </div>
-                </v-col>
-                <v-col align="start" cols="1">
-                  <v-menu offset-y>
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-btn
-                        v-bind="attrs"
-                        v-on="on"
-                        text
-                        rounded
-                        dense
-                        style="margin-left: -15px"
-                        :disabled="representants.length === 0"
-                        class="secondary--text"
-                      >
-                        <v-tooltip bottom>
-                          <template v-slot:activator="{ on, attrs }">
-                            <v-icon v-on="on" v-bind="attrs"> fa-caret-down</v-icon>
-                          </template>
-                          <span> Representantes con usuario, sin asignar </span>
-                        </v-tooltip>
-                      </v-btn>
-                    </template>
-                    <v-list>
-                      <v-list-item v-for="(item, index) in representants" :key="index">
-                        <v-list-item-title @click="selectItemEdit('representant', item)"
-                          >{{ item.nombre }} {{ item.apellido }} - {{ item.cedula }}
-                        </v-list-item-title>
-                      </v-list-item>
-                      <v-divider></v-divider>
-                    </v-list>
-                  </v-menu>
-                </v-col>
-              </v-row>
-              <v-card-actions>
-                <v-container>
-                  <v-row>
-                    <v-col cols="6" class="d-flex justify-space-around pa-0">
-                      <v-btn text @click="close">Cancelar</v-btn>
-                    </v-col>
-                    <v-col cols="6" class="d-flex justify-space-around pa-0">
-                      <v-btn text @click="save">Guardar</v-btn>
-                    </v-col>
-                  </v-row>
-                </v-container>
-              </v-card-actions>
-            </v-form>
+            <h3>Tipo</h3>
+            <v-text-field
+              v-model="editedItem.areaProtegida.tipo"
+              filled
+              rounded
+              dense
+              disabled
+            ></v-text-field>
           </v-container>
+
+          <v-card-actions>
+            <v-row>
+              <v-col cols="12" class="d-flex justify-space-around pa-0">
+                <v-btn text @click="closeObject('area')">Cerrar</v-btn>
+              </v-col>
+            </v-row>
+          </v-card-actions>
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -1104,7 +621,7 @@
           <v-container>
             <h3 class="pb-1">Provincia</h3>
             <v-text-field
-              v-model="editedItem.lugar.provincia"
+              v-model="editedItem.provincia"
               filled
               rounded
               dense
@@ -1113,7 +630,7 @@
 
             <h3 class="pb-1">Cantón</h3>
             <v-text-field
-              v-model="editedItem.lugar.canton"
+              v-model="editedItem.canton"
               filled
               rounded
               dense
@@ -1122,7 +639,7 @@
 
             <h3 class="pb-1">Ciudad</h3>
             <v-text-field
-              v-model="editedItem.lugar.ciudad"
+              v-model="editedItem.ciudad"
               filled
               rounded
               dense
@@ -1131,7 +648,7 @@
 
             <h3 class="pb-1">Parroquia</h3>
             <v-text-field
-              v-model="editedItem.lugar.parroquia"
+              v-model="editedItem.parroquia"
               filled
               rounded
               dense
@@ -1161,7 +678,7 @@
 
             <h4 class="pb-1">Latitud</h4>
             <v-text-field
-              v-model="editedItem.lugar.lat"
+              v-model="editedItem.lat"
               filled
               rounded
               dense
@@ -1170,12 +687,14 @@
 
             <h4 class="pb-1">Longitud</h4>
             <v-text-field
-              v-model="editedItem.lugar.lng"
+              v-model="editedItem.lng"
               filled
               rounded
               dense
               disabled
             ></v-text-field>
+
+            <h4>Fuente: Google Maps</h4>
           </v-container>
         </v-card-text>
         <v-card-actions>
@@ -1190,42 +709,18 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="dialogArea" max-width="500px">
-      <v-card v-if="editedItem.areaProtegida">
+    <v-dialog v-model="dialogMap" max-width="600px">
+      <v-card>
         <v-card-title class="primary white--text">
-          <span class="headline">Área Protegida</span>
+          <span class="headline"> {{ mapTitle }} </span>
         </v-card-title>
-        <v-card-text>
-          <v-container>
-            <h3 class="pt-2 pb-1">Nombre</h3>
-            <v-text-field
-              v-model="editedItem.areaProtegida.nombre"
-              filled
-              rounded
-              dense
-              disabled
-            ></v-text-field>
-
-            <h3>Tipo</h3>
-
-            <v-text-field
-              v-model="editedItem.areaProtegida.tipo"
-              filled
-              rounded
-              dense
-              disabled
-            ></v-text-field>
-          </v-container>
-        </v-card-text>
-        <v-card-actions>
-          <v-container>
-            <v-row>
-              <v-col cols="12" class="d-flex justify-space-around pa-0">
-                <v-btn text @click="closeObject">Cerrar</v-btn>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-card-actions>
+        <ctcMap
+          :coordinates="coordinates"
+          @close="closeMap"
+          @save="saveCoordinates"
+          :mapChange="dialogMap"
+          :edit="editMap"
+        />
       </v-card>
     </v-dialog>
   </div>
@@ -1233,34 +728,30 @@
 
 <script>
 import { swalError, swalConfirm, swalLoading } from '@/utils/notify'
+
 export default {
   props: ['texto', 'activator'],
+
   data() {
     return {
-      changed: false,
-      validate: false,
+      editedIndex: -1,
       loading: false,
-      searchPlace: '',
-      searchArea: '',
-      searchRepresentant: '',
-      dialogDelete: false,
       dialog: false,
-      dialogMap: false,
-      dialogEdit: false,
+      dialogDelete: false,
       dialogArea: false,
-      dialogPlace: false,
       dialogRepresentant: false,
+      dialogPlace: false,
+      dialogMap: false,
+      dialogService: false,
       problem: false,
       editMap: false,
-      step: 1,
       establishments: [],
-      places: [],
       areas: [],
       representants: [],
-      defaultPlaces: [],
-      defaultareas: [],
-      defaultRepresentants: [],
-      editedIndex: -1,
+      waters: [],
+      energies: [],
+      sanitation: [],
+      waste: [],
       headers: [
         {
           text: 'Nombre',
@@ -1304,8 +795,15 @@ export default {
         },
         {
           text: 'Lugar',
-          value: 'lugar.parroquia',
-          align: 'center'
+          value: 'lugar',
+          align: 'center',
+          sortable: false
+        },
+        {
+          text: 'Servicios Básicos',
+          value: 'servicios',
+          align: 'center',
+          sortable: false
         },
         {
           text: 'Área Protegida',
@@ -1325,6 +823,66 @@ export default {
           sortable: false
         }
       ],
+      fieldRules: [
+        v => !!v || 'Campo necesario',
+        v => (v && v.length >= 3) || 'Debe tener mas de 3 letras'
+      ],
+      numberRules: [
+        v => !!v || 'Campo necesario',
+        v => Number.isInteger(parseInt(v)) || 'Solo se permiten números'
+      ],
+      editedItem: {
+        _id: '',
+        nombre: '',
+        administrador: '',
+        representante: { nombre: '' },
+        nacionalidad: '',
+        registro: '',
+        LUAF: 'No',
+        email: '',
+        web: '',
+        telefono: '',
+        ciudad: '',
+        parroquia: '',
+        canton: 'Riobamba',
+        provincia: 'Chimborazo',
+        lat: 0,
+        lng: 0,
+        agua: '',
+        saneamiento: '',
+        energia: '',
+        desechos: '',
+        areaProtegida: {},
+        estado: false
+      },
+      defaultItem: {
+        _id: '',
+        nombre: '',
+        administrador: '',
+        representante: { nombre: '' },
+        nacionalidad: '',
+        registro: '',
+        LUAF: 'No',
+        email: '',
+        web: '',
+        telefono: '',
+        ciudad: '',
+        parroquia: '',
+        canton: 'Riobamba',
+        provincia: 'Chimborazo',
+        lat: 0,
+        lng: 0,
+        agua: '',
+        saneamiento: '',
+        energia: '',
+        desechos: '',
+        areaProtegida: {},
+        estado: false
+      },
+      coordinates: {
+        lat: 0,
+        lng: 0
+      },
       editedRepresentant: {
         _id: '',
         nombre: '',
@@ -1358,125 +916,11 @@ export default {
         _id: '',
         nombre: '',
         tipo: ''
-      },
-      editedPlace: {
-        _id: '',
-        ciudad: '',
-        parroquia: '',
-        estado: '',
-        canton: 'Riobamba',
-        provincia: 'Chimborazo',
-        lat: -1.6519177088279544,
-        lng: -78.64296128376385
-      },
-      defaultPlace: {
-        _id: '',
-        ciudad: '',
-        parroquia: '',
-        estado: '',
-        canton: 'Riobamba',
-        provincia: 'Chimborazo',
-        lat: -1.6519177088279544,
-        lng: -78.64296128376385
-      },
-      coordinates: {
-        lat: 0,
-        lng: 0
-      },
-      editedItem: {
-        _id: '',
-        nombre: '',
-        administrador: '',
-        representante: {},
-        nacionalidad: '',
-        registro: '',
-        LUAF: '',
-        email: '',
-        web: '',
-        telefono: '',
-        lugar: {},
-        areaProtegida: {},
-        estado: false
-      },
-      defaultItem: {
-        nombre: '',
-        administrador: '',
-        representante: {},
-        nacionalidad: '',
-        registro: '',
-        LUAF: '',
-        email: '',
-        web: '',
-        telefono: '',
-        lugar: {},
-        areaProtegida: {},
-        estado: false
-      },
-      disable: false,
-      fieldRules: [
-        v => !!v || 'Campo necesario',
-        v => (v && v.length >= 3) || 'Debe tener mas de 3 letras'
-      ],
-      numberRules: [
-        v => !!v || 'Campo necesario',
-        v => Number.isInteger(parseInt(v)) || 'Solo se permiten números'
-      ]
+      }
     }
   },
+
   methods: {
-    selectItemEdit(critery, item) {
-      if (critery === 'place') {
-        this.places.splice(this.places.indexOf(item), 1)
-        this.places.push(this.editedItem.lugar)
-        this.editedItem.lugar = item
-      } else {
-        if (critery === 'representant') {
-          this.representants.splice(this.representants.indexOf(item), 1)
-          if (this.editedItem.representante) {
-            this.representants.push(this.editedItem.representante)
-          }
-          this.editedItem.representante = item
-        } else {
-          this.areas.splice(this.areas.indexOf(item), 1)
-          if (this.editedItem.areaProtegida) {
-            this.areas.push(this.editedItem.areaProtegida)
-          }
-          this.editedItem.areaProtegida = item
-        }
-      }
-    },
-
-    showObject(critery, item) {
-      this.editedItem = item
-      if (critery === 'place') {
-        this.dialogPlace = true
-      } else {
-        if (critery === 'representant') {
-          this.dialogRepresentant = true
-        } else {
-          this.dialogArea = true
-        }
-      }
-    },
-
-    validateForm(item) {
-      if (item === 'establishment') {
-        if (this.$refs.formSave.validate()) {
-          this.editedItem.lugar = this.editedPlace._id
-          if (this.editedRepresentant)
-            this.editedItem.representante = this.editedRepresentant._id
-          if (this.editedArea) this.editedItem.areaProtegida = this.editedArea._id
-          this.save()
-        }
-      } else {
-        if (item === 'place') {
-          if (this.$refs.formPlace.validate()) {
-            this.step = 2
-          }
-        }
-      }
-    },
-
     async getEstablishments() {
       this.loading = true
       this.establishments = []
@@ -1485,27 +929,7 @@ export default {
         .then(res => {
           this.loading = false
           this.establishments = res.data.data
-        })
-        .catch(error => {
-          this.loading = false
-          swalError(
-            error.body.err != undefined
-              ? error.body.err.message
-              : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
-          )
-        })
-    },
-
-    async getPlaces() {
-      this.loading = true
-      await this.$http
-        .get('/api/lugares/noAsignados')
-        .then(res => {
-          this.loading = false
-          this.defaultPlaces = res.data.data
-          this.places = this.defaultPlaces.map(v => {
-            return v
-          })
+          this.getBasicServices()
         })
         .catch(error => {
           this.loading = false
@@ -1523,10 +947,7 @@ export default {
         .get('/api/areasProtegidas')
         .then(res => {
           this.loading = false
-          this.defaultAreas = res.data.data
-          this.areas = this.defaultAreas.map(v => {
-            return v
-          })
+          this.areas = res.data.data
         })
         .catch(error => {
           this.loading = false
@@ -1544,10 +965,7 @@ export default {
         .get('/api/representantes/noAsignados')
         .then(res => {
           this.loading = false
-          this.defaultRepresentants = res.data.data
-          this.representants = this.defaultRepresentants.map(v => {
-            return v
-          })
+          this.representants = res.data.data
         })
         .catch(error => {
           this.loading = false
@@ -1557,6 +975,34 @@ export default {
               : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
           )
         })
+    },
+
+    close() {
+      this.dialog = false
+      if (this.editedItem.representante) {
+        this.representants.splice(
+          this.representants.indexOf(this.editedItem.representante)
+        )
+      }
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem)
+        this.editedRepresentant = Object.assign({}, this.defaultRepresentant)
+        this.editedArea = Object.assign({}, this.defaultArea)
+        this.editedIndex = -1
+      })
+    },
+
+    editItem(item) {
+      this.editedIndex = this.establishments.indexOf(item)
+      this.editedItem = Object.assign({}, item)
+      if (this.editedItem.representante) {
+        this.representants.push(this.editedItem.representante)
+        this.editedRepresentant = Object.assign({}, this.editedItem.representante)
+      }
+      if (this.editedItem.areaProtegida) {
+        this.editedArea = Object.assign({}, this.editedItem.areaProtegida)
+      }
+      this.dialog = true
     },
 
     deleteItem(item) {
@@ -1582,103 +1028,41 @@ export default {
       this.problem = false
     },
 
-    editItem(item) {
-      this.editedIndex = this.establishments.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      if (this.editedItem.representante) {
-        this.editedRepresentant = Object.assign({}, this.editedItem.representante)
+    showObject(critery, item) {
+      this.editedItem = item
+      switch (critery) {
+        case 'representant':
+          this.dialogRepresentant = true
+          break
+        case 'area':
+          this.dialogArea = true
+          break
+        case 'place':
+          this.dialogPlace = true
+          break
+        case 'service':
+          this.dialogService = true
+          break
       }
-      this.dialogEdit = true
     },
 
-    close() {
-      if (this.dialog) {
-        this.$refs.formPlace.resetValidation()
-        this.$refs.formSave.resetValidation()
+    closeObject(critery) {
+      switch (critery) {
+        case 'representant':
+          this.dialogRepresentant = false
+          break
+        case 'area':
+          this.dialogArea = false
+          break
+        case 'place':
+          this.dialogPlace = false
+          break
+        case 'service':
+          this.dialogService = false
+          break
       }
-      this.changed = false
-      this.dialog = false
-      this.disable = false
-      this.dialogEdit = false
-      this.searchArea = ''
-      this.searchPlace = ''
-      this.searchRepresentant = ''
-      this.step = 1
-      this.places = this.defaultPlaces.map(v => {
-        return v
-      })
-      this.representants = this.defaultRepresentants.map(v => {
-        return v
-      })
-      this.areas = this.defaultAreas.map(v => {
-        return v
-      })
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem)
-        this.editedIndex = -1
-        this.editedPlace = Object.assign({}, this.defaultPlace)
-        this.editedArea = Object.assign({}, this.defaultArea)
-        this.editedRepresentant = Object.assign({}, this.defaultRepresentant)
-      })
-    },
 
-    async save() {
-      if (this.editedIndex > -1) {
-        await this.changeEstablishment()
-        if (!this.problem) {
-          Object.assign(this.establishments[this.editedIndex], this.editedItem)
-          this.close()
-          this.getPlaces()
-          this.getAreas()
-          this.getRepresentants()
-        }
-      } else {
-        await this.middlewarePlace()
-        if (!this.problem) {
-          await this.addEstablishment()
-        }
-        if (!this.problem) {
-          this.establishments.push(this.editedItem)
-          this.close()
-          this.getPlaces()
-          this.getAreas()
-          this.getRepresentants()
-        }
-      }
-      this.problem = false
-    },
-
-    selectPlace(item) {
-      this.searchPlace = item.parroquia
-      this.editedPlace = item
-      this.disable = true
-    },
-
-    selectArea(item) {
-      this.searchArea = item.nombre
-      this.editedArea = item
-    },
-
-    selectRepresentant(item) {
-      this.editedRepresentant = item
-      this.searchRepresentant = item.nombre
-    },
-
-    clear(critery) {
-      if (critery === 'place') {
-        this.editedPlace = this.defaultPlace
-        this.disable = false
-        this.searchPlace = ''
-        this.$refs.formPlace.resetValidation()
-      } else {
-        if (critery === 'representant') {
-          this.editedRepresentant = this.defaultRepresentant
-          this.searchRepresentant = ''
-        } else {
-          this.editedArea = this.defaultArea
-          this.searchArea = ''
-        }
-      }
+      this.editedItem = Object.assign({}, this.defaultItem)
     },
 
     showMap(data, item) {
@@ -1687,8 +1071,8 @@ export default {
         this.coordinates.lat = item.lat
         this.coordinates.lng = item.lng
       } else {
-        this.coordinates.lat = this.editedPlace.lat
-        this.coordinates.lng = this.editedPlace.lng
+        this.coordinates.lat = this.editedItem.lat
+        this.coordinates.lng = this.editedItem.lng
       }
       this.dialogMap = true
     },
@@ -1699,57 +1083,78 @@ export default {
       this.dialogMap = false
     },
 
-    closeObject(critery) {
-      if (critery === 'place') {
-        this.dialogPlace = false
-      } else {
-        if (critery === 'representant') {
-          this.dialogRepresentant = false
-        } else {
-          this.dialogArea = false
-        }
-      }
-      if (!this.dialogEdit) {
-        this.editedItem = Object.assign({}, this.defaultItem)
-      }
-    },
-
     saveCoordinates(data) {
-      this.editedPlace.lat = data.lat
-      this.editedPlace.lng = data.lng
+      this.editedItem.lat = data.lat
+      this.editedItem.lng = data.lng
       this.dialogMap = false
     },
 
-    async middlewarePlace() {
-      if (!this.editedPlace._id) {
-        this.loading = true
-        swalLoading('Ingresando Lugar')
-        try {
-          await this.$http.post('/api/lugar', this.editedPlace).then(async res => {
-            this.loading = false
-            swalConfirm('Lugar nuevo ingresado')
-            this.problem = false
-            this.editedPlace = res.data.data
-          })
-        } catch (error) {
-          this.loading = false
-          swalError(
-            error.body.err != undefined
-              ? error.body.err.message
-              : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
-          )
-          this.problem = true
+    getBasicServices() {
+      //waters
+      this.waters = this.establishments.map(v => {
+        return v.agua
+      }).filter(v => {
+        return v != undefined
+      })
+
+      //energies
+      this.energies = this.establishments.map(v => {
+        return v.energia
+      }).filter(v => {
+        return v != undefined
+      })
+
+      //waste
+      this.waste = this.establishments.map(v => {
+        return v.desechos
+      }).filter(v => {
+        return v != undefined
+      })
+
+      //sanitation
+      this.sanitation = this.establishments.map(v => {
+        return v.saneamiento
+      }).filter(v => {
+        return v != undefined
+      })
+    },
+
+    async save() {
+      if (this.editedIndex > -1) {
+
+        if (this.editedRepresentant._id && !this.editedItem.representante) {
+          await this.eraseRepresentant()
+        }
+
+        if (this.editedArea._id && !this.editedItem.areaProtegida) {
+          await this.eraseAreaProtegida()
+        }
+
+        if (!this.problem) {
+          await this.changeEstablishment()
+        }
+        
+        if (!this.problem) {
+          Object.assign(this.establishments[this.editedIndex], this.editedItem)
+          this.close()
+          this.getBasicServices()
         }
       } else {
-        this.problem = false
+        await this.addEstablishment()
+        if (!this.problem) {
+          this.establishments.push(this.editedItem)
+          this.close()
+          this.getBasicServices()
+        }
       }
+      this.problem = false
     },
 
     async addEstablishment() {
       this.loading = true
       swalLoading('Ingresando Establecimiento')
-      if (!this.editedItem.areaProtegida) delete this.editedItem.areaProtegida
-      if (!this.editedItem.representante) delete this.editedItem.representante
+      if (!this.editedItem.areaProtegida._id) delete this.editedItem.areaProtegida
+      if (!this.editedItem.representante._id) delete this.editedItem.representante
       try {
         await this.$http.post('/api/establecimiento', this.editedItem).then(async res => {
           this.loading = false
@@ -1757,6 +1162,50 @@ export default {
           this.problem = false
           this.editedItem = res.data.data
         })
+      } catch (error) {
+        this.loading = false
+        swalError(
+          error.body.err != undefined
+            ? error.body.err.message
+            : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
+        )
+        this.problem = true
+      }
+    },
+
+    async eraseRepresentant() {
+      this.loading = true
+      swalLoading('Quitando Representante')
+      try {
+        await this.$http
+          .put('/api/establecimiento/removerRepresentante/' + this.editedItem._id)
+          .then(() => {
+            this.loading = false
+            swalConfirm('Represenante quitado')
+            this.problem = false
+          })
+      } catch (error) {
+        this.loading = false
+        swalError(
+          error.body.err != undefined
+            ? error.body.err.message
+            : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
+        )
+        this.problem = true
+      }
+    },
+
+    async eraseAreaProtegida() {
+      this.loading = true
+      swalLoading('Quitando AreaProtegida')
+      try {
+        await this.$http
+          .put('/api/establecimiento/removerArea/' + this.editedItem._id)
+          .then(() => {
+            this.loading = false
+            swalConfirm('Area Protegida quitada')
+            this.problem = false
+          })
       } catch (error) {
         this.loading = false
         swalError(
@@ -1794,19 +1243,17 @@ export default {
       this.loading = true
       swalLoading('Editando establecimiento')
       var establishmentEdit = Object.assign({}, this.editedItem)
+
       if (establishmentEdit.areaProtegida) {
         establishmentEdit.areaProtegida = establishmentEdit.areaProtegida._id
-      } else {
-        delete establishmentEdit.areaProtegida
       }
+
       if (establishmentEdit.representante) {
         if (this.editedRepresentant._id === this.editedItem.representante._id) {
           delete establishmentEdit.representante
         } else {
           establishmentEdit.representante = establishmentEdit.representante._id
         }
-      } else {
-        delete establishmentEdit.representante
       }
 
       try {
@@ -1828,48 +1275,56 @@ export default {
       }
     }
   },
+
   async created() {
     await this.getEstablishments()
-    await this.getPlaces()
     await this.getAreas()
     await this.getRepresentants()
   },
+
   computed: {
     formTitle() {
       return this.editedIndex === -1
         ? 'Crear un Establecimiento'
         : 'Editar un Establecimiento'
     },
-    editable() {
-      return this.step >= 2 ? true : false
+
+    mapTitle() {
+      return this.editMap ? 'Elija un punto en el mapa' : 'Localización Actual'
     }
   },
+
   watch: {
     dialog(val) {
       val || this.close()
     },
-    dialogEdit(val) {
-      val || this.close()
-    },
-    dialogMap(val) {
-      val || this.closeMap()
-    },
-    dialogRepresentant(val) {
-      val || this.closeObject('representant')
-    },
-    dialogPlace(val) {
-      val || this.closeObject('place')
-    },
-    dialogArea(val) {
-      val || this.closeObject('area')
-    },
+
     dialogDelete(val) {
       val || this.closeDelete()
     },
+
     activator(val) {
-      if (!val) {
-        this.getEstablishments()
-      }
+      if (!val) this.getEstablishments()
+    },
+
+    dialogRepresentant(val) {
+      val || this.closeObject('representant')
+    },
+
+    dialogArea(val) {
+      val || this.closeObject('area')
+    },
+
+    dialogPlace(val) {
+      val || this.closeObject('place')
+    },
+
+    dialogService(val) {
+      val || this.closeObject('service')
+    },
+
+    dialogMap(val) {
+      val || this.closeMap()
     }
   }
 }

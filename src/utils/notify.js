@@ -39,7 +39,7 @@ export function swalLoading(title) {
     icon: 'warning',
     iconColor: 'white',
     background: '#FFB300',
-    width: '250px',
+    width: '300px',
     allowOutsideClick: false,
     allowEscapeKey: false,
     allowEnterKey: false,

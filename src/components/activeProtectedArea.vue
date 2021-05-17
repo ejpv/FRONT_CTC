@@ -410,9 +410,11 @@ export default {
       }
     }
   },
+  
   async created() {
     await this.getAreas()
   },
+
   watch: {
     dialog(val) {
       val || this.close()

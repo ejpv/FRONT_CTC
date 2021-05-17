@@ -18,7 +18,7 @@
                   Nuevo Establecimiento
                   <v-icon right>fa-store-alt</v-icon>
                 </v-btn>
-                <v-btn color="info" class="mb-2 ml-4" medium icon>
+                <v-btn color="info" class="mb-2 ml-2" medium icon>
                   <v-icon medium @click="getEstablishments()">fa-sync-alt</v-icon>
                 </v-btn>
               </v-col>
@@ -66,7 +66,11 @@
       </template>
 
       <template v-slot:item.lugar="{ item }">
-        <v-chip color="success" dark> {{ item.lugar.parroquia }} </v-chip>
+        <v-chip :color="placeColor(item)" dark> {{ placeTitle(item) }} </v-chip>
+      </template>
+
+      <template v-slot:item.servicios="{ item }">
+        <v-chip :color="serviceColor(item)" dark> {{ serviceTitle(item) }} </v-chip>
       </template>
 
       <template v-slot:item.estado>
@@ -157,7 +161,14 @@ export default {
         {
           text: 'Lugar',
           value: 'lugar',
-          align: 'center'
+          align: 'center',
+          sortable: false
+        },
+        {
+          text: 'Servicios Básicos',
+          value: 'servicios',
+          align: 'center',
+          sortable: false
         },
         {
           text: 'Área Protegida',
@@ -274,16 +285,47 @@ export default {
         )
         this.problem = true
       }
+    },
+
+    serviceTitle(item) {
+      return item.agua && item.saneamiento && item.desechos && item.energia
+        ? 'Completo'
+        : item.agua || item.saneamiento || item.desechos || item.energia
+        ? 'Incompleto'
+        : 'Sin Información'
+    },
+
+    serviceColor(item) {
+      return item.agua && item.saneamiento && item.desechos && item.energia
+        ? 'success'
+        : item.agua || item.saneamiento || item.desechos || item.energia
+        ? 'edit'
+        : 'error'
+    },
+
+    placeTitle(item) {
+      return item.parroquia && item.ciudad && item.canton && item.provincia
+        ? 'Completo'
+        : item.parroquia && item.ciudad && item.canton && item.provincia
+        ? 'Incompleto'
+        : 'Sin Información'
+    },
+
+    placeColor(item) {
+      return item.parroquia && item.ciudad && item.canton && item.provincia
+        ? 'success'
+        : item.parroquia && item.ciudad && item.canton && item.provincia
+        ? 'edit'
+        : 'error'
     }
   },
+
   watch: {
     dialogRestore(val) {
       val || this.closeRestore()
     },
     activator(val) {
-      if (val) {
-        this.getEstablishments()
-      }
+      if (val) this.getEstablishments()
     }
   }
 }
