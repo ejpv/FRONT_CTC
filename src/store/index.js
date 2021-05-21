@@ -32,7 +32,18 @@ export default new Vuex.Store({
         email: '',
         nacionalidad: '',
         web: '',
-        telefono: ''
+        telefono: '',
+        ciudad: '',
+        parroquia: '',
+        canton: 'Riobamba',
+        provincia: 'Chimborazo',
+        lat: 0,
+        lng: 0,
+        agua: '',
+        saneamiento: '',
+        energia: '',
+        desechos: '',
+        personal: 0
       },
     token: sessionStorage.getItem('token') ? sessionStorage.getItem('token') : '',
     expira: sessionStorage.getItem('expira') ? sessionStorage.getItem('expira') : '',
@@ -137,7 +148,18 @@ export default new Vuex.Store({
           email: '',
           nacionalidad: '',
           web: '',
-          telefono: ''
+          telefono: '',
+          ciudad: '',
+          parroquia: '',
+          canton: 'Riobamba',
+          provincia: 'Chimborazo',
+          lat: 0,
+          lng: 0,
+          agua: '',
+          saneamiento: '',
+          energia: '',
+          desechos: '',
+          personal: 0
         }
       }
       commit('changeSesion', data)

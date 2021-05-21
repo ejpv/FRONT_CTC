@@ -36,14 +36,7 @@
 
       <v-tooltip left>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            @click="
-              form.pregunta.push({ tipo: 'SELECCION', enunciado: '', opciones: [''] })
-            "
-            v-on="on"
-            v-bind="attrs"
-            icon
-          >
+          <v-btn @click="form.pregunta.push(defaultQuest)" v-on="on" v-bind="attrs" icon>
             <v-icon class="info--text"> fa-plus </v-icon>
           </v-btn>
         </template>
@@ -169,6 +162,145 @@
                   </v-text-field>
                 </div>
               </v-col>
+
+              <v-col cols="12" xs="12" v-else-if="item.tipo === 'COMPLEX'">
+                <h3 class="pt-2 pb-1">
+                  Encabezados
+                  <v-tooltip right>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn
+                        icon
+                        @click="addHeader(index)"
+                        small
+                        v-on="on"
+                        v-bind="attrs"
+                      >
+                        <v-icon class="info--text" small> fa-plus </v-icon>
+                      </v-btn>
+                    </template>
+                    <span> Agregar un Encabezado </span>
+                  </v-tooltip>
+                </h3>
+                <v-row>
+                  <v-col
+                    v-for="(header, id) in item.encabezado"
+                    :key="id + 'h'"
+                    class="d-flex child-flex pa-1"
+                  >
+                    <v-text-field
+                      v-model="form.pregunta[index].encabezado[id]"
+                      filled
+                      rounded
+                      dense
+                    >
+                      <template
+                        v-if="form.pregunta[index].encabezado.length > 1"
+                        v-slot:append
+                      >
+                        <v-icon @click="removeHeader(index, id)"
+                          >far fa-times-circle</v-icon
+                        >
+                      </template>
+                    </v-text-field>
+                  </v-col>
+                </v-row>
+
+                <v-divider></v-divider>
+
+                <h3 class="pt-2 pb-1">Formato de Respuestas</h3>
+                <v-row>
+                  <v-col
+                    v-for="(format, idF) in item.formato"
+                    :key="idF + 'F'"
+                    class="d-flex child-flex pa-1"
+                  >
+                    <v-autocomplete
+                      v-model="form.pregunta[index].formato[idF].tipo"
+                      :items="types"
+                      :value="types.value"
+                      item-text="nombre"
+                      filled
+                      rounded
+                      dense
+                    >
+                    </v-autocomplete>
+                  </v-col>
+                </v-row>
+
+                <v-divider></v-divider>
+
+                <h3 class="pt-2 pb-1">Respuestas</h3>
+                <v-row>
+                  <v-col
+                    v-for="(format, idF) in item.formato"
+                    :key="idF + 'R'"
+                    class="d-flex child-flex pa-1"
+                  >
+                    <div v-if="format.tipo === 'SN'">
+                      <v-switch
+                        class="pt-2 pb-1 pl-2"
+                        label="Si"
+                        filled
+                        rounded
+                        dense
+                        disabled
+                      />
+                    </div>
+
+                    <div
+                      v-else-if="
+                        format.tipo === 'SELECCION' || format.tipo === 'MULTIPLE'
+                      "
+                    >
+                      <div v-for="(option, number) in format.opciones" :key="number">
+                        <h3 class="pt-2 pb-1">
+                          Opción {{ number + 1 }}
+                          <v-tooltip right>
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-btn
+                                icon
+                                v-if="number === 0"
+                                @click="addColumOption(index, idF)"
+                                small
+                                v-on="on"
+                                v-bind="attrs"
+                              >
+                                <v-icon class="info--text" small> fa-plus </v-icon>
+                              </v-btn>
+                            </template>
+                            <span> Agregar una opción </span>
+                          </v-tooltip>
+                        </h3>
+                        <v-text-field
+                          autocomplete="off"
+                          v-model.trim="format.opciones[number]"
+                          filled
+                          rounded
+                          dense
+                          style="margin-bottom: -15px"
+                        >
+                          <template v-if="format.opciones.length > 1" v-slot:append>
+                            <v-icon @click="removeColumOption(index, idF, number)"
+                              >far fa-times-circle</v-icon
+                            >
+                          </template>
+                        </v-text-field>
+                      </div>
+                    </div>
+
+                    <div v-else>
+                      <v-text-field
+                        autocomplete="off"
+                        filled
+                        rounded
+                        dense
+                        disabled
+                        class="pa-0"
+                      />
+                    </div>
+                  </v-col>
+                </v-row>
+              </v-col>
             </v-row>
           </v-container>
 
@@ -196,7 +328,6 @@
             </v-tooltip>
           </v-card-actions>
 
-          {{ item }}
         </v-card>
       </v-card-text>
     </v-card>
@@ -267,34 +398,82 @@
               <p class="body-2 ml-2">{{ type(data.item.tipo) }}</p>
             </template>
           </v-autocomplete>
+
           <div v-if="editedQuest.tipo">
             <h4 class="pb-1">Enunciado</h4>
             <span>{{ editedQuest.enunciado }}</span>
-            <h4 class="pb-1">Categoría</h4>
-            <span>{{ editedQuest.categoria.nombre }}</span>
+
             <h4 class="pb-1 pt-2">Tipo</h4>
             <span>{{ type(editedQuest.tipo) }} </span>
+
             <div v-if="editedQuest.tipo === 'SN'">
               <v-switch class="pa-1" label="Si/no" disabled filled rounded dense />
             </div>
+
             <div v-if="editedQuest.tipo === 'ABIERTA'">
               <h4 class="pb-1">Respuesta</h4>
               <v-text-field autocomplete="off" disabled filled rounded dense />
             </div>
+
             <div
+              class="pt-2"
               v-if="editedQuest.tipo === 'SELECCION' || editedQuest.tipo === 'MULTIPLE'"
             >
               <div v-for="(item, index) in editedQuest.opciones" :key="index">
-                <h4 class="pt-2 pb-1 pl-4">Opción {{ index + 1 }}</h4>
-                <v-text-field
-                  v-model.trim="editedQuest.opciones[index]"
-                  filled
-                  rounded
-                  dense
-                  disabled
-                >
-                </v-text-field>
+                <h4 class="pt-2 pb-1">Opción {{ index + 1 }}</h4>
+                <span>
+                  {{ item }}
+                </span>
               </div>
+            </div>
+
+            <div v-if="editedQuest.tipo === 'COMPLEX'">
+              <h4 class="pb-1 pt-2">Ecabezado</h4>
+
+              <v-row>
+                <v-col
+                  v-for="(header, id) in editedQuest.encabezado"
+                  :key="id + 'h'"
+                  class="d-flex child-flex"
+                >
+                  {{ header }}
+                </v-col>
+              </v-row>
+              <h4 class="pb-1 pt-2">Formatos</h4>
+              <v-row>
+                <v-col
+                  v-for="(format, idF) in editedQuest.formato"
+                  :key="idF + 'h'"
+                  class="d-flex child-flex"
+                >
+                  {{ type(format.tipo) }}
+                </v-col>
+              </v-row>
+              <h4 class="pb-1 pt-2">Respuestas</h4>
+              <v-row>
+                <v-col
+                  v-for="(format, idF) in editedQuest.formato"
+                  :key="idF + 'h'"
+                  class="d-flex child-flex"
+                >
+                  <div v-if="format.tipo === 'SN'">
+                    <v-switch class="pa-1" label="Si/no" disabled filled rounded dense />
+                  </div>
+
+                  <div v-if="format.tipo === 'ABIERTA'">
+                    <v-text-field autocomplete="off" disabled filled rounded dense />
+                  </div>
+
+                  <div v-if="format.tipo === 'SELECCION' || format.tipo === 'MULTIPLE'">
+                    <div v-for="(item, index) in format.opciones" :key="index">
+                      <h4 class="pt-2 pb-1">Opción {{ index + 1 }}</h4>
+                      <span>
+                        {{ item }}
+                      </span>
+                    </div>
+                  </div>
+                </v-col>
+              </v-row>
             </div>
           </div>
         </v-card-text>
@@ -321,15 +500,45 @@ export default {
   data() {
     return {
       form: {
-        pregunta: []
+        pregunta: [
+          {
+            encabezado: ['Encabezado 1'],
+            formato: [
+              {
+                tipo: 'SN',
+                opciones: ['']
+              }
+            ],
+            tipo: 'COMPLEX',
+            opciones: ['']
+          }
+        ]
+      },
+      defaultQuest: {
+        encabezado: ['Encabezado 1'],
+        formato: [
+          {
+            tipo: 'SN',
+            opciones: ['']
+          }
+        ],
+        tipo: 'COMPLEX',
+        opciones: ['']
       },
       questionItems: [
         { tipo: 'ABIERTA', title: 'Abierta', icon: 'fa-spell-check' },
         { tipo: 'SN', title: 'Si/No', icon: 'fa-check' },
         { tipo: 'SELECCION', title: 'Selección', icon: 'fa-chevron-circle-down' },
-        { tipo: 'MULTIPLE', title: 'Opción multiple', icon: 'fa-check-square' }
+        { tipo: 'MULTIPLE', title: 'Opción múltiple', icon: 'fa-check-square' },
+        { tipo: 'COMPLEX', title: 'Compuesta', icon: 'fa-table' }
       ],
       questions: [],
+      types: [
+        { value: 'SN', nombre: 'Si/No' },
+        { value: 'ABIERTA', nombre: 'Abierta' },
+        { value: 'SELECCION', nombre: 'Selección' },
+        { value: 'MULTIPLE', nombre: 'Opción múltiple' }
+      ],
       categories: [],
       editedQuest: {},
       fab: false,
@@ -370,7 +579,28 @@ export default {
         ) {
           this.form.pregunta[index].opciones = ['']
         }
+        if (this.form.pregunta[index].encabezado || this.form.pregunta[index].formato) {
+          this.form.pregunta[index].encabezado = ['']
+          this.form.pregunta[index].formato = ['']
+        }
+      } else {
+        if (item.tipo === 'COMPLEX') {
+          this.form.pregunta[index].opciones['']
+          this.form.pregunta[index].encabezado = ['Encabezado 1']
+          this.form.pregunta[index].formato = [
+            {
+              tipo: 'SN',
+              opciones: ['']
+            }
+          ]
+        } else {
+          if (this.form.pregunta[index].encabezado || this.form.pregunta[index].formato) {
+            this.form.pregunta[index].encabezado = ['']
+            this.form.pregunta[index].formato = ['']
+          }
+        }
       }
+
       this.form.pregunta[index]._id = ''
     },
 
@@ -382,6 +612,33 @@ export default {
 
     addOption(index) {
       this.form.pregunta[index].opciones.push('')
+      this.newQuest(index)
+    },
+
+    removeHeader(index, header) {
+      this.form.pregunta[index].encabezado.splice(header, 1)
+      this.form.pregunta[index].formato.splice(header, 1)
+      this.newQuest(index)
+    },
+
+    addHeader(index) {
+      this.form.pregunta[index].encabezado.push(
+        'Encabezado ' + (this.form.pregunta[index].encabezado.length + 1)
+      )
+      this.form.pregunta[index].formato.push({
+        tipo: 'SN',
+        opciones: ['']
+      })
+      this.newQuest(index)
+    },
+
+    addColumOption(index, idFormato) {
+      this.form.pregunta[index].formato[idFormato].opciones.push('')
+      this.newQuest(index)
+    },
+
+    removeColumOption(index, idFormato, idOpcion) {
+      this.form.pregunta[index].formato[idFormato].opciones.splice(idOpcion, 1)
       this.newQuest(index)
     },
 
@@ -419,6 +676,11 @@ export default {
         .then(res => {
           this.loading = false
           this.questions = res.data.data
+          this.questions.forEach(element => {
+            if (element.tipo === 'COMPLEX') {
+              console.log(element)
+            }
+          })
         })
         .catch(error => {
           this.loading = false
@@ -455,7 +717,8 @@ export default {
     },
 
     addQuestForm() {
-      this.form.pregunta.push(this.editedQuest)
+      var item = Object.assign({}, this.questions[this.questions.indexOf(this.editedQuest)])
+      this.form.pregunta.push(item)
       this.close()
     },
 
@@ -469,7 +732,11 @@ export default {
           if (critery === 'ABIERTA') {
             return 'Abierta'
           } else {
-            return 'Selección'
+            if (critery === 'SELECCION') {
+              return 'Selección'
+            } else {
+              return 'Compuesta'
+            }
           }
         }
       }

@@ -101,15 +101,15 @@
                   >
                     <h3 class="pt-2 pb-1">Respuesta</h3>
                     <v-radio-group v-model="editedItem.respuesta[index].valor">
-                      <div v-for="(option, number) in item.opciones" :key="number">
-                        <v-radio
-                          :label="option"
-                          :value="number"
-                          class="mb-4"
-                          @change="getPoint(item, index)"
-                        >
-                        </v-radio>
-                      </div>
+                      <v-radio
+                        v-for="(option, number) in item.opciones"
+                        :key="number"
+                        :label="option"
+                        :value="number"
+                        class="mb-4"
+                        @change="getPoint(item, index)"
+                      >
+                      </v-radio>
                     </v-radio-group>
                   </v-col>
 
@@ -129,6 +129,111 @@
                         @change="getPoint(item, index)"
                       ></v-checkbox>
                     </div>
+                  </v-col>
+
+                  <v-col
+                    cols="12"
+                    xs="12"
+                    v-else-if="item.tipo === 'COMPLEX'"
+                    style="margin-bottom: -10px"
+                  >
+                    <h3 class="pt-2 pb-1">
+                      Respuesta
+                      <v-tooltip right>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                            icon
+                            @click="editedItem.respuesta[index].valor.push(addSlot(item))"
+                            small
+                            v-on="on"
+                            v-bind="attrs"
+                          >
+                            <v-icon class="info--text" small> fa-plus </v-icon>
+                          </v-btn>
+                        </template>
+                        <span> Agregar una respuesta </span>
+                      </v-tooltip>
+                    </h3>
+                    <v-row>
+                      <v-col
+                        v-for="(header, idHeader) in item.encabezado"
+                        :key="idHeader + 'H'"
+                        class="d-flex child-flex pa-1"
+                        align="center"
+                      >
+                        <span class="font-weight-bold">{{ header }}</span>
+                      </v-col>
+                    </v-row>
+
+                    <v-row
+                      v-for="(res, idRes) in editedItem.respuesta[index].valor"
+                      :key="idRes + 'R'"
+                    >
+                      <v-col
+                        v-for="(format, idFormat) in item.formato"
+                        :key="idFormat + 'F'"
+                        class="d-flex child-flex pa-1"
+                      >
+                        <div v-if="format.tipo === 'SN'">
+                          <v-switch
+                            class="pa-1"
+                            :label="
+                              yesNoLabel(
+                                editedItem.respuesta[index].valor[idRes][idFormat]
+                              )
+                            "
+                            filled
+                            rounded
+                            dense
+                            v-model="editedItem.respuesta[index].valor[idRes][idFormat]"
+                          />
+                        </div>
+                        <div v-else-if="format.tipo === 'ABIERTA'">
+                          <v-text-field
+                            class="pt-4"
+                            autocomplete="off"
+                            filled
+                            rounded
+                            dense
+                            v-model="editedItem.respuesta[index].valor[idRes][idFormat]"
+                          />
+                        </div>
+                        <div v-else-if="format.tipo === 'SELECCION'">
+                          <v-radio-group
+                            v-model="editedItem.respuesta[index].valor[idRes][idFormat]"
+                          >
+                            <v-radio
+                              v-for="(option, number) in format.opciones"
+                              :key="number"
+                              :label="option"
+                              :value="number"
+                              class="mb-4"
+                            >
+                            </v-radio>
+                          </v-radio-group>
+                        </div>
+                        <div v-else-if="format.tipo === 'MULTIPLE'">
+                          <div
+                            v-for="(check, checkIndex) in format.opciones"
+                            :key="checkIndex"
+                          >
+                            <v-checkbox
+                              v-model="
+                                editedItem.respuesta[index].valor[idRes][idFormat][
+                                  checkIndex
+                                ]
+                              "
+                              :label="check"
+                              style="margin-bottom: -25px"
+                              :value="
+                                item.peso / editedItem.respuesta[index].valor.length
+                              "
+                            ></v-checkbox>
+                          </div>
+                        </div>
+                      </v-col>
+                    </v-row>
+                    {{ editedItem.respuesta[index] }}
                   </v-col>
                 </v-row>
               </v-container>
@@ -309,7 +414,7 @@ export default {
 
     isValid(item, index) {
       if (item.tipo === 'MULTIPLE') {
-        if (this.editedItem.respuesta[index].puntaje === 0) {
+        if (this.editedItem.respuesta[index].valor.length === 0) {
           return 'secondary lighten-4'
         } else {
           return ''
@@ -323,7 +428,7 @@ export default {
       }
     },
 
-    getDiagnostic() {
+    async getDiagnostic() {
       this.editedItem.establecimiento = this.codes.establishment
       this.editedItem.formulario = this.codes.form
       this.editedItem.respuesta = this.editedForm.pregunta.map(v => {
@@ -331,16 +436,33 @@ export default {
           pregunta: v._id,
           puntaje: 0
         }
+
         if (v.tipo === 'MULTIPLE') {
           object.valor = v.opciones.map(() => {
             return null
           })
         } else {
-          object.valor = null
+          if (v.tipo === 'COMPLEX') {
+            object.valor = [this.addSlot(v)]
+          } else {
+            object.valor = null
+          }
         }
         return object
       })
       this.editedItem.total = 0
+    },
+
+    addSlot(question) {
+      return question.formato.map(v => {
+        if (v.tipo === 'MULTIPLE') {
+          return v.opciones.map(() => {
+            return null
+          })
+        } else {
+          return null
+        }
+      })
     },
 
     getIcon(item) {

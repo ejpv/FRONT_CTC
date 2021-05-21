@@ -165,7 +165,11 @@ export default {
           if (critery === 'ABIERTA') {
             return 'Pregunta Abierta'
           } else {
-            return 'Pregunta de Selección Múltiple'
+            if (critery === 'COMPLEX') {
+              return 'Pregunta Compuesta'
+            } else {
+              return 'Pregunta de Selección Múltiple'
+            }
           }
         }
       }

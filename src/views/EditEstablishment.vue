@@ -231,7 +231,7 @@
       </v-row>
 
       <v-row class="pb-0">
-        <v-col class="pb-0"><h2>Talento Humano</h2></v-col>
+        <v-col class="pb-0"><h2>Personal</h2></v-col>
         <v-col cols="1" align="end" class="pb-0">
           <v-btn icon style="margin-left: -15px" @click="people = !people">
             <v-icon v-if="people">fa-angle-up</v-icon>
@@ -240,6 +240,20 @@
         </v-col>
       </v-row>
       <v-divider></v-divider>
+
+      <v-row v-if="people">
+        <v-col class="ml-4 mr-4">
+          <h3 class="pt-2 pb-1">Total Colaboradores</h3>
+          <v-text-field
+            v-model="basicInformation.personal"
+            filled
+            rounded
+            dense
+            :rules="numberRules"
+          ></v-text-field>
+        </v-col>
+      </v-row>
+      
     </v-card-text>
 
     <v-card-actions>
@@ -277,17 +291,21 @@ import { mapActions, mapState } from 'vuex'
 export default {
   data() {
     return {
-      basicInformation: {},
       basic: true,
       people: true,
       place: true,
       general: true,
       problem: false,
       dialogMap: false,
+      basicInformation: {},
       coordinates: {
         lat: 0,
         lng: 0
-      }
+      },
+      numberRules: [
+        v => !!v || 'Campo necesario',
+        v => Number.isInteger(parseInt(v)) || 'Solo se permiten números'
+      ]
     }
   },
 

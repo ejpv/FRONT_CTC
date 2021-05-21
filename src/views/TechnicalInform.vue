@@ -26,13 +26,32 @@
                   <v-card-text>
                     <div v-for="(item, index) in diagnostics" :key="item._id">
                       <div v-if="item.fecha.includes(fecha)">
-                        <v-checkbox
-                          v-model="editedInform.diagnostico[index]"
-                          :value="item._id"
-                          :label="
-                            `${item.formulario.nombre} -- ${item.fecha} -- ${item.total}`
-                          "
-                        ></v-checkbox>
+                        <v-row>
+                          <v-col align="center">
+                            <v-checkbox
+                              v-model="editedInform.diagnostico[index]"
+                              :value="item._id"
+                            >
+                              <template v-slot:label>
+                                <span class="subtitle-2">
+                                  {{ item.formulario.nombre }} --
+                                  <span class="font-weight-black">
+                                    {{ item.fecha }}
+                                  </span>
+                                  --
+                                  <span :class="getColor(item._id) + '--text'">
+                                    {{ item.total }}
+                                  </span>
+                                </span>
+                              </template></v-checkbox
+                            >
+                          </v-col>
+                          <v-col cols="2" align="center" class="pt-5">
+                            <v-btn icon @click="seeDiagnostic(item)">
+                              <v-icon class="info--text"> fa-eye</v-icon>
+                            </v-btn>
+                          </v-col>
+                        </v-row>
                       </div>
                     </div>
                   </v-card-text>
@@ -186,6 +205,10 @@
         </v-col>
       </v-row>
     </v-container>
+
+    <v-dialog v-model="dialogDiagnostic" max-width="700px">
+      <seeDiagnostic :diagnostic="diagnostic" @accion="closeDiagnostic" />
+    </v-dialog>
   </div>
 </template>
 
@@ -198,8 +221,14 @@ export default {
     return {
       loading: false,
       seeDiagnostics: true,
+      dialogDiagnostic: false,
       problem: false,
       diagnostics: [],
+      diagnostic: {
+        formulario: {
+          nombre: ''
+        }
+      },
       fechas: [],
       dateNotRepeted: [],
       sm: '',
@@ -338,6 +367,21 @@ export default {
           this.editedInform.observacion.splice(index, 1)
         }
       }
+    },
+
+    seeDiagnostic(item) {
+      console.log(item)
+      this.diagnostic = item
+      this.dialogDiagnostic = true
+    },
+
+    closeDiagnostic() {
+      this.diagnostic = {
+        formulario: {
+          nombre: ''
+        }
+      }
+      this.dialogDiagnostic = false
     }
   },
 
@@ -367,8 +411,13 @@ export default {
         this.sm = '12'
       }
     },
+
     establishment() {
       this.getDiagnostics()
+    },
+
+    dialogDiagnostic(val) {
+      val || this.closeDiagnostic()
     }
   }
 }

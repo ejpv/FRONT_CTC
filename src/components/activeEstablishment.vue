@@ -175,7 +175,7 @@
 
                         <h3 class="pb-1">Servicios Básicos</h3>
                         <v-divider></v-divider>
-                        <h4 class="pb-1">Agua</h4>
+                        <h4 class="pt-2 pb-1">Agua</h4>
                         <v-combobox
                           v-model="editedItem.agua"
                           :items="waters"
@@ -218,7 +218,7 @@
 
                         <v-divider></v-divider>
 
-                        <h3 class="pb-1 pt-1">Área Protegida</h3>
+                        <h3 class="pb-1 pt-2">Área Protegida</h3>
                         <v-autocomplete
                           v-model="editedItem.areaProtegida"
                           :items="areas"
@@ -243,6 +243,18 @@
                           clearable
                           :loading="loading"
                         ></v-autocomplete>
+
+                        <h3 class="pb-1">Personal</h3>
+                        <v-divider></v-divider>
+
+                        <h4 class="pt-2 pb-1">Total Colaboradores</h4>
+                        <v-text-field
+                          v-model="editedItem.personal"
+                          filled
+                          rounded
+                          dense
+                          :rules="numberRules"
+                        ></v-text-field>
                       </v-container>
                     </v-card-text>
                     <v-card-actions>
@@ -811,6 +823,11 @@ export default {
           align: 'center'
         },
         {
+          text: 'Personal',
+          value: 'personal',
+          align: 'center'
+        },
+        {
           text: 'Estado',
           value: 'estado',
           align: 'center',
@@ -852,6 +869,7 @@ export default {
         saneamiento: '',
         energia: '',
         desechos: '',
+        personal: 0,
         areaProtegida: {},
         estado: false
       },
@@ -876,6 +894,7 @@ export default {
         saneamiento: '',
         energia: '',
         desechos: '',
+        personal: 0,
         areaProtegida: {},
         estado: false
       },
@@ -1091,37 +1110,44 @@ export default {
 
     getBasicServices() {
       //waters
-      this.waters = this.establishments.map(v => {
-        return v.agua
-      }).filter(v => {
-        return v != undefined
-      })
+      this.waters = this.establishments
+        .map(v => {
+          return v.agua
+        })
+        .filter(v => {
+          return v != undefined
+        })
 
       //energies
-      this.energies = this.establishments.map(v => {
-        return v.energia
-      }).filter(v => {
-        return v != undefined
-      })
+      this.energies = this.establishments
+        .map(v => {
+          return v.energia
+        })
+        .filter(v => {
+          return v != undefined
+        })
 
       //waste
-      this.waste = this.establishments.map(v => {
-        return v.desechos
-      }).filter(v => {
-        return v != undefined
-      })
+      this.waste = this.establishments
+        .map(v => {
+          return v.desechos
+        })
+        .filter(v => {
+          return v != undefined
+        })
 
       //sanitation
-      this.sanitation = this.establishments.map(v => {
-        return v.saneamiento
-      }).filter(v => {
-        return v != undefined
-      })
+      this.sanitation = this.establishments
+        .map(v => {
+          return v.saneamiento
+        })
+        .filter(v => {
+          return v != undefined
+        })
     },
 
     async save() {
       if (this.editedIndex > -1) {
-
         if (this.editedRepresentant._id && !this.editedItem.representante) {
           await this.eraseRepresentant()
         }
@@ -1133,7 +1159,7 @@ export default {
         if (!this.problem) {
           await this.changeEstablishment()
         }
-        
+
         if (!this.problem) {
           Object.assign(this.establishments[this.editedIndex], this.editedItem)
           this.close()
