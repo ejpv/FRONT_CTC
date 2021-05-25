@@ -212,10 +212,10 @@ export default {
         link: '/reportRepresentant'
       },
       {
-        title: 'Categorías',
-        icon: 'fa-list',
+        title: 'Actividades Turísticas',
+        icon: 'fa-hiking',
         rol: 'ADMIN_ROLE',
-        link: '/category'
+        link: '/activity'
       }
     ],
     establishments: [],

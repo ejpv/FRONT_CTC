@@ -49,24 +49,6 @@
                             :disabled="see"
                           ></v-text-field>
 
-                          <h3 class="pt-2 pb-1">
-                            <strong class="error--text">*</strong> Categoría
-                          </h3>
-                          <v-autocomplete
-                            v-model="editedItem.categoria"
-                            :items="categories"
-                            item-text="nombre"
-                            persistent-hint
-                            return-object
-                            single-line
-                            filled
-                            rounded
-                            dense
-                            :disabled="see"
-                            :rules="objectRules"
-                            :loading="loading"
-                          ></v-autocomplete>
-
                           <h3 class="pb-1">
                             <strong class="error--text">*</strong> Tipo
                           </h3>
@@ -308,7 +290,6 @@ export default {
       see: false,
       editedIndex: -1,
       questions: [],
-      categories: [],
       headers: [
         {
           text: 'Enunciado',
@@ -342,7 +323,6 @@ export default {
         v => !!v || 'Campo necesario',
         v => (v && v.length >= 3) || 'Debe tener mas de 3 letras'
       ],
-      objectRules: [v => !!v || 'Campo necesario'],
       questionItems: [
         { tipo: 'ABIERTA', title: 'Abierta', icon: 'fa-spell-check' },
         { tipo: 'SN', title: 'Si/No', icon: 'fa-check' },
@@ -352,18 +332,12 @@ export default {
       editedItem: {
         enunciado: '',
         tipo: 'ABIERTA',
-        opciones: [''],
-        categoria: {
-          nombre: ''
-        }
+        opciones: ['']
       },
       defaultItem: {
         enunciado: '',
         tipo: 'ABIERTA',
-        opciones: [''],
-        categoria: {
-          nombre: ''
-        }
+        opciones: ['']
       }
     }
   },
@@ -376,25 +350,6 @@ export default {
         .then(res => {
           this.loading = false
           this.questions = res.data.data
-        })
-        .catch(error => {
-          this.loading = false
-          swalError(
-            error.body.err != undefined
-              ? error.body.err.message
-              : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
-          )
-        })
-    },
-
-    async getCategories() {
-      this.loading = true
-      this.categories = []
-      await this.$http
-        .get('/api/categorias')
-        .then(res => {
-          this.loading = false
-          this.categories = res.data.data
         })
         .catch(error => {
           this.loading = false
@@ -572,7 +527,6 @@ export default {
 
   async created() {
     await this.getQuestions()
-    await this.getCategories()
   },
 
   watch: {

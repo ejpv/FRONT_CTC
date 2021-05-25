@@ -2,23 +2,24 @@
   <v-card class="mx-auto">
     <v-container>
       <v-card-title class="d-block text-center">
-        Tabla de Categorías
+        Tabla de Actividades
         <v-spacer></v-spacer>
         <v-text-field
           v-model="search"
           append-icon="fa-search"
-          label="Busque una Categoría"
+          label="Busque una Actividad"
           single-line
           hide-details
         ></v-text-field>
       </v-card-title>
+      
       <v-data-table
         :headers="headers"
-        :items="categories"
+        :items="activities"
         class="elevation-1"
         :loading="loading"
         :search="search"
-        loading-text="Obteniendo todas las Categorías..."
+        loading-text="Obteniendo todas las Actividades..."
       >
         <template v-slot:top>
           <v-toolbar flat>
@@ -36,11 +37,11 @@
                         v-on="on"
                         medium
                       >
-                        Nueva Categoría
-                        <v-icon right>fa-list</v-icon>
+                        Nueva Actividad
+                        <v-icon right>fa-hiking</v-icon>
                       </v-btn>
                       <v-btn color="info" class="mb-2 ml-4" medium icon>
-                        <v-icon medium @click="getCategories()">fa-sync-alt</v-icon>
+                        <v-icon medium @click="getActivities()">fa-sync-alt</v-icon>
                       </v-btn>
                     </template>
 
@@ -94,7 +95,7 @@
                 fa-pen
               </v-icon>
             </template>
-            <span> Editar una Categoría </span>
+            <span> Editar una Actividad </span>
           </v-tooltip>
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
@@ -107,7 +108,7 @@
                 fa-trash
               </v-icon>
             </template>
-            <span> Eliminar una Categoría </span>
+            <span> Eliminar una Actividad </span>
           </v-tooltip>
         </template>
       </v-data-table>
@@ -121,7 +122,7 @@
               </v-col>
               <v-col cols="12" class="white--text justify-center">
                 <div class="text-center primary">
-                  <span class="headline"> ¿Está seguro de borrar esta Categoría?</span>
+                  <span class="headline"> ¿Está seguro de borrar esta Actividad?</span>
                 </div>
               </v-col>
             </v-row>
@@ -158,7 +159,7 @@ export default {
       dialogDelete: false,
       editedItem: { _id: '', nombre: '' },
       defaultItem: { _id: '', nombre: '' },
-      categories: [],
+      activities: [],
       headers: [
         {
           text: 'Nombre',
@@ -176,14 +177,14 @@ export default {
   },
 
   methods: {
-    async getCategories() {
+    async getActivities() {
       this.loading = true
-      this.categories = []
+      this.activities = []
       await this.$http
-        .get('/api/categorias')
+        .get('/api/actividades')
         .then(res => {
           this.loading = false
-          this.categories = res.data.data
+          this.activities = res.data.data
         })
         .catch(error => {
           this.loading = false
@@ -196,22 +197,22 @@ export default {
     },
 
     deleteItem(item) {
-      this.editedIndex = this.categories.indexOf(item)
+      this.editedIndex = this.activities.indexOf(item)
       this.editedItem = item
       this.dialogDelete = true
     },
 
     async deleteItemConfirm() {
-      await this.removeCategory()
+      await this.removeActivity()
       if (!this.problem) {
-        this.categories.splice(this.editedIndex, 1)
+        this.activities.splice(this.editedIndex, 1)
       }
       this.closeDelete()
       this.problem = false
     },
 
     editItem(item) {
-      this.editedIndex = this.categories.indexOf(item)
+      this.editedIndex = this.activities.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialog = true
     },
@@ -234,27 +235,27 @@ export default {
 
     async save() {
       if (this.editedIndex > -1) {
-        await this.changeCategory()
+        await this.changeActivity()
         if (!this.problem) {
-          Object.assign(this.categories[this.editedIndex], this.editedItem)
+          Object.assign(this.activities[this.editedIndex], this.editedItem)
         }
       } else {
-        await this.addCategory()
+        await this.addActivity()
         if (!this.problem) {
-          this.categories.push(this.editedItem)
+          this.activities.push(this.editedItem)
         }
       }
       this.problem = false
       this.close()
     },
 
-    async addCategory() {
+    async addActivity() {
       this.loading = true
-      swalLoading('Ingresando Categoría')
+      swalLoading('Ingresando Actividad')
       try {
-        await this.$http.post('/api/categoria', this.editedItem).then(async res => {
+        await this.$http.post('/api/actividad', this.editedItem).then(async res => {
           this.loading = false
-          swalConfirm('Categoría nueva ingresada')
+          swalConfirm('Actividad nueva ingresada')
           this.problem = false
           this.editedItem = res.data.data
         })
@@ -269,13 +270,13 @@ export default {
       }
     },
 
-    async removeCategory() {
+    async removeActivity() {
       this.loading = true
-      swalLoading('Eliminando Categoría')
+      swalLoading('Eliminando Actividad')
       try {
-        await this.$http.delete(`/api/categoria/${this.editedItem._id}`).then(() => {
+        await this.$http.delete(`/api/actividad/${this.editedItem._id}`).then(() => {
           this.loading = false
-          swalConfirm('Categoría Eliminada')
+          swalConfirm('Actividad Eliminada')
         })
         this.problem = false
       } catch (error) {
@@ -289,15 +290,15 @@ export default {
       }
     },
 
-    async changeCategory() {
+    async changeActivity() {
       this.loading = true
-      swalLoading('Editando Categoría')
+      swalLoading('Editando Actividad')
       try {
         await this.$http
-          .put(`/api/categoria/${this.editedItem._id}`, this.editedItem)
+          .put(`/api/actividad/${this.editedItem._id}`, this.editedItem)
           .then(async () => {
             this.loading = false
-            swalConfirm('Categoría editada')
+            swalConfirm('Actividad editada')
             this.problem = false
           })
       } catch (error) {
@@ -313,7 +314,7 @@ export default {
   },
 
   async created() {
-    await this.getCategories()
+    await this.getActivities()
   },
 
   watch: {
@@ -328,7 +329,7 @@ export default {
 
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? 'Crear una Categoría' : 'Editar una Categoría'
+      return this.editedIndex === -1 ? 'Crear una Actividad' : 'Editar una Actividad'
     }
   }
 }

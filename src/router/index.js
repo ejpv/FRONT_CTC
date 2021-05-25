@@ -85,9 +85,9 @@ const routes = [
         component: () => import('../views/ReportRepresentant.vue')
       },
       {
-        path: '/category',
-        name: 'Categorías',
-        component: () => import('../views/Category.vue')
+        path: '/activity',
+        name: 'Actividades Turísticas',
+        component: () => import('../views/Activity.vue')
       },
       {
         path: '/editEstablishment',

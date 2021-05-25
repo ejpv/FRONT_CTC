@@ -64,7 +64,7 @@
 
           <v-container style="margin-bottom: -20px">
             <v-row>
-              <v-col cols="12" sm="3" md="2" class="pa-4 mt-3">
+              <v-col cols="12" sm="5" md="3" class="pa-4 mt-3">
                 <v-menu offset-y>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn v-bind="attrs" v-on="on" color="accent" block x-large>
@@ -87,22 +87,10 @@
                 </v-menu>
               </v-col>
 
-              <v-col cols="12" sm="7" md="6" style="margin-bottom: -20px">
+              <v-col cols="12" sm="7" md="9" style="margin-bottom: -20px">
                 <h3 class="pt-2 pb-1">Pregunta</h3>
                 <v-text-field
                   v-model="item.enunciado"
-                  autocomplete="off"
-                  filled
-                  rounded
-                  dense
-                  @input="newQuest(index)"
-                ></v-text-field>
-              </v-col>
-
-              <v-col cols="12" sm="2" md="4" style="margin-bottom: -20px">
-                <h3 class="pt-2 pb-1">Categoría</h3>
-                <v-text-field
-                  v-model="item.categoria"
                   autocomplete="off"
                   filled
                   rounded
@@ -539,7 +527,6 @@ export default {
         { value: 'SELECCION', nombre: 'Selección' },
         { value: 'MULTIPLE', nombre: 'Opción múltiple' }
       ],
-      categories: [],
       editedQuest: {},
       fab: false,
       searchDialog: false,
@@ -602,12 +589,6 @@ export default {
       }
 
       this.form.pregunta[index]._id = ''
-    },
-
-    mostrar() {
-      this.form.pregunta.forEach(v => {
-        console.log(v.enunciado)
-      })
     },
 
     addOption(index) {
@@ -676,30 +657,6 @@ export default {
         .then(res => {
           this.loading = false
           this.questions = res.data.data
-          this.questions.forEach(element => {
-            if (element.tipo === 'COMPLEX') {
-              console.log(element)
-            }
-          })
-        })
-        .catch(error => {
-          this.loading = false
-          swalError(
-            error.body.err != undefined
-              ? error.body.err.message
-              : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
-          )
-        })
-    },
-
-    async getCategories() {
-      this.loading = true
-      this.categories = []
-      await this.$http
-        .get('/api/categorias')
-        .then(res => {
-          this.loading = false
-          this.categories = res.data.data
         })
         .catch(error => {
           this.loading = false
@@ -866,7 +823,6 @@ export default {
       await this.getForm()
     }
     await this.getQuestions()
-    await this.getCategories()
   },
 
   computed: {
