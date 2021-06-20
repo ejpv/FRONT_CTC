@@ -410,7 +410,7 @@ export default {
       }
     }
   },
-  
+
   async created() {
     await this.getAreas()
   },

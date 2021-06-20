@@ -305,6 +305,51 @@
               />
             </v-col>
             <v-spacer></v-spacer>
+            <v-divider vertical calss="mx-2"></v-divider>
+
+            <v-tooltip right>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  icon
+                  v-on="on"
+                  v-bind="attrs"
+                  v-if="form.mostrarEnInforme === null"
+                  @click="form.mostrarEnInforme = index"
+                >
+                  <v-icon class="info--text"> fa-plus</v-icon>
+                </v-btn>
+                <v-btn
+                  icon
+                  v-else-if="
+                    form.mostrarEnInforme != null && form.mostrarEnInforme != index
+                  "
+                  v-on="on"
+                  v-bind="attrs"
+                  @click="form.mostrarEnInforme = index"
+                >
+                  <v-icon class="edit--text">fa-exchange-alt</v-icon>
+                </v-btn>
+                <v-btn
+                  icon
+                  v-else
+                  @click="form.mostrarEnInforme = null"
+                  v-on="on"
+                  v-bind="attrs"
+                >
+                  <v-icon class="error--text">fa-times</v-icon>
+                </v-btn>
+              </template>
+              <span v-if="form.mostrarEnInforme === null"> Elegir Pregunta </span>
+              <span
+                v-else-if="
+                  form.mostrarEnInforme != null && form.mostrarEnInforme != index
+                "
+              >
+                Cambiar por esta Pregunta
+              </span>
+              <span v-else> Eliminar Selección </span>
+            </v-tooltip>
+            Mostrar en Informe
             <v-divider vertical class="mx-2" />
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
@@ -315,7 +360,6 @@
               <span> Eliminar un Lugar </span>
             </v-tooltip>
           </v-card-actions>
-
         </v-card>
       </v-card-text>
     </v-card>
@@ -500,7 +544,8 @@ export default {
             tipo: 'COMPLEX',
             opciones: ['']
           }
-        ]
+        ],
+        mostrarEnInforme: null
       },
       defaultQuest: {
         encabezado: ['Encabezado 1'],
@@ -674,7 +719,10 @@ export default {
     },
 
     addQuestForm() {
-      var item = Object.assign({}, this.questions[this.questions.indexOf(this.editedQuest)])
+      var item = Object.assign(
+        {},
+        this.questions[this.questions.indexOf(this.editedQuest)]
+      )
       this.form.pregunta.push(item)
       this.close()
     },
@@ -738,7 +786,8 @@ export default {
         _id: this.form._id,
         nombre: this.form.nombre,
         pregunta: [],
-        realizadoPor: ''
+        realizadoPor: '',
+        mostrarEnInforme: this.form.mostrarEnInforme
       }
 
       formObject.pregunta = this.form.pregunta.map(v => {

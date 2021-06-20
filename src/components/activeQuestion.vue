@@ -104,7 +104,7 @@
                           <div
                             v-if="
                               editedItem.tipo === 'SELECCION' ||
-                              editedItem.tipo === 'MULTIPLE'
+                                editedItem.tipo === 'MULTIPLE'
                             "
                           >
                             <h3 class="pb-3">Opciones de Respuesta</h3>

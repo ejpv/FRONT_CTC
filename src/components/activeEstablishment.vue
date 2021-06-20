@@ -60,9 +60,25 @@
                           dense
                         ></v-text-field>
 
+                        <h3 class="pb-1">Comunidad</h3>
+                        <v-text-field
+                          v-model="editedItem.comunidad"
+                          filled
+                          rounded
+                          dense
+                        ></v-text-field>
+
                         <h3 class="pb-1">Nacionalidad / Pueblo</h3>
                         <v-text-field
                           v-model="editedItem.nacionalidad"
+                          filled
+                          rounded
+                          dense
+                        ></v-text-field>
+
+                        <h3 class="pb-1">Localidad</h3>
+                        <v-text-field
+                          v-model="editedItem.localidad"
                           filled
                           rounded
                           dense
@@ -257,6 +273,7 @@
                         ></v-text-field>
                       </v-container>
                     </v-card-text>
+
                     <v-card-actions>
                       <v-container>
                         <v-row>
@@ -775,13 +792,13 @@ export default {
           value: 'administrador'
         },
         {
-          text: 'Representante',
-          value: 'representante',
-          align: 'center'
-        },
-        {
           text: 'Correo',
           value: 'email'
+        },
+        {
+          text: 'Comunidad u organizacion',
+          value: 'comunidad',
+          align: 'center'
         },
         {
           text: 'Nacionalidad / Pueblo',
@@ -816,6 +833,11 @@ export default {
           value: 'servicios',
           align: 'center',
           sortable: false
+        },
+        {
+          text: 'Representante',
+          value: 'representante',
+          align: 'center'
         },
         {
           text: 'Área Protegida',
@@ -858,7 +880,8 @@ export default {
         LUAF: 'No',
         email: '',
         web: '',
-        telefono: '',
+        telefono: [''],
+        comunidad: '',
         ciudad: '',
         parroquia: '',
         canton: 'Riobamba',
@@ -883,7 +906,8 @@ export default {
         LUAF: 'No',
         email: '',
         web: '',
-        telefono: '',
+        telefono: [''],
+        comunidad: '',
         ciudad: '',
         parroquia: '',
         canton: 'Riobamba',

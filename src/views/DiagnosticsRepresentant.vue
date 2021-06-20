@@ -18,7 +18,7 @@
               </v-card-title>
               <v-card-text>
                 <div v-for="(item, index) in diagnostics" :key="'A' + index">
-                  <div v-if="item.fecha.includes(fecha)">
+                  <div v-if="formatFecha(item.fecha).includes(fecha.toLowerCase())">
                     <v-row>
                       <v-col
                         ><h3 class="pt-2">
@@ -35,7 +35,7 @@
                             </template>
                             <span> Ver diagnóstico </span>
                           </v-tooltip>
-                          {{ item.formulario.nombre }} - {{ item.fecha }} -
+                          {{ item.formulario.nombre }} - {{ formatFecha(item.fecha) }} -
                           <span :class="getColor(item.total) + '--text'">{{
                             item.total
                           }}</span>
@@ -80,6 +80,7 @@
 <script>
 import { swalError } from '@/utils/notify'
 import { mapState } from 'vuex'
+import { getFecha } from '@/utils/moment'
 
 export default {
   data() {
@@ -118,16 +119,15 @@ export default {
     },
 
     getDate() {
-      var dates = this.diagnostics.map(item => {
-        return item.fecha.split('/')[1] + '/' + item.fecha.split('/')[2]
+      this.dateNotRepeted = this.diagnostics.map(item => {
+        var date = getFecha(item.fecha).split(' ')
+        return date[2].toUpperCase() + ' ' + date[3]
       })
-      this.dateNotRepeted.push(dates[0])
-      for (let i = 0; i < dates.length; i++) {
-        if (dates[i + 1]) {
-          if (dates[i] != dates[i + 1]) {
-            this.dateNotRepeted.push(dates[i + 1])
-          }
-        }
+
+      //algoritmo para eliminar iguales copiado de internet
+      for (var i = this.dateNotRepeted.length - 1; i >= 0; i--) {
+        if (this.dateNotRepeted.indexOf(this.dateNotRepeted[i]) !== i)
+          this.dateNotRepeted.splice(i, 1)
       }
     },
 
@@ -156,6 +156,10 @@ export default {
         }
       }
       this.dialogDiagnostic = false
+    },
+
+    formatFecha(item) {
+      return getFecha(item)
     }
   },
   computed: {

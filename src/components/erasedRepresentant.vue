@@ -199,7 +199,6 @@ export default {
       this.loading = true
       swalLoading('Restaurando representante')
       try {
-        console.log(this.editedItem)
         await this.$http
           .put(`/api/representante/${this.editedItem._id}/restaurar`)
           .then(() => {

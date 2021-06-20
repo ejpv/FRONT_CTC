@@ -169,8 +169,6 @@ export default {
         .then(res => {
           this.loading = false
           this.forms = res.data.data
-          console.log('formularios')
-          console.log(this.forms)
         })
         .catch(error => {
           this.loading = false
@@ -252,6 +250,7 @@ export default {
   created() {
     this.getForms()
   },
+
   watch: {
     activator(val) {
       if (!val) {

@@ -4,8 +4,8 @@
       <ctc-session-out />
 
       <v-app-bar color="primary" app>
-        <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-        <v-toolbar-title> {{ this.$route.name }} </v-toolbar-title>
+        <v-app-bar-nav-icon @click="drawer = !drawer" class="white--text"></v-app-bar-nav-icon>
+        <v-toolbar-title class="white--text"> {{ this.$route.name }} </v-toolbar-title>
         <v-spacer></v-spacer>
 
         <v-autocomplete
@@ -28,7 +28,7 @@
           v-if="user.rol === 'TECHNICAL_ROLE'"
           icon
           @click="getEstablishments()"
-          class="pa-0 ma-0"
+          class="pa-0 ma-0 white--text"
         >
           <v-icon> fa-sync-alt </v-icon>
         </v-btn>

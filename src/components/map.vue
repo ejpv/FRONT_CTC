@@ -16,7 +16,7 @@
         />
       </GmapMap>
     </v-card-text>
-    
+
     <v-card-actions v-if="editable">
       <v-container>
         <v-row>

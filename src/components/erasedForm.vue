@@ -83,6 +83,7 @@ export default {
       forms: [],
       editedIndex: -1,
       editedItem: {},
+      defaultItem: {},
       problem: false,
       dialogRestore: false,
       headers: [
@@ -122,7 +123,6 @@ export default {
         .then(res => {
           this.loading = false
           this.forms = res.data.data
-          console.log(this.forms)
         })
         .catch(error => {
           this.loading = false

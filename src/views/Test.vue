@@ -3,7 +3,7 @@
     <v-card>
       <v-card-title>
         <v-col class="d-flex child-flex">
-          <v-img contain src="..\..\public\img\unachDiagnostico.png" aspect-ratio="2">
+          <v-img contain src="/img/gobierno-diagnostico.png" aspect-ratio="4">
             <template v-slot:placeholder>
               <v-row class="fill-height ma-0" align="center" justify="center">
                 <v-progress-circular indeterminate color="primary"></v-progress-circular>
@@ -12,12 +12,18 @@
           </v-img>
         </v-col>
 
-        <v-col cols="8" align="center" justify="center" class="primary white--text">
-          <span>{{ editedForm.nombre }}</span>
+        <v-col class="d-flex child-flex">
+          <v-img contain src="/img/unach-diagnostico.jpeg" aspect-ratio="4">
+            <template v-slot:placeholder>
+              <v-row class="fill-height ma-0" align="center" justify="center">
+                <v-progress-circular indeterminate color="primary"></v-progress-circular>
+              </v-row>
+            </template>
+          </v-img>
         </v-col>
 
         <v-col class="d-flex child-flex">
-          <v-img contain src="..\..\public\img\turismoDiagnostico.png" aspect-ratio="2">
+          <v-img contain src="/img/municipio-diagnostico.jpeg" aspect-ratio="4">
             <template v-slot:placeholder>
               <v-row class="fill-height ma-0" align="center" justify="center">
                 <v-progress-circular indeterminate color="primary"></v-progress-circular>
@@ -26,6 +32,14 @@
           </v-img>
         </v-col>
       </v-card-title>
+      <v-container>
+        <v-row>
+          <v-col align="center" justify="center" class="primary white--text">
+            <h2>{{ editedForm.nombre }}</h2>
+          </v-col>
+        </v-row>
+      </v-container>
+
       <v-form ref="testForm">
         <v-card-text>
           <v-card
@@ -154,7 +168,7 @@
                         <span> Agregar una respuesta </span>
                       </v-tooltip>
                     </h3>
-                    <v-row>
+                    <v-row class="pa-0 ma-0">
                       <v-col
                         v-for="(header, idHeader) in item.encabezado"
                         :key="idHeader + 'H'"
@@ -168,11 +182,12 @@
                     <v-row
                       v-for="(res, idRes) in editedItem.respuesta[index].valor"
                       :key="idRes + 'R'"
+                      class="pa-0 ma-0"
                     >
                       <v-col
                         v-for="(format, idFormat) in item.formato"
                         :key="idFormat + 'F'"
-                        class="d-flex child-flex pa-1"
+                        class="d-flex child-flex pa-1 pb-0 mb-0 pt-0 mt-0"
                       >
                         <div v-if="format.tipo === 'SN'">
                           <v-switch
@@ -233,7 +248,6 @@
                         </div>
                       </v-col>
                     </v-row>
-                    {{ editedItem.respuesta[index] }}
                   </v-col>
                 </v-row>
               </v-container>

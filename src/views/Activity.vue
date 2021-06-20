@@ -12,7 +12,7 @@
           hide-details
         ></v-text-field>
       </v-card-title>
-      
+
       <v-data-table
         :headers="headers"
         :items="activities"

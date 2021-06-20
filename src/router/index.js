@@ -102,11 +102,6 @@ const routes = [
     component: () => import('../views/Test.vue')
   },
   {
-    path: '/pruebas',
-    name: 'Pruebas',
-    component: () => import('../views/pruebas.vue')
-  },
-  {
     path: '/selectEstablishment',
     name: 'Seleccionar Establecimiento',
     component: () => import('../views/SelectEstablishment.vue')

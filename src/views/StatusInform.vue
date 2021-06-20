@@ -4,7 +4,7 @@
       <v-col cols="12" :sm="sm">
         <v-card>
           <v-card-title class="primary white--text">
-            <span class="headline">Informes </span>
+            <span class="headline">Informes de {{ establishment.nombre }} </span>
             <v-spacer></v-spacer>
             <v-btn icon @click="seeInforms = !seeInforms">
               <v-icon v-if="seeInforms"> fa-angle-up </v-icon>
@@ -25,49 +25,41 @@
 
                 <v-card-text>
                   <div v-for="(item, index) in informs" :key="item._id">
-                    <div v-if="item.fechaCreacion.includes(fecha)">
+                    <div
+                      v-if="formatFecha(item.fechaCreacion).includes(fecha.toLowerCase())"
+                    >
                       <v-row>
-                        <v-col>
-                          <h4 class="pt-2">
+                        <v-col class="pa-0 ma-0">
+                          <h4 class="pt-4 pl-6">
                             Informe del
                             <span class="font-weight-black">
-                              {{ informs[index].fechaCreacion }}
+                              {{ formatFecha(informs[index].fechaCreacion) }}
                             </span>
-                            --
-                            <span class="font-weight-black">
-                              {{ informs[index].diagnostico.length }}
-                            </span>
-                            Diagnosticos,
-                            <span class="font-weight-black">
-                              {{ informs[index].conclusion.length }}
-                            </span>
-                            Conclusiones,
-                            <span class="font-weight-black">
-                              {{ informs[index].recomendacion.length }}
-                            </span>
-                            Recomendaciones y
-                            <span class="font-weight-black">
-                              {{ informs[index].observacion.length }}</span
-                            >
-                            Observaciones
                           </h4>
                         </v-col>
 
                         <v-col
                           cols="4"
-                          sm="2"
-                          class="d-flex align-content-center flex-wrap"
+                          sm="3"
+                          class="
+                            d-flex
+                            align-content-center
+                            flex-wrap
+                            pa-0
+                            pt-2
+                            pb-2
+                            ma-0
+                          "
                         >
                           <v-chip
                             :class="`${getColor(item.estado)} white--text`"
-                            style="margin-right: -10px; margin-left: -15px"
+                            style="margin-left: -15px"
                           >
                             {{ getText(item.estado) }}
                           </v-chip>
-                          <v-spacer> </v-spacer>
-                          <v-menu offset-y tile>
+                          <v-menu offset-y>
                             <template v-slot:activator="{ on, attrs }">
-                              <v-btn text v-bind="attrs" v-on="on" icon>
+                              <v-btn icon v-bind="attrs" v-on="on">
                                 <v-icon> fa-ellipsis-v </v-icon>
                               </v-btn>
                             </template>
@@ -143,17 +135,19 @@
         <div v-if="action != ''">
           <v-card>
             <v-card-title class="primary white--text">
-              <span class="headline">Informe {{ editedInform.fechaCreacion }} </span>
+              <span class="headline"
+                >Informe del {{ formatFecha(editedInform.fechaCreacion) }}
+              </span>
               <v-spacer></v-spacer>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
-                    v-if="editedInform.estado"
+                    v-show="editedInform.estado"
                     icon
                     class="mr-2 white--text"
                     v-on="on"
                     v-bind="attrs"
-                    @click="download(item)"
+                    @click="download(editedInform)"
                   >
                     <v-icon> fa-download </v-icon>
                   </v-btn>
@@ -175,11 +169,228 @@
               <h3 class="pt-2 pb-1">Diagnosticos</h3>
               <div v-for="(item, index) in editedInform.diagnostico" :key="index">
                 <h3 class="pl-4 pb-3">
-                  {{ item.formulario.nombre }} - {{ item.fecha }} --
+                  <v-btn icon @click="seeDiagnostic(item)">
+                    <v-icon class="info--text"> fa-eye</v-icon>
+                  </v-btn>
+                  {{ item.formulario.nombre }} - {{ formatFecha(item.fecha) }} -
                   <span :class="getColorTotal(item) + '--text'">
                     {{ item.total }}
                   </span>
                 </h3>
+              </div>
+
+              <h3 class="pt-2 pb-1">Resumen de diagnosticos</h3>
+
+              <v-row>
+                <v-col></v-col>
+                <v-col
+                  v-for="(item, index) in editedInform.diagnostico"
+                  :key="index + 'DiagnosticoInInform'"
+                  align="center"
+                >
+                  <h4 class="pb-2">
+                    {{ item.formulario.nombre }}
+                  </h4>
+                </v-col>
+              </v-row>
+
+              <v-row class="pa-0 ma-0">
+                <v-col class="pt-8">
+                  <span> Servicios Turísticos </span>
+                </v-col>
+                <v-col
+                  v-for="(column, index) in editedInform.diagnostico"
+                  :key="index + 'Service'"
+                  align="center"
+                >
+                  <v-switch
+                    :label="yesNoLabel(editedInform.servicio[index])"
+                    filled
+                    :disabled="disableItem"
+                    rounded
+                    dense
+                    v-model="editedInform.servicio[index]"
+                  />
+                </v-col>
+              </v-row>
+
+              <v-row class="pa-0 ma-0">
+                <v-col class="pt-5">
+                  <span> Clasificación / Tipo </span>
+                </v-col>
+                <v-col
+                  v-for="(column, index) in editedInform.diagnostico"
+                  :key="index + 'Clasification'"
+                  align="center"
+                >
+                  <v-text-field
+                    v-if="column"
+                    :disabled="disableItem"
+                    filled
+                    rounded
+                    dense
+                    v-model="editedInform.clasificacion[index]"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+
+              <v-row class="pa-0 ma-0">
+                <v-col>
+                  <span> Condición Porcentual </span>
+                </v-col>
+                <v-col
+                  v-for="(column, index) in editedInform.diagnostico"
+                  :key="index + 'total'"
+                  align="center"
+                >
+                  {{ column.total }}
+                </v-col>
+              </v-row>
+
+              <v-row class="pa-0 ma-0">
+                <v-col class="pt-5">
+                  <span> Personal </span>
+                </v-col>
+                <v-col
+                  v-for="(column, index) in editedInform.diagnostico"
+                  :key="index + 'Personal'"
+                  align="center"
+                >
+                  <v-text-field
+                    filled
+                    rounded
+                    dense
+                    :disabled="disableItem"
+                    v-model="editedInform.personal[index]"
+                    :rules="numberRules"
+                  ></v-text-field>
+                </v-col>
+                <span class="pt-5 ml-0 pl-0"> /{{ editedInform.actualPersonal }} </span>
+              </v-row>
+
+              <div class="error" v-if="!maxPeople">
+                <h4 class="ml-4 white--text">
+                  El distribuido es: {{ currentPeople }}, la distribución no puede ser
+                  menor o mayor a {{ establishment.personal }}.
+                </h4>
+              </div>
+
+              <h3 class="pt-2">Actividades Turísticas</h3>
+              <v-row class="pa-0 ma-0" v-if="editedInform.actividad.length > 0">
+                <v-col
+                  v-for="(column, index) in editedInform.actividad"
+                  :key="index + 'Activities'"
+                  align="center"
+                  >{{ index + 1 }}.- {{ column }}
+                </v-col>
+              </v-row>
+              <v-row v-else class="pa-0 ma-0">
+                <h4 class="pa-3 ma-3">
+                  No Aplica, el establecimiento no tiene Actividades
+                </h4>
+              </v-row>
+
+              <h3 class="pt-2">Productos Turísticos</h3>
+              <div
+                v-for="(item, index) in editedInform.diagnostico"
+                :key="index + 'ProductosTuristicos'"
+              >
+                <div v-if="item.formulario.mostrarEnInforme != null">
+                  <v-divider></v-divider>
+                  <v-row>
+                    <v-col
+                      v-for="(header, idHeader) in item.formulario.pregunta[
+                        item.formulario.mostrarEnInforme
+                      ].encabezado"
+                      :key="idHeader + 'H'"
+                      class="d-flex child-flex pt-2"
+                      align="center"
+                    >
+                      <span class="font-weight-medium">{{ header }}</span>
+                    </v-col>
+                  </v-row>
+                  <v-divider></v-divider>
+                  <v-row
+                    v-for="(res, idRes) in item.respuesta[
+                      item.formulario.mostrarEnInforme
+                    ].valor"
+                    :key="idRes + 'R'"
+                    align="center"
+                  >
+                    <v-col
+                      v-for="(format, idFormat) in item.formulario.pregunta[
+                        item.formulario.mostrarEnInforme
+                      ].formato"
+                      :key="idFormat + 'F'"
+                      class="d-flex child-flex pa-1"
+                      align="center"
+                    >
+                      <div v-if="format.tipo === 'SN'">
+                        {{
+                          getRespuesta(
+                            'SN',
+                            item.respuesta[item.formulario.mostrarEnInforme].valor[idRes][
+                              idFormat
+                            ]
+                          )
+                        }}
+                      </div>
+
+                      <div v-else-if="format.tipo === 'ABIERTA'">
+                        {{
+                          getRespuesta(
+                            'ABIERTA',
+                            item.respuesta[item.formulario.mostrarEnInforme].valor[idRes][
+                              idFormat
+                            ]
+                          )
+                        }}
+                      </div>
+
+                      <div v-else-if="format.tipo === 'SELECCION'">
+                        <v-radio-group
+                          v-model="
+                            item.respuesta[item.formulario.mostrarEnInforme].valor[idRes][
+                              idFormat
+                            ]
+                          "
+                          style="margin-bottom: -10px; margin-top: -2px"
+                        >
+                          <v-radio
+                            v-for="(option, number) in format.opciones"
+                            :label="option"
+                            disabled
+                            :key="'SV' + number"
+                          >
+                          </v-radio>
+                        </v-radio-group>
+                      </div>
+
+                      <div v-else-if="format.tipo === 'MULTIPLE'">
+                        <div
+                          v-for="(check, checkIndex) in format.opciones"
+                          :key="checkIndex"
+                        >
+                          <v-checkbox
+                            v-model="
+                              item.respuesta[item.formulario.mostrarEnInforme].valor[
+                                idRes
+                              ][idFormat][checkIndex]
+                            "
+                            disabled
+                            class="pa-0"
+                            style="margin-bottom: -35px"
+                          >
+                            <template v-slot:label>
+                              <span class="subtitle-2">{{ check }}</span>
+                            </template>
+                          </v-checkbox>
+                        </div>
+                      </div>
+                      <v-divider vertical></v-divider>
+                    </v-col>
+                  </v-row>
+                </div>
               </div>
 
               <h3 class="pt-2">
@@ -325,7 +536,7 @@
               </v-card>
             </v-card-text>
 
-            <v-card-actions v-if="!disableItem">
+            <v-card-actions v-if="!disableItem && maxPeople">
               <v-btn class="success" @click="save" block> Guardar Informe </v-btn>
             </v-card-actions>
           </v-card>
@@ -361,13 +572,18 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <v-dialog v-model="dialogDiagnostic" max-width="700px">
+      <seeDiagnostic :diagnostic="diagnostic" @accion="closeDiagnostic" />
+    </v-dialog>
   </div>
 </template>
 
 <script>
 import { swalError, swalConfirm, swalLoading } from '@/utils/notify'
-import { downloadPDF } from '@/utils/pdfmake'
+import { Report } from '@/utils/pdfmake'
 import { mapState } from 'vuex'
+import { getFecha } from '@/utils/moment'
 
 export default {
   data() {
@@ -375,8 +591,10 @@ export default {
       loading: false,
       seeInforms: true,
       dialogDelete: false,
+      seeDiagnostics: true,
+      dialogDiagnostic: false,
       problem: false,
-      sm: '',
+      sm: '6',
       action: '',
       editedIndex: -1,
       informs: [
@@ -388,17 +606,34 @@ export default {
         }
       ],
       dateNotRepeted: [],
+      numberRules: [
+        v => !!v || 'Campo necesario',
+        v => Number.isInteger(parseInt(v)) || 'Solo se permiten números'
+      ],
       editedInform: {
         diagnostico: [],
-        recomendacion: [],
-        observacion: [],
-        conclusion: []
+        conclusion: [''],
+        recomendacion: [''],
+        observacion: [''],
+        servicio: [],
+        clasificacion: [],
+        personal: [],
+        actividad: []
       },
       defaultItem: {
         diagnostico: [],
-        recomendacion: [],
-        observacion: [],
-        conclusion: []
+        conclusion: [''],
+        recomendacion: [''],
+        observacion: [''],
+        servicio: [],
+        clasificacion: [],
+        personal: [],
+        actividad: []
+      },
+      diagnostic: {
+        formulario: {
+          nombre: ''
+        }
       }
     }
   },
@@ -413,7 +648,7 @@ export default {
           this.loading = false
           this.informs = res.data.data
           this.getDate()
-          this.editedInform = this.defaultItem
+          this.editedInform = Object.assign({}, this.defaultItem)
         })
         .catch(error => {
           this.loading = false
@@ -426,17 +661,20 @@ export default {
     },
 
     getDate() {
-      var dates = this.informs.map(item => {
-        return item.fechaCreacion.split('/')[1] + '/' + item.fechaCreacion.split('/')[2]
+      this.dateNotRepeted = this.informs.map(item => {
+        var date = getFecha(item.fechaCreacion).split(' ')
+        return date[2].toUpperCase() + ' ' + date[3]
       })
-      this.dateNotRepeted.push(dates[0])
-      for (let i = 0; i < dates.length; i++) {
-        if (dates[i + 1]) {
-          if (dates[i] != dates[i + 1]) {
-            this.dateNotRepeted.push(dates[i + 1])
-          }
-        }
+
+      //algoritmo para eliminar iguales copiado de internet
+      for (var i = this.dateNotRepeted.length - 1; i >= 0; i--) {
+        if (this.dateNotRepeted.indexOf(this.dateNotRepeted[i]) !== i)
+          this.dateNotRepeted.splice(i, 1)
       }
+    },
+
+    formatFecha(item) {
+      return getFecha(item)
     },
 
     getColor(item) {
@@ -483,7 +721,7 @@ export default {
 
     restoreDefault() {
       this.action = ''
-      this.editedInform = this.defaultItem
+      this.editedInform = Object.assign({}, this.defaultItem)
     },
 
     deleteItem(item) {
@@ -514,7 +752,7 @@ export default {
       if (!this.problem) {
         var indice = this.informs.indexOf(this.editedInform)
         this.informs[indice].estado = null
-        this.editedInform = this.defaultItem
+        this.editedInform = Object.assign({}, this.defaultItem)
         this.action = ''
       }
     },
@@ -523,7 +761,7 @@ export default {
       this.loading = true
       swalLoading('Eliminando Informe')
       try {
-        await this.$http.delete(`/api/informe/${this.editedItem._id}`).then(() => {
+        await this.$http.delete(`/api/informe/${this.editedInform._id}`).then(() => {
           this.loading = false
           swalConfirm('Informe Eliminado')
         })
@@ -561,15 +799,69 @@ export default {
       }
     },
 
-    download(item) {
-      downloadPDF(item)
+    async download(item) {
+      await Report.openPDF(item)
+    },
+
+    seeDiagnostic(item) {
+      this.diagnostic = item
+      this.dialogDiagnostic = true
+    },
+
+    closeDiagnostic() {
+      this.diagnostic = {
+        formulario: {
+          nombre: ''
+        }
+      }
+      this.dialogDiagnostic = false
+    },
+
+    yesNoLabel(item) {
+      return item ? 'Si' : 'No'
+    },
+
+    getRespuesta(critery, item) {
+      if (item === null) {
+        return 'No se ha respondido'
+      } else {
+        if (critery === 'SN') {
+          return item ? 'Si' : 'No'
+        } else {
+          return item
+        }
+      }
     }
   },
 
   computed: {
     ...mapState(['user', 'establishment']),
+
     disableItem() {
       return this.action === 'edit' ? false : true
+    },
+
+    maxPeople() {
+      if (
+        this.currentPeople > this.establishment.personal ||
+        this.currentPeople < this.establishment.personal
+      ) {
+        return false
+      } else {
+        return true
+      }
+    },
+
+    currentPeople() {
+      var num = 0
+      this.editedInform.personal.map(v => {
+        if (parseInt(v)) {
+          num = num + parseInt(v)
+        } else {
+          num = num + 0
+        }
+      })
+      return num
     }
   },
 
@@ -588,10 +880,19 @@ export default {
 
     establishment() {
       this.getInforms()
+      this.action = ''
     },
 
     dialogDelete(val) {
       val || this.closeDelete()
+    },
+
+    seeDiagnostics(v) {
+      if (v) {
+        this.sm = '6'
+      } else {
+        this.sm = '12'
+      }
     }
   }
 }

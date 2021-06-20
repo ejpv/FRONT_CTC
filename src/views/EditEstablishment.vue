@@ -26,6 +26,14 @@
             dense
           ></v-text-field>
 
+          <h3 class="pt-2 pb-1">Administrador</h3>
+          <v-text-field
+            v-model="basicInformation.administrador"
+            filled
+            rounded
+            dense
+          ></v-text-field>
+
           <h3 class="pb-1">Correo</h3>
           <v-text-field
             v-model="basicInformation.email"
@@ -42,20 +50,44 @@
             dense
           ></v-text-field>
 
-          <h3 class="pb-1">Teléfono</h3>
+          <h3 class="pb-1">
+            Teléfono
+            <v-tooltip right>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  icon
+                  @click="basicInformation.telefono.push('')"
+                  small
+                  v-on="on"
+                  v-bind="attrs"
+                >
+                  <v-icon class="info--text" small> fa-plus </v-icon>
+                </v-btn>
+              </template>
+              <span> Agregar una Actividad Turística </span>
+            </v-tooltip>
+          </h3>
           <v-text-field
-            v-model="basicInformation.telefono"
+            v-for="(item, index) in basicInformation.telefono"
+            :key="index"
+            v-model="basicInformation.telefono[index]"
+            filled
+            rounded
+            dense
+          >
+            <template v-if="basicInformation.telefono.length > 1" v-slot:append>
+              <v-icon @click="removeItem('telefono', index)">far fa-times-circle</v-icon>
+            </template>
+          </v-text-field>
+
+          <h3 class="pb-1">Comunidad u Organización</h3>
+          <v-text-field
+            v-model="basicInformation.comunidad"
             filled
             rounded
             dense
           ></v-text-field>
-          <h3 class="pt-2 pb-1">Administrador</h3>
-          <v-text-field
-            v-model="basicInformation.administrador"
-            filled
-            rounded
-            dense
-          ></v-text-field>
+
           <h3 class="pb-1">Nacionalidad / Pueblo</h3>
           <v-text-field
             v-model="basicInformation.nacionalidad"
@@ -63,6 +95,7 @@
             rounded
             dense
           ></v-text-field>
+
           <h3 class="pb-1">Página web</h3>
           <v-text-field
             v-model="basicInformation.web"
@@ -70,6 +103,7 @@
             rounded
             dense
           ></v-text-field>
+
           <h3 class="pb-1">Área Protegida</h3>
           <v-text-field
             v-if="basicInformation.areaProtegida"
@@ -79,7 +113,9 @@
             dense
             disabled
           ></v-text-field>
+
           <v-text-field v-else filled rounded dense disabled></v-text-field>
+
           <h3 class="pb-1">Representante</h3>
           <v-text-field
             v-if="basicInformation.representante"
@@ -89,6 +125,7 @@
             dense
             disabled
           ></v-text-field>
+
           <v-text-field v-else filled rounded dense disabled></v-text-field>
         </v-col>
       </v-row>
@@ -122,7 +159,7 @@
             dense
           ></v-text-field>
 
-          <h3 class="pb-1">Ciudad</h3>
+          <h3 class="pb-1">Ciudad o Localidad Próxima</h3>
           <v-text-field
             v-model="basicInformation.ciudad"
             filled
@@ -253,9 +290,66 @@
           ></v-text-field>
         </v-col>
       </v-row>
-      
-    </v-card-text>
 
+      <v-row class="pb-0">
+        <v-col class="pb-0"
+          ><h2>
+            Actividades Turísticas
+            <v-tooltip right>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  icon
+                  @click="basicInformation.actividad.push('')"
+                  small
+                  v-on="on"
+                  v-bind="attrs"
+                >
+                  <v-icon class="info--text" small> fa-plus </v-icon>
+                </v-btn>
+              </template>
+              <span> Agregar una Actividad Turística </span>
+            </v-tooltip>
+          </h2></v-col
+        >
+        <v-col cols="1" align="end" class="pb-0">
+          <v-btn icon style="margin-left: -15px" @click="activity = !activity">
+            <v-icon v-if="activity">fa-angle-up</v-icon>
+            <v-icon v-else>fa-angle-down</v-icon>
+          </v-btn>
+        </v-col>
+      </v-row>
+      <v-divider></v-divider>
+
+      <div v-if="activity">
+        <v-row v-if="basicInformation.actividad.length > 0">
+          <v-col
+            class="ml-4 mr-4"
+            v-for="(item, index) in basicInformation.actividad"
+            :key="index + 'Activities'"
+          >
+            <v-autocomplete
+              v-model="basicInformation.actividad[index]"
+              filled
+              rounded
+              dense
+              :items="activities"
+              item-value="_id"
+              item-text="nombre"
+              return-object
+            >
+              <template v-slot:append>
+                <v-icon @click="removeItem('actividad', index)"
+                  >far fa-times-circle</v-icon
+                >
+              </template>
+            </v-autocomplete>
+          </v-col>
+        </v-row>
+        <v-row v-else class="ml-4 mt-4">
+          <h4>No Aplica, el establecimiento no tiene Actividades</h4>
+        </v-row>
+      </div>
+    </v-card-text>
     <v-card-actions>
       <v-row>
         <v-col cols="6" align="center">
@@ -293,6 +387,7 @@ export default {
     return {
       basic: true,
       people: true,
+      activity: true,
       place: true,
       general: true,
       problem: false,
@@ -305,7 +400,8 @@ export default {
       numberRules: [
         v => !!v || 'Campo necesario',
         v => Number.isInteger(parseInt(v)) || 'Solo se permiten números'
-      ]
+      ],
+      activities: []
     }
   },
 
@@ -314,6 +410,9 @@ export default {
 
     sync() {
       this.basicInformation = Object.assign({}, this.establishment)
+      this.basicInformation.actividad = this.establishment.actividad.map(v => {
+        return v
+      })
     },
 
     async save() {
@@ -325,23 +424,26 @@ export default {
 
     //permite obtener la localización actual
     getLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          //Por si la acepta
-          v => {
-            this.coordinates.lat = v.coords.latitude
-            this.coordinates.lng = v.coords.longitude
-            this.showMap()
-          },
-
-          //Por si la deniega
-          () => {
-            swalError('El Usuario ha Denegado la Geolocalización')
-          }
-        )
-      } else {
-        console.log('Geolocation is not supported by this browser.')
+      if (!navigator.geolocation) {
+        swalError('Geolocation no es soportada por este navegador.')
+        return
       }
+
+      navigator.geolocation.getCurrentPosition(this.onSucccess, this.onError)
+    },
+
+    onError(e) {
+      if (e) {
+        swalError(e.message)
+      } else {
+        swalError('Ocurrio un error o no hay permisos para ver la ubicación')
+      }
+    },
+
+    onSucccess(position) {
+      this.coordinates.lat = position.coords.latitude
+      this.coordinates.lng = position.coords.longitude
+      this.showMap()
     },
 
     showMap() {
@@ -367,21 +469,40 @@ export default {
       }
     },
 
+    removeItem(critery, indice) {
+      if (critery === 'actividad') {
+        this.basicInformation.actividad.splice(indice, 1)
+      } else {
+        if (critery === 'telefono') {
+          this.basicInformation.telefono.splice(indice, 1)
+        }
+      }
+    },
+
     async changeEstablishment() {
+      this.basicInformation.actividad = this.basicInformation.actividad.filter(v => {
+        if (v) {
+          return v
+        }
+      })
+
+      var tmp = Object.assign({}, this.basicInformation)
       this.loading = true
       swalLoading('Guardando Información')
 
-      delete this.basicInformation.representante
-      delete this.basicInformation.areaProtegida
+      delete tmp.representante
+      delete tmp.areaProtegida
+
+      tmp.actividad = tmp.actividad.map(v => {
+        return v._id
+      })
 
       try {
-        await this.$http
-          .put(`/api/establecimiento/${this.basicInformation._id}`, this.basicInformation)
-          .then(async () => {
-            this.loading = false
-            swalConfirm('Información actualizada')
-            this.problem = false
-          })
+        await this.$http.put(`/api/establecimiento/${tmp._id}`, tmp).then(async () => {
+          this.loading = false
+          swalConfirm('Información actualizada')
+          this.problem = false
+        })
       } catch (error) {
         this.loading = false
         swalError(
@@ -391,11 +512,31 @@ export default {
         )
         this.problem = true
       }
+    },
+
+    async getActivities() {
+      this.loading = true
+      this.activities = []
+      await this.$http
+        .get('/api/actividades')
+        .then(res => {
+          this.loading = false
+          this.activities = res.data.data
+        })
+        .catch(error => {
+          this.loading = false
+          swalError(
+            error.body.err != undefined
+              ? error.body.err.message
+              : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
+          )
+        })
     }
   },
 
   created() {
     this.sync()
+    this.getActivities()
     this.coordinates.lat = this.basicInformation.lat
     this.coordinates.lng = this.basicInformation.lng
   },

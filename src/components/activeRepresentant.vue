@@ -539,7 +539,7 @@ export default {
     },
 
     closeUser() {
-      this.usuario = this.usuarioDefault
+      this.usuario = Object.assign({}, this.usuarioDefault)
       this.dialogUser = false
       this.dialogUnassign = false
     },

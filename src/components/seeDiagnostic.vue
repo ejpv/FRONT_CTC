@@ -134,7 +134,8 @@
               {{ getRespuesta('ABIERTA', item.valor) }}
             </div>
 
-            <span class="subtitle-2">Puntaje de la pregunta:</span> {{ item.puntaje }}
+            <span class="subtitle-2">Puntaje de la pregunta:</span> {{ item.puntaje }} /
+            {{ diagnostic.formulario.pregunta[index].peso }}
           </v-card-text>
         </div>
       </v-container>
@@ -188,4 +189,3 @@ export default {
   }
 }
 </script>
-
