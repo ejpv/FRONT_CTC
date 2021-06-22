@@ -238,15 +238,16 @@ export default {
         await this.changeActivity()
         if (!this.problem) {
           Object.assign(this.activities[this.editedIndex], this.editedItem)
+          this.close()
         }
       } else {
         await this.addActivity()
         if (!this.problem) {
           this.activities.push(this.editedItem)
+          this.close()
         }
       }
       this.problem = false
-      this.close()
     },
 
     async addActivity() {

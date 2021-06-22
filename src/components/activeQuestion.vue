@@ -444,15 +444,16 @@ export default {
         await this.changeQuestion()
         if (!this.problem) {
           Object.assign(this.questions[this.editedIndex], this.editedItem)
+          this.close()
         }
       } else {
         await this.addQuestion()
         if (!this.problem) {
           this.questions.push(this.editedItem)
+          this.close()
         }
       }
       this.problem = false
-      this.close()
     },
 
     async addQuestion() {

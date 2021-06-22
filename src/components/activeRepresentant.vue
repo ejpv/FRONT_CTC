@@ -635,16 +635,17 @@ export default {
         if (!this.problem) {
           Object.assign(this.representants[this.editedIndex], this.editedItem)
           this.getUsers()
+          this.close()
         }
       } else {
         await this.addRepresentant()
         if (!this.problem) {
           this.representants.push(this.editedItem)
           this.getUsers()
+          this.close()
         }
       }
       this.problem = false
-      this.close()
     },
 
     async addRepresentant() {

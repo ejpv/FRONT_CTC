@@ -388,15 +388,16 @@ export default {
         await this.changeUser()
         if (!this.problem) {
           Object.assign(this.users[this.editedIndex], this.editedItem)
+          this.close()
         }
       } else {
         await this.addUser()
         if (!this.problem) {
           this.users.push(this.editedItem)
+          this.close()
         }
       }
       this.problem = false
-      this.close()
     },
 
     async addUser() {

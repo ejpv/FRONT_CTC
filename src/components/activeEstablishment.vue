@@ -1127,8 +1127,8 @@ export default {
     },
 
     saveCoordinates(data) {
-      this.editedItem.lat = data.lat
-      this.editedItem.lng = data.lng
+      this.editedItem.lat = data.lat()
+      this.editedItem.lng = data.lng()
       this.dialogMap = false
     },
 

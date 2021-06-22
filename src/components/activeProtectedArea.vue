@@ -280,18 +280,21 @@ export default {
             this.updateType(this.editedItem.tipo, true)
             this.updateType(this.pastType, false)
           }
+          this.pastType = ''
+          this.$refs.form.resetValidation()
+          this.close()
         }
       } else {
         await this.addArea()
         if (!this.problem) {
           this.areas.push(this.editedItem)
           this.updateType(this.editedItem.tipo, true)
+          this.pastType = ''
+          this.$refs.form.resetValidation()
+          this.close()
         }
       }
       this.problem = false
-      this.pastType = ''
-      this.$refs.form.resetValidation()
-      this.close()
     },
 
     deleteItem(item) {
