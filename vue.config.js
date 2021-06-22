@@ -4,14 +4,14 @@ module.exports = {
   devServer: {
     proxy: {
       '/api': {
-        target: `${process.env.PROXY}/api`,
+        target: `${process.env.VUE_APP_DOMAIN}/api`,
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''
         }
       },
       '/image': {
-        target: `${process.env.PROXY}/image`,
+        target: `${process.env.VUE_APP_DOMAIN}/image`,
         changeOrigin: true,
         pathRewrite: {
           '^/image': ''
