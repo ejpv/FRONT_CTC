@@ -45,7 +45,7 @@ import { swalError, swalLoading, swalConfirm } from '@/utils/notify'
 export default {
   data() {
     return {
-      email: 'erickjpv@hotmail.es',
+      email: '',
       loading: false,
       emailRules: [
         v => !!v || 'Correo es necesario',
