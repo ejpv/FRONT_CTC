@@ -410,7 +410,7 @@ export default {
       this.loading = true
       this.informs = []
       await this.$http
-        .get('/api/informes?estado=false')
+        .get('api/informes?estado=false')
         .then(res => {
           this.loading = false
           this.informs = res.data.data

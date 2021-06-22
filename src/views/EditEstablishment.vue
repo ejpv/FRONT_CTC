@@ -498,7 +498,7 @@ export default {
       })
 
       try {
-        await this.$http.put(`/api/establecimiento/${tmp._id}`, tmp).then(async () => {
+        await this.$http.put(`api/establecimiento/${tmp._id}`, tmp).then(async () => {
           this.loading = false
           swalConfirm('Información actualizada')
           this.problem = false
@@ -518,7 +518,7 @@ export default {
       this.loading = true
       this.activities = []
       await this.$http
-        .get('/api/actividades')
+        .get('api/actividades')
         .then(res => {
           this.loading = false
           this.activities = res.data.data

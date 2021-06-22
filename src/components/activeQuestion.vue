@@ -346,7 +346,7 @@ export default {
       this.loading = true
       this.questions = []
       await this.$http
-        .get('/api/preguntas')
+        .get('api/preguntas')
         .then(res => {
           this.loading = false
           this.questions = res.data.data
@@ -459,7 +459,7 @@ export default {
       this.loading = true
       swalLoading('Ingresando pregunta')
       try {
-        await this.$http.post('/api/pregunta', this.editedItem).then(async res => {
+        await this.$http.post('api/pregunta', this.editedItem).then(async res => {
           this.loading = false
           swalConfirm('Pregunta nueva ingresada')
           this.problem = false
@@ -480,7 +480,7 @@ export default {
       this.loading = true
       swalLoading('Eliminando pregunta')
       try {
-        await this.$http.delete(`/api/pregunta/${this.editedItem._id}`).then(() => {
+        await this.$http.delete(`api/pregunta/${this.editedItem._id}`).then(() => {
           this.loading = false
           swalConfirm('Pregunta Eliminada')
         })
@@ -501,7 +501,7 @@ export default {
       swalLoading('Editando pregunta')
       try {
         await this.$http
-          .put(`/api/pregunta/${this.editedItem._id}`, this.editedItem)
+          .put(`api/pregunta/${this.editedItem._id}`, this.editedItem)
           .then(async () => {
             this.loading = false
             swalConfirm('Pregunta editada')

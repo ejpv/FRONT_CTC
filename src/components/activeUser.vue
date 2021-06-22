@@ -330,7 +330,7 @@ export default {
       this.loading = true
       this.users = []
       await this.$http
-        .get('/api/usuarios')
+        .get('api/usuarios')
         .then(res => {
           this.loading = false
           this.users = res.data.data
@@ -403,7 +403,7 @@ export default {
       this.loading = true
       swalLoading('Ingresando usuario')
       try {
-        await this.$http.post('/api/usuario', this.editedItem).then(async res => {
+        await this.$http.post('api/usuario', this.editedItem).then(async res => {
           this.loading = false
           if (this.sendMail) {
             this.editedItem = res.data.data
@@ -431,7 +431,7 @@ export default {
       this.loading = true
       swalLoading('Eliminando usuario')
       try {
-        await this.$http.delete(`/api/usuario/${this.editedItem._id}`).then(() => {
+        await this.$http.delete(`api/usuario/${this.editedItem._id}`).then(() => {
           this.loading = false
           swalConfirm('Usuario eliminado')
         })
@@ -452,7 +452,7 @@ export default {
       swalLoading('Editando usuario')
       try {
         await this.$http
-          .put(`/api/usuario/${this.editedItem._id}`, this.editedItem)
+          .put(`api/usuario/${this.editedItem._id}`, this.editedItem)
           .then(() => {
             this.loading = false
             swalConfirm('Usuario editado')
@@ -473,7 +473,7 @@ export default {
       this.loading = true
       swalLoading('Enviando correo')
       await this.$http
-        .post('/api/email/verifica', {
+        .post('api/email/verifica', {
           id: item._id
         })
         .then(() => {

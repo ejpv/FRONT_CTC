@@ -178,7 +178,7 @@ export default {
       this.loading = true
       this.users = []
       await this.$http
-        .get('/api/usuarios?estado=false')
+        .get('api/usuarios?estado=false')
         .then(res => {
           this.loading = false
           this.users = res.data.data
@@ -220,7 +220,7 @@ export default {
       this.loading = true
       swalLoading('Restaurando usuario')
       try {
-        await this.$http.put(`/api/usuario/${this.editedItem._id}/restaurar`).then(() => {
+        await this.$http.put(`api/usuario/${this.editedItem._id}/restaurar`).then(() => {
           this.loading = false
           swalConfirm('Usuario restaurado')
         })

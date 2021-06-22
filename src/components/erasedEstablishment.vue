@@ -250,7 +250,7 @@ export default {
       this.loading = true
       this.establishments = []
       await this.$http
-        .get('/api/establecimientos?estado=false')
+        .get('api/establecimientos?estado=false')
         .then(res => {
           this.loading = false
           this.establishments = res.data.data
@@ -293,7 +293,7 @@ export default {
       swalLoading('Restaurando establecimiento')
       try {
         await this.$http
-          .put(`/api/establecimiento/${this.editedItem._id}/restaurar`)
+          .put(`api/establecimiento/${this.editedItem._id}/restaurar`)
           .then(() => {
             this.loading = false
             swalConfirm('Establecimiento restaurado')

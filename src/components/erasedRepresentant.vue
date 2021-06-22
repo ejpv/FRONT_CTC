@@ -157,7 +157,7 @@ export default {
       this.loading = true
       this.representants = []
       await this.$http
-        .get('/api/representantes?estado=false')
+        .get('api/representantes?estado=false')
         .then(res => {
           this.loading = false
           this.representants = res.data.data
@@ -200,7 +200,7 @@ export default {
       swalLoading('Restaurando representante')
       try {
         await this.$http
-          .put(`/api/representante/${this.editedItem._id}/restaurar`)
+          .put(`api/representante/${this.editedItem._id}/restaurar`)
           .then(() => {
             this.loading = false
             swalConfirm('Representante restaurado')

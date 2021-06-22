@@ -102,7 +102,7 @@ export default {
       this.diagnostics = []
       this.dateNotRepeted = []
       await this.$http
-        .get(`/api/diagnosticos/${this.user._id}`)
+        .get(`api/diagnosticos/${this.user._id}`)
         .then(res => {
           this.loading = false
           this.diagnostics = res.data.data

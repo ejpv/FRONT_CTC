@@ -337,7 +337,7 @@ export default {
       this.loading = true
       swalLoading('Ingresando Diagnóstico')
       try {
-        await this.$http.post('/api/diagnostico', this.editedItem).then(async () => {
+        await this.$http.post('api/diagnostico', this.editedItem).then(async () => {
           this.loading = false
           swalConfirm('Diagnostico nuevo ingresado')
           this.problem = false
@@ -392,7 +392,7 @@ export default {
     async getForm() {
       this.loading = true
       await this.$http
-        .get(`/api/formulario/${this.codes.form}`)
+        .get(`api/formulario/${this.codes.form}`)
         .then(res => {
           this.loading = false
           this.editedForm = res.data.data
@@ -411,7 +411,7 @@ export default {
     async getEstablishment() {
       this.loading = true
       await this.$http
-        .get(`/api/establecimiento/${this.codes.establishment}`)
+        .get(`api/establecimiento/${this.codes.establishment}`)
         .then(res => {
           this.loading = false
           this.editedEstablishment = res.data.data

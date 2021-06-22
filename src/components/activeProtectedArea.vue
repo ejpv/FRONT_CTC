@@ -231,7 +231,7 @@ export default {
       this.loading = true
       this.areas = []
       await this.$http
-        .get('/api/areasProtegidas')
+        .get('api/areasProtegidas')
         .then(res => {
           this.loading = false
           this.areas = res.data.data
@@ -351,7 +351,7 @@ export default {
       this.loading = true
       swalLoading('Ingresando área')
       try {
-        await this.$http.post('/api/areaProtegida', this.editedItem).then(async res => {
+        await this.$http.post('api/areaProtegida', this.editedItem).then(async res => {
           this.loading = false
           swalConfirm('Área nueva ingresada')
           this.problem = false
@@ -372,7 +372,7 @@ export default {
       this.loading = true
       swalLoading('Eliminando área')
       try {
-        await this.$http.delete(`/api/areaProtegida/${this.editedItem._id}`).then(() => {
+        await this.$http.delete(`api/areaProtegida/${this.editedItem._id}`).then(() => {
           this.loading = false
           swalConfirm('Área Eliminada')
         })
@@ -393,7 +393,7 @@ export default {
       swalLoading('Editando área')
       try {
         await this.$http
-          .put(`/api/areaProtegida/${this.editedItem._id}`, this.editedItem)
+          .put(`api/areaProtegida/${this.editedItem._id}`, this.editedItem)
           .then(async () => {
             this.loading = false
             swalConfirm('Área editada')

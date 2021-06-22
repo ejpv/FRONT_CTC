@@ -422,7 +422,7 @@ export default {
       this.informs = []
       this.dateNotRepeted = []
       await this.$http
-        .get(`/api/informes/representante`)
+        .get(`api/informes/representante`)
         .then(res => {
           this.loading = false
           this.informs = res.data.data

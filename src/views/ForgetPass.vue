@@ -59,7 +59,7 @@ export default {
         this.loading = true
         swalLoading('Enviando correo')
         this.$http
-          .post('/api/email/restaura', {
+          .post('api/email/restaura', {
             email: this.email
           })
           .then(() => {

@@ -679,7 +679,7 @@ export default {
         pregunta: []
       }
       await this.$http
-        .get(`/api/formulario/${this.editedIndex}`)
+        .get(`api/formulario/${this.editedIndex}`)
         .then(res => {
           this.loading = false
           this.form = res.data.data
@@ -698,7 +698,7 @@ export default {
       this.loading = true
       this.questions = []
       await this.$http
-        .get('/api/preguntas')
+        .get('api/preguntas')
         .then(res => {
           this.loading = false
           this.questions = res.data.data
@@ -808,7 +808,7 @@ export default {
       this.loading = true
       swalLoading('Ingresando Formulario')
       try {
-        await this.$http.post('/api/formulario', item).then(async () => {
+        await this.$http.post('api/formulario', item).then(async () => {
           this.loading = false
           swalConfirm('Formulario nuevo ingresado')
         })
@@ -826,7 +826,7 @@ export default {
     async addQuest(item) {
       this.loading = true
       try {
-        await this.$http.post('/api/pregunta', item).then(async res => {
+        await this.$http.post('api/pregunta', item).then(async res => {
           this.loading = false
           this.form.pregunta[this.form.pregunta.indexOf(item)] = res.data.data
         })
@@ -846,7 +846,7 @@ export default {
       this.loading = true
       swalLoading('Editando Formulario')
       try {
-        await this.$http.put(`/api/formulario/${item._id}`, item).then(async () => {
+        await this.$http.put(`api/formulario/${item._id}`, item).then(async () => {
           this.loading = false
           swalConfirm('Formulario editado')
           this.problem = false

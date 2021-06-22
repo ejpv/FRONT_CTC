@@ -119,7 +119,7 @@ export default {
       this.loading = true
       this.form = {}
       await this.$http
-        .get(`/api/formularios?estado=false`)
+        .get(`api/formularios?estado=false`)
         .then(res => {
           this.loading = false
           this.forms = res.data.data
@@ -162,7 +162,7 @@ export default {
       swalLoading('Restaurando formulario')
       try {
         await this.$http
-          .put(`/api/formulario/${this.editedItem._id}/restaurar`)
+          .put(`api/formulario/${this.editedItem._id}/restaurar`)
           .then(() => {
             this.loading = false
             swalConfirm('Formulario restaurado')

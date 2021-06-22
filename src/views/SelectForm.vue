@@ -140,7 +140,7 @@ export default {
       this.loading = true
       this.forms = []
       await this.$http
-        .get('/api/formularios')
+        .get('api/formularios')
         .then(res => {
           this.loading = false
           this.forms = res.data.data

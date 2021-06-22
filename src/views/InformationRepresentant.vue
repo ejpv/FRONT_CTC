@@ -239,7 +239,7 @@ export default {
     async getRepresentant() {
       this.loading = true
       await this.$http
-        .get(`/api/representante/${this.user._id}`)
+        .get(`api/representante/${this.user._id}`)
         .then(res => {
           this.loading = false
           this.representant = res.data.data.representante

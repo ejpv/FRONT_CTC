@@ -554,7 +554,7 @@ export default {
       this.loading = true
       this.users = []
       await this.$http
-        .get('/api/usuarios/representantes/noAsignados')
+        .get('api/usuarios/representantes/noAsignados')
         .then(res => {
           this.loading = false
           this.users = res.data.data
@@ -573,7 +573,7 @@ export default {
       this.loading = true
       this.representants = []
       await this.$http
-        .get('/api/representantes')
+        .get('api/representantes')
         .then(res => {
           this.loading = false
           this.representants = res.data.data
@@ -651,7 +651,7 @@ export default {
       this.loading = true
       swalLoading('Ingresando representante')
       try {
-        await this.$http.post('/api/representante', this.editedItem).then(async res => {
+        await this.$http.post('api/representante', this.editedItem).then(async res => {
           this.loading = false
           swalConfirm('Representante nuevo ingresado')
           this.problem = false
@@ -661,7 +661,7 @@ export default {
               let usuarioID = this.editedItem.usuario
               this.editedItem = res.data.data
               await this.$http
-                .put(`/api/representante/asignar/${this.editedItem._id}`, {
+                .put(`api/representante/asignar/${this.editedItem._id}`, {
                   usuario: usuarioID._id
                 })
                 .then(res => {
@@ -697,7 +697,7 @@ export default {
       this.loading = true
       swalLoading('Eliminando representante')
       try {
-        await this.$http.delete(`/api/representante/${this.editedItem._id}`).then(() => {
+        await this.$http.delete(`api/representante/${this.editedItem._id}`).then(() => {
           this.loading = false
           swalConfirm('Representante Eliminado')
         })
@@ -718,7 +718,7 @@ export default {
       swalLoading('Editando representante')
       try {
         await this.$http
-          .put(`/api/representante/${this.editedItem._id}`, this.editedItem)
+          .put(`api/representante/${this.editedItem._id}`, this.editedItem)
           .then(async () => {
             this.loading = false
             swalConfirm('Representante editado')
@@ -728,7 +728,7 @@ export default {
                 swalLoading('Asignando usuario')
                 try {
                   await this.$http
-                    .put(`/api/representante/asignar/${this.editedItem._id}`, {
+                    .put(`api/representante/asignar/${this.editedItem._id}`, {
                       usuario: this.editedItem.usuario._id
                     })
                     .then(res => {
@@ -750,7 +750,7 @@ export default {
                 swalLoading('Quitando usuario')
                 try {
                   await this.$http
-                    .delete(`/api/representante/desasignar/${this.editedItem._id}`)
+                    .delete(`api/representante/desasignar/${this.editedItem._id}`)
                     .then(() => {
                       this.loading = false
                       swalConfirm('Usuario quitado')

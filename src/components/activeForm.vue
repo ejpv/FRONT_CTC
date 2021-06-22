@@ -165,7 +165,7 @@ export default {
       this.loading = true
       this.forms = []
       await this.$http
-        .get('/api/formularios')
+        .get('api/formularios')
         .then(res => {
           this.loading = false
           this.forms = res.data.data
@@ -184,7 +184,7 @@ export default {
       this.loading = true
       swalLoading('Eliminando formulario')
       try {
-        await this.$http.delete(`/api/formulario/${this.editedItem._id}`).then(() => {
+        await this.$http.delete(`api/formulario/${this.editedItem._id}`).then(() => {
           this.loading = false
           swalConfirm('Formulario Eliminado')
         })

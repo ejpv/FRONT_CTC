@@ -77,7 +77,7 @@ export default {
       swalLoading('Actualizando contraseña')
       try {
         await this.$http
-          .post('/api/usuario/changePass', { password: this.password })
+          .post('api/usuario/changePass', { password: this.password })
           .then(() => {
             this.loading = false
             swalConfirm('Contraseña actualizada')
@@ -112,7 +112,7 @@ export default {
       this.loading = true
       try {
         await this.$http
-          .post('/api/usuario/password', { password: this.password }, { headers })
+          .post('api/usuario/password', { password: this.password }, { headers })
           .then(() => {
             this.loading = false
             swalConfirm('Contraseña actualizada')
@@ -140,7 +140,7 @@ export default {
       swalLoading('Estableciendo contraseña')
       try {
         await this.$http
-          .post('/api/usuario/activar', { password: this.password }, { headers })
+          .post('api/usuario/activar', { password: this.password }, { headers })
           .then(() => {
             this.loading = false
             swalConfirm('Contraseña establecida')

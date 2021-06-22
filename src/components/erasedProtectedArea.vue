@@ -124,7 +124,7 @@ export default {
       this.loading = true
       this.areas = []
       await this.$http
-        .get('/api/areasProtegidas?estado=false')
+        .get('api/areasProtegidas?estado=false')
         .then(res => {
           this.loading = false
           this.areas = res.data.data
@@ -167,7 +167,7 @@ export default {
       swalLoading('Restaurando área')
       try {
         await this.$http
-          .put(`/api/areaProtegida/${this.editedItem._id}/restaurar`)
+          .put(`api/areaProtegida/${this.editedItem._id}/restaurar`)
           .then(() => {
             this.loading = false
             swalConfirm('Área restaurada')

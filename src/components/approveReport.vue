@@ -431,7 +431,7 @@ export default {
       this.loading = true
       this.informs = []
       await this.$http
-        .get('/api/informes')
+        .get('api/informes')
         .then(res => {
           this.loading = false
           this.informs = res.data.data
@@ -516,7 +516,7 @@ export default {
       try {
         await this.$http
           .put(
-            `/api/informe/cambiarEstado/${this.editedInform._id}/${estado}`,
+            `api/informe/cambiarEstado/${this.editedInform._id}/${estado}`,
             this.editedInform
           )
           .then(() => {

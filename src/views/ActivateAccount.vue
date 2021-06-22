@@ -78,7 +78,7 @@ export default {
 
       try {
         await this.$http
-          .post('/api/usuario/confirmarEmail', null, { headers })
+          .post('api/usuario/confirmarEmail', null, { headers })
           .then(() => {
             this.loading = false
             this.dialog = true

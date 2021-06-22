@@ -235,7 +235,7 @@ export default {
       this.loading = true
       this.questions = []
       await this.$http
-        .get('/api/preguntas?estado=false')
+        .get('api/preguntas?estado=false')
         .then(res => {
           this.loading = false
           this.questions = res.data.data
@@ -307,7 +307,7 @@ export default {
       swalLoading('Restaurando pregunta')
       try {
         await this.$http
-          .put(`/api/pregunta/${this.editedItem._id}/restaurar`)
+          .put(`api/pregunta/${this.editedItem._id}/restaurar`)
           .then(() => {
             this.loading = false
             swalConfirm('Pregunta restaurada')

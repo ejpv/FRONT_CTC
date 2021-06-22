@@ -181,7 +181,7 @@ export default {
       this.loading = true
       this.activities = []
       await this.$http
-        .get('/api/actividades')
+        .get('api/actividades')
         .then(res => {
           this.loading = false
           this.activities = res.data.data
@@ -253,7 +253,7 @@ export default {
       this.loading = true
       swalLoading('Ingresando Actividad')
       try {
-        await this.$http.post('/api/actividad', this.editedItem).then(async res => {
+        await this.$http.post('api/actividad', this.editedItem).then(async res => {
           this.loading = false
           swalConfirm('Actividad nueva ingresada')
           this.problem = false
@@ -274,7 +274,7 @@ export default {
       this.loading = true
       swalLoading('Eliminando Actividad')
       try {
-        await this.$http.delete(`/api/actividad/${this.editedItem._id}`).then(() => {
+        await this.$http.delete(`api/actividad/${this.editedItem._id}`).then(() => {
           this.loading = false
           swalConfirm('Actividad Eliminada')
         })
@@ -295,7 +295,7 @@ export default {
       swalLoading('Editando Actividad')
       try {
         await this.$http
-          .put(`/api/actividad/${this.editedItem._id}`, this.editedItem)
+          .put(`api/actividad/${this.editedItem._id}`, this.editedItem)
           .then(async () => {
             this.loading = false
             swalConfirm('Actividad editada')

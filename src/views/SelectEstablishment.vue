@@ -51,7 +51,7 @@ export default {
       this.loading = true
       this.establishments = []
       await this.$http
-        .get('/api/establecimientos')
+        .get('api/establecimientos')
         .then(res => {
           this.loading = false
           this.establishments = res.data.data

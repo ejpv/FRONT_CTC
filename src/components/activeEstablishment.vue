@@ -968,7 +968,7 @@ export default {
       this.loading = true
       this.establishments = []
       await this.$http
-        .get('/api/establecimientos')
+        .get('api/establecimientos')
         .then(res => {
           this.loading = false
           this.establishments = res.data.data
@@ -987,7 +987,7 @@ export default {
     async getAreas() {
       this.loading = true
       await this.$http
-        .get('/api/areasProtegidas')
+        .get('api/areasProtegidas')
         .then(res => {
           this.loading = false
           this.areas = res.data.data
@@ -1005,7 +1005,7 @@ export default {
     async getRepresentants() {
       this.loading = true
       await this.$http
-        .get('/api/representantes/noAsignados')
+        .get('api/representantes/noAsignados')
         .then(res => {
           this.loading = false
           this.representants = res.data.data
@@ -1206,7 +1206,7 @@ export default {
       if (!this.editedItem.areaProtegida._id) delete this.editedItem.areaProtegida
       if (!this.editedItem.representante._id) delete this.editedItem.representante
       try {
-        await this.$http.post('/api/establecimiento', this.editedItem).then(async res => {
+        await this.$http.post('api/establecimiento', this.editedItem).then(async res => {
           this.loading = false
           swalConfirm('Establecimiento nuevo ingresado')
           this.problem = false
@@ -1228,7 +1228,7 @@ export default {
       swalLoading('Quitando Representante')
       try {
         await this.$http
-          .put('/api/establecimiento/removerRepresentante/' + this.editedItem._id)
+          .put('api/establecimiento/removerRepresentante/' + this.editedItem._id)
           .then(() => {
             this.loading = false
             swalConfirm('Represenante quitado')
@@ -1250,7 +1250,7 @@ export default {
       swalLoading('Quitando AreaProtegida')
       try {
         await this.$http
-          .put('/api/establecimiento/removerArea/' + this.editedItem._id)
+          .put('api/establecimiento/removerArea/' + this.editedItem._id)
           .then(() => {
             this.loading = false
             swalConfirm('Area Protegida quitada')
@@ -1272,7 +1272,7 @@ export default {
       swalLoading('Eliminando establecimiento')
       try {
         await this.$http
-          .delete(`/api/establecimiento/${this.editedItem._id}`)
+          .delete(`api/establecimiento/${this.editedItem._id}`)
           .then(() => {
             this.loading = false
             swalConfirm('Establecimiento Eliminado')
@@ -1308,7 +1308,7 @@ export default {
 
       try {
         await this.$http
-          .put(`/api/establecimiento/${establishmentEdit._id}`, establishmentEdit)
+          .put(`api/establecimiento/${establishmentEdit._id}`, establishmentEdit)
           .then(async () => {
             this.loading = false
             swalConfirm('Establecimiento editado')

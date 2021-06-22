@@ -73,7 +73,7 @@ export default {
       if (this.$refs.form.validate()) {
         this.loading = true
         this.$http
-          .post('/api/login', {
+          .post('api/login', {
             email: this.email,
             password: this.password
           })

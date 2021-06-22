@@ -169,7 +169,7 @@ export default {
       this.loading = true
       swalLoading('Editando Usuario')
       try {
-        await this.$http.put('/api/usuario', this.editUser).then(res => {
+        await this.$http.put('api/usuario', this.editUser).then(res => {
           this.loading = false
           swalConfirm('Usuario editado')
           sessionStorage.setItem('token', res.body.token)
@@ -194,7 +194,7 @@ export default {
       this.loading = true
       swalLoading('Enviando correo')
       await this.$http
-        .post('/api/email/verifica', {
+        .post('api/email/verifica', {
           id: this.user._id
         })
         .then(() => {
@@ -230,7 +230,7 @@ export default {
         swalLoading('Editando Avatar')
         try {
           await this.$http
-            .post(`/api/avatar/usuario/${this.editUser._id}`, formData, {
+            .post(`api/avatar/usuario/${this.editUser._id}`, formData, {
               headers: {
                 'Content-Type': 'multipart/form-data'
               }

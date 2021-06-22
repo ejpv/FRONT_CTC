@@ -643,7 +643,7 @@ export default {
       this.informs = []
       this.dateNotRepeted = []
       await this.$http
-        .get(`/api/informes/${this.user._id}/${this.establishment._id}`)
+        .get(`api/informes/${this.user._id}/${this.establishment._id}`)
         .then(res => {
           this.loading = false
           this.informs = res.data.data
@@ -761,7 +761,7 @@ export default {
       this.loading = true
       swalLoading('Eliminando Informe')
       try {
-        await this.$http.delete(`/api/informe/${this.editedInform._id}`).then(() => {
+        await this.$http.delete(`api/informe/${this.editedInform._id}`).then(() => {
           this.loading = false
           swalConfirm('Informe Eliminado')
         })
@@ -782,7 +782,7 @@ export default {
       swalLoading('Editando Informe')
       try {
         await this.$http
-          .put(`/api/informe/${this.editedInform._id}`, this.editedInform)
+          .put(`api/informe/${this.editedInform._id}`, this.editedInform)
           .then(async () => {
             this.loading = false
             swalConfirm('Informe editado')

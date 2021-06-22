@@ -564,7 +564,7 @@ export default {
       this.diagnostics = []
       this.dateNotRepeted = []
       await this.$http
-        .get(`/api/diagnosticos/${this.user._id}/${this.establishment._id}`)
+        .get(`api/diagnosticos/${this.user._id}/${this.establishment._id}`)
         .then(res => {
           this.loading = false
           this.diagnostics = res.data.data
@@ -584,7 +584,7 @@ export default {
       this.loading = true
       this.numberForms = 0
       await this.$http
-        .get('/api/formularios')
+        .get('api/formularios')
         .then(res => {
           this.loading = false
           this.numberForms = res.data.total
@@ -711,7 +711,7 @@ export default {
       swalLoading('Enviando Informe')
       this.editedInform.actualPersonal = this.establishment.personal
       try {
-        await this.$http.post('/api/informe', this.editedInform).then(async () => {
+        await this.$http.post('api/informe', this.editedInform).then(async () => {
           this.loading = false
           swalConfirm('Informe nuevo enviado')
         })
