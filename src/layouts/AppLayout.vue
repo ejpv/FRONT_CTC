@@ -244,7 +244,7 @@ export default {
       this.loading = true
       this.establishments = []
       await this.$http
-        .get('/api/establecimientos')
+        .get('api/establecimientos')
         .then(res => {
           this.loading = false
           this.establishments = res.data.data
@@ -304,11 +304,7 @@ export default {
       if (this.user.rol === 'TECHNICAL_ROLE') {
         if (JSON.parse(sessionStorage.getItem('establishment'))) {
           await this.getEstablishments()
-          console.log("el establecimiento en local storage");
-          console.log(JSON.parse(sessionStorage.getItem('establishment')));
           this.editedEstablishment = JSON.parse(sessionStorage.getItem('establishment'))
-          console.log("el establecimiento en el autocomplete");
-          console.log(this.editedEstablishment);
         } else {
           this.$router.replace('/selectEstablishment')
         }
