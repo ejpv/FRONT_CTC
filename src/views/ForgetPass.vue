@@ -26,7 +26,7 @@
                 <v-card-actions>
                   <v-btn type="submit" class="primary"> Enviar </v-btn>
                   <v-spacer></v-spacer>
-                  <router-link to="/login" > Regresar a incio de sesión </router-link>
+                  <router-link to="/login"> Regresar a incio de sesión </router-link>
                 </v-card-actions>
               </v-container>
             </v-container>

@@ -306,12 +306,10 @@ export default {
       this.loading = true
       swalLoading('Restaurando pregunta')
       try {
-        await this.$http
-          .put(`api/pregunta/${this.editedItem._id}/restaurar`)
-          .then(() => {
-            this.loading = false
-            swalConfirm('Pregunta restaurada')
-          })
+        await this.$http.put(`api/pregunta/${this.editedItem._id}/restaurar`).then(() => {
+          this.loading = false
+          swalConfirm('Pregunta restaurada')
+        })
         this.problem = false
       } catch (error) {
         this.loading = false

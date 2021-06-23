@@ -1271,12 +1271,10 @@ export default {
       this.loading = true
       swalLoading('Eliminando establecimiento')
       try {
-        await this.$http
-          .delete(`api/establecimiento/${this.editedItem._id}`)
-          .then(() => {
-            this.loading = false
-            swalConfirm('Establecimiento Eliminado')
-          })
+        await this.$http.delete(`api/establecimiento/${this.editedItem._id}`).then(() => {
+          this.loading = false
+          swalConfirm('Establecimiento Eliminado')
+        })
         this.problem = false
       } catch (error) {
         this.loading = false

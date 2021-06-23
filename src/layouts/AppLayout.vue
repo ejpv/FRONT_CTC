@@ -4,7 +4,10 @@
       <ctc-session-out />
 
       <v-app-bar color="primary" app>
-        <v-app-bar-nav-icon @click="drawer = !drawer" class="white--text"></v-app-bar-nav-icon>
+        <v-app-bar-nav-icon
+          @click="drawer = !drawer"
+          class="white--text"
+        ></v-app-bar-nav-icon>
         <v-toolbar-title class="white--text"> {{ this.$route.name }} </v-toolbar-title>
         <v-spacer></v-spacer>
 
@@ -301,7 +304,11 @@ export default {
       if (this.user.rol === 'TECHNICAL_ROLE') {
         if (JSON.parse(sessionStorage.getItem('establishment'))) {
           await this.getEstablishments()
+          console.log("el establecimiento en local storage");
+          console.log(JSON.parse(sessionStorage.getItem('establishment')));
           this.editedEstablishment = JSON.parse(sessionStorage.getItem('establishment'))
+          console.log("el establecimiento en el autocomplete");
+          console.log(this.editedEstablishment);
         } else {
           this.$router.replace('/selectEstablishment')
         }
