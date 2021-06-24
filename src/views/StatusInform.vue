@@ -33,20 +33,15 @@
                       </h4>
                     </v-col>
 
-                    <v-col
-                      cols="6"
-                      sm="5"
-                      md="4"
-                      lg="3"
-                    >
-                      <v-chip
-                        :class="`${getColor(item.estado)} white--text mr-2`"
-                      >
+                    <v-col cols="6" sm="5" md="4" lg="3">
+                      <v-chip :class="`${getColor(item.estado)} white--text mr-2`">
                         {{ getText(item.estado) }}
                       </v-chip>
                       <v-menu offset-y>
                         <template v-slot:activator="{ on, attrs }">
-                            <v-icon icon v-bind="attrs" v-on="on" class="pa-0 ma-0"> fa-ellipsis-v </v-icon>
+                          <v-icon icon v-bind="attrs" v-on="on" class="pa-0 ma-0">
+                            fa-ellipsis-v
+                          </v-icon>
                         </template>
 
                         <v-list flat tile>
@@ -100,10 +95,7 @@
         </v-card>
 
         <v-card class="pt-1 pb-1" flat v-show="loading">
-          <v-progress-linear
-            indeterminate
-            color="primary"
-          ></v-progress-linear>
+          <v-progress-linear indeterminate color="primary"></v-progress-linear>
         </v-card>
       </v-col>
 

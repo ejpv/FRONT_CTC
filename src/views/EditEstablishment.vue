@@ -95,6 +95,14 @@
             dense
           ></v-text-field>
 
+          <h3 class="pb-1">LUAF</h3>
+          <v-text-field
+            v-model="basicInformation.LUAF"
+            filled
+            rounded
+            dense
+          ></v-text-field>
+
           <h3 class="pb-1">Página web</h3>
           <v-text-field
             v-model="basicInformation.web"

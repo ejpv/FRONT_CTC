@@ -173,13 +173,12 @@
             >
               <div v-if="ITEM.formulario.mostrarEnInforme != null">
                 <v-divider></v-divider>
-                <v-row>
+                <v-row class="ma-0 pa-0">
                   <v-col
                     v-for="(header, idHeader) in ITEM.formulario.pregunta[
                       ITEM.formulario.mostrarEnInforme
                     ].encabezado"
                     :key="idHeader + 'H'"
-                    class="d-flex child-flex pt-2"
                     align="center"
                   >
                     <span class="font-weight-medium">{{ header }}</span>
@@ -190,6 +189,7 @@
                   v-for="(res, idRes) in ITEM.respuesta[ITEM.formulario.mostrarEnInforme]
                     .valor"
                   :key="idRes + 'R'"
+                  class="ma-0 pa-0"
                   align="center"
                 >
                   <v-col

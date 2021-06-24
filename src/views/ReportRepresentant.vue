@@ -18,7 +18,7 @@
                 <v-card-title class="secondary lighten-1">
                   <span class="headline">{{ fecha }}</span>
                 </v-card-title>
-                
+
                 <div v-for="(item, index) in informs" :key="item._id">
                   <v-row
                     v-if="formatFecha(item.fechaCreacion).includes(fecha.toLowerCase())"
@@ -57,10 +57,7 @@
         </v-card>
 
         <v-card class="pt-1 pb-1" flat v-show="loading">
-          <v-progress-linear
-            indeterminate
-            color="primary"
-          ></v-progress-linear>
+          <v-progress-linear indeterminate color="primary"></v-progress-linear>
         </v-card>
       </v-col>
 

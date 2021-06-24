@@ -63,10 +63,7 @@
       </v-card>
 
       <v-card class="pt-1 pb-1" flat v-show="loading">
-        <v-progress-linear
-          indeterminate
-          color="primary"
-        ></v-progress-linear>
+        <v-progress-linear indeterminate color="primary"></v-progress-linear>
       </v-card>
     </v-container>
 

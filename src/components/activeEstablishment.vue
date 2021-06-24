@@ -60,7 +60,47 @@
                           dense
                         ></v-text-field>
 
-                        <h3 class="pb-1">Comunidad</h3>
+                        <h3 class="pb-1">Registro</h3>
+                        <v-text-field
+                          v-model="editedItem.registro"
+                          filled
+                          rounded
+                          dense
+                        ></v-text-field>
+
+                        <h3 class="pb-1">
+                          Teléfono
+                          <v-tooltip right>
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-btn
+                                icon
+                                @click="editedItem.telefono.push('')"
+                                small
+                                v-on="on"
+                                v-bind="attrs"
+                              >
+                                <v-icon class="info--text" small> fa-plus </v-icon>
+                              </v-btn>
+                            </template>
+                            <span> Agregar una Actividad Turística </span>
+                          </v-tooltip>
+                        </h3>
+                        <v-text-field
+                          v-for="(item, index) in editedItem.telefono"
+                          :key="index"
+                          v-model="editedItem.telefono[index]"
+                          filled
+                          rounded
+                          dense
+                        >
+                          <template v-if="editedItem.telefono.length > 1" v-slot:append>
+                            <v-icon @click="removeItem('telefono', index)"
+                              >far fa-times-circle</v-icon
+                            >
+                          </template>
+                        </v-text-field>
+
+                        <h3 class="pb-1">Comunidad u Organización</h3>
                         <v-text-field
                           v-model="editedItem.comunidad"
                           filled
@@ -71,22 +111,6 @@
                         <h3 class="pb-1">Nacionalidad / Pueblo</h3>
                         <v-text-field
                           v-model="editedItem.nacionalidad"
-                          filled
-                          rounded
-                          dense
-                        ></v-text-field>
-
-                        <h3 class="pb-1">Localidad</h3>
-                        <v-text-field
-                          v-model="editedItem.localidad"
-                          filled
-                          rounded
-                          dense
-                        ></v-text-field>
-
-                        <h3 class="pb-1">Registro</h3>
-                        <v-text-field
-                          v-model="editedItem.registro"
                           filled
                           rounded
                           dense
@@ -108,15 +132,36 @@
                           dense
                         ></v-text-field>
 
-                        <h3 class="pb-1">Teléfono</h3>
-                        <v-text-field
-                          v-model="editedItem.telefono"
+                        <h3 class="pb-1 pt-2">Área Protegida</h3>
+                        <v-divider></v-divider>
+
+                        <v-autocomplete
+                          v-model="editedItem.areaProtegida"
+                          :items="areas"
+                          item-text="nombre"
+                          return-object
                           filled
                           rounded
                           dense
-                        ></v-text-field>
+                          clearable
+                          :loading="loading"
+                        ></v-autocomplete>
 
-                        <h3 class="pb-1">Lugar</h3>
+                        <h3 class="pb-1">Representante</h3>
+                        <v-divider></v-divider>
+                        <v-autocomplete
+                          v-model="editedItem.representante"
+                          :items="representants"
+                          item-text="nombre"
+                          return-object
+                          filled
+                          rounded
+                          dense
+                          clearable
+                          :loading="loading"
+                        ></v-autocomplete>
+
+                        <h3 class="pb-1">Ubicación</h3>
                         <v-divider></v-divider>
                         <h4 class="pt-2 pb-1">Provincia</h4>
                         <v-text-field
@@ -232,34 +277,6 @@
                           :loading="loading"
                         ></v-combobox>
 
-                        <v-divider></v-divider>
-
-                        <h3 class="pb-1 pt-2">Área Protegida</h3>
-                        <v-autocomplete
-                          v-model="editedItem.areaProtegida"
-                          :items="areas"
-                          item-text="nombre"
-                          return-object
-                          filled
-                          rounded
-                          dense
-                          clearable
-                          :loading="loading"
-                        ></v-autocomplete>
-
-                        <h3 class="pb-1">Representante</h3>
-                        <v-autocomplete
-                          v-model="editedItem.representante"
-                          :items="representants"
-                          item-text="nombre"
-                          return-object
-                          filled
-                          rounded
-                          dense
-                          clearable
-                          :loading="loading"
-                        ></v-autocomplete>
-
                         <h3 class="pb-1">Personal</h3>
                         <v-divider></v-divider>
 
@@ -271,6 +288,52 @@
                           dense
                           :rules="numberRules"
                         ></v-text-field>
+
+                        <h3>
+                          Actividades Turísticas
+                          <v-tooltip right>
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-btn
+                                icon
+                                @click="editedItem.actividad.push('')"
+                                small
+                                v-on="on"
+                                v-bind="attrs"
+                              >
+                                <v-icon class="info--text" small> fa-plus </v-icon>
+                              </v-btn>
+                            </template>
+                            <span> Agregar una Actividad Turística </span>
+                          </v-tooltip>
+                        </h3>
+
+                        <v-row v-if="editedItem.actividad.length > 0" class="ma-0 pa-0">
+                          <v-col
+                            class="ml-4 mr-4"
+                            v-for="(item, index) in editedItem.actividad"
+                            :key="index + 'Activities'"
+                          >
+                            <v-autocomplete
+                              v-model="editedItem.actividad[index]"
+                              filled
+                              rounded
+                              dense
+                              :items="activities"
+                              item-value="_id"
+                              item-text="nombre"
+                              return-object
+                            >
+                              <template v-slot:append>
+                                <v-icon @click="removeItem('actividad', index)"
+                                  >far fa-times-circle</v-icon
+                                >
+                              </template>
+                            </v-autocomplete>
+                          </v-col>
+                        </v-row>
+                        <v-row v-else class="ml-4 mt-4">
+                          <h4>No Aplica, el establecimiento no tiene Actividades</h4>
+                        </v-row>
                       </v-container>
                     </v-card-text>
 
@@ -409,6 +472,13 @@
           <span v-if="item.lat || item.lng"> Ver Información de Ubicación </span>
           <span v-else>No se encuentra Información de Ubicación</span>
         </v-tooltip>
+      </template>
+
+      <template v-slot:item.actividad="{ item }">
+        <div v-if="item.actividad.length > 0">
+          {{ getArray(item.actividad) }}
+        </div>
+        <div v-else>No tiene actividades</div>
       </template>
 
       <template v-slot:item.servicios="{ item }">
@@ -781,6 +851,7 @@ export default {
       energies: [],
       sanitation: [],
       waste: [],
+      activities: [],
       headers: [
         {
           text: 'Nombre',
@@ -823,6 +894,16 @@ export default {
           value: 'telefono'
         },
         {
+          text: 'Actividades Turísticas',
+          value: 'actividad',
+          align: 'center'
+        },
+        {
+          text: 'Personal',
+          value: 'personal',
+          align: 'center'
+        },
+        {
           text: 'Lugar',
           value: 'lugar',
           align: 'center',
@@ -842,11 +923,6 @@ export default {
         {
           text: 'Área Protegida',
           value: 'areaProtegida',
-          align: 'center'
-        },
-        {
-          text: 'Personal',
-          value: 'personal',
           align: 'center'
         },
         {
@@ -881,6 +957,7 @@ export default {
         email: '',
         web: '',
         telefono: [''],
+        actividad: [],
         comunidad: '',
         ciudad: '',
         parroquia: '',
@@ -907,6 +984,7 @@ export default {
         email: '',
         web: '',
         telefono: [''],
+        actividad: [],
         comunidad: '',
         ciudad: '',
         parroquia: '',
@@ -1321,6 +1399,43 @@ export default {
         )
         this.problem = true
       }
+    },
+
+    removeItem(critery, indice) {
+      if (critery === 'actividad') {
+        this.editedItem.actividad.splice(indice, 1)
+      } else {
+        if (critery === 'telefono') {
+          this.editedItem.telefono.splice(indice, 1)
+        }
+      }
+    },
+
+    async getActivities() {
+      this.loading = true
+      this.activities = []
+      await this.$http
+        .get('api/actividades')
+        .then(res => {
+          this.loading = false
+          this.activities = res.data.data
+        })
+        .catch(error => {
+          this.loading = false
+          swalError(
+            error.body.err != undefined
+              ? error.body.err.message
+              : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
+          )
+        })
+    },
+
+    getArray(array) {
+      var actividades = ''
+      for (let i = 0; i < array.length; i++) {
+        actividades = actividades + array[i].nombre + ' '
+      }
+      return actividades
     }
   },
 
@@ -1328,6 +1443,7 @@ export default {
     await this.getEstablishments()
     await this.getAreas()
     await this.getRepresentants()
+    await this.getActivities()
   },
 
   computed: {
