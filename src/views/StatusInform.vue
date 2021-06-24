@@ -14,101 +14,78 @@
 
           <v-card-text v-if="seeInforms" class="pa-0">
             <div v-if="informs.length > 0 && !loading">
-              <div
-                v-for="(fecha, i) in dateNotRepeted"
-                :key="i"
-                style="margin-bottom: -15px"
-              >
+              <div v-for="(fecha, i) in dateNotRepeted" :key="i">
                 <v-card-title class="secondary lighten-1">
                   <span class="headline">{{ fecha }}</span>
                 </v-card-title>
 
-                <v-card-text>
-                  <div v-for="(item, index) in informs" :key="item._id">
-                    <div
-                      v-if="formatFecha(item.fechaCreacion).includes(fecha.toLowerCase())"
+                <div v-for="(item, index) in informs" :key="item._id">
+                  <v-row
+                    v-if="formatFecha(item.fechaCreacion).includes(fecha.toLowerCase())"
+                    class="ma-0"
+                  >
+                    <v-col>
+                      <h4>
+                        Informe del
+                        <span class="font-weight-black">
+                          {{ formatFecha(informs[index].fechaCreacion) }}
+                        </span>
+                      </h4>
+                    </v-col>
+
+                    <v-col
+                      cols="6"
+                      sm="5"
+                      md="4"
+                      lg="3"
                     >
-                      <v-row>
-                        <v-col class="pa-0 ma-0">
-                          <h4 class="pt-4 pl-6">
-                            Informe del
-                            <span class="font-weight-black">
-                              {{ formatFecha(informs[index].fechaCreacion) }}
-                            </span>
-                          </h4>
-                        </v-col>
+                      <v-chip
+                        :class="`${getColor(item.estado)} white--text mr-2`"
+                      >
+                        {{ getText(item.estado) }}
+                      </v-chip>
+                      <v-menu offset-y>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-icon icon v-bind="attrs" v-on="on" class="pa-0 ma-0"> fa-ellipsis-v </v-icon>
+                        </template>
 
-                        <v-col
-                          cols="4"
-                          sm="3"
-                          class="
-                            d-flex
-                            align-content-center
-                            flex-wrap
-                            pa-0
-                            pt-2
-                            pb-2
-                            ma-0
-                          "
-                        >
-                          <v-chip
-                            :class="`${getColor(item.estado)} white--text`"
-                            style="margin-left: -15px"
+                        <v-list flat tile>
+                          <v-list-item @click="prepareWorkStation(item, 'see')">
+                            <v-list-item-icon>
+                              <v-icon class="ml-2 blue--text">fa-eye </v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-title>
+                              <span> Ver este Informe </span>
+                            </v-list-item-title>
+                          </v-list-item>
+                          <v-list-item
+                            @click="prepareWorkStation(item, 'edit')"
+                            :disabled="item.estado"
                           >
-                            {{ getText(item.estado) }}
-                          </v-chip>
-                          <v-menu offset-y>
-                            <template v-slot:activator="{ on, attrs }">
-                              <v-btn icon v-bind="attrs" v-on="on">
-                                <v-icon> fa-ellipsis-v </v-icon>
-                              </v-btn>
-                            </template>
-
-                            <v-list flat tile>
-                              <v-list-item @click="prepareWorkStation(item, 'see')">
-                                <v-list-item-icon>
-                                  <v-icon class="ml-2 blue--text">fa-eye </v-icon>
-                                </v-list-item-icon>
-                                <v-list-item-title>
-                                  <span> Ver este Informe </span>
-                                </v-list-item-title>
-                              </v-list-item>
-                              <v-list-item
-                                @click="prepareWorkStation(item, 'edit')"
-                                :disabled="item.estado"
-                              >
-                                <v-list-item-icon>
-                                  <v-icon class="ml-2 edit--text" :disabled="item.estado"
-                                    >fa-pen
-                                  </v-icon>
-                                </v-list-item-icon>
-                                <v-list-item-title>
-                                  <span> Editar este Informe </span>
-                                </v-list-item-title>
-                              </v-list-item>
-                              <v-list-item
-                                @click="deleteItem(item)"
-                                :disabled="item.estado"
-                              >
-                                <v-list-item-icon>
-                                  <v-icon
-                                    class="ml-2 delete--text"
-                                    :disabled="item.estado"
-                                  >
-                                    fa-trash
-                                  </v-icon>
-                                </v-list-item-icon>
-                                <v-list-item-title>
-                                  <span> Eliminar este Informe </span>
-                                </v-list-item-title>
-                              </v-list-item>
-                            </v-list>
-                          </v-menu>
-                        </v-col>
-                      </v-row>
-                    </div>
-                  </div>
-                </v-card-text>
+                            <v-list-item-icon>
+                              <v-icon class="ml-2 edit--text" :disabled="item.estado"
+                                >fa-pen
+                              </v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-title>
+                              <span> Editar este Informe </span>
+                            </v-list-item-title>
+                          </v-list-item>
+                          <v-list-item @click="deleteItem(item)" :disabled="item.estado">
+                            <v-list-item-icon>
+                              <v-icon class="ml-2 delete--text" :disabled="item.estado">
+                                fa-trash
+                              </v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-title>
+                              <span> Eliminar este Informe </span>
+                            </v-list-item-title>
+                          </v-list-item>
+                        </v-list>
+                      </v-menu>
+                    </v-col>
+                  </v-row>
+                </div>
               </div>
             </div>
 
@@ -122,11 +99,10 @@
           </v-card-text>
         </v-card>
 
-        <v-card class="pt-1 pb-1" flat>
+        <v-card class="pt-1 pb-1" flat v-show="loading">
           <v-progress-linear
             indeterminate
             color="primary"
-            v-show="loading"
           ></v-progress-linear>
         </v-card>
       </v-col>
@@ -297,13 +273,12 @@
               >
                 <div v-if="item.formulario.mostrarEnInforme != null">
                   <v-divider></v-divider>
-                  <v-row>
+                  <v-row class="ma-0 pa-0">
                     <v-col
                       v-for="(header, idHeader) in item.formulario.pregunta[
                         item.formulario.mostrarEnInforme
                       ].encabezado"
                       :key="idHeader + 'H'"
-                      class="d-flex child-flex pt-2"
                       align="center"
                     >
                       <span class="font-weight-medium">{{ header }}</span>
@@ -315,6 +290,7 @@
                       item.formulario.mostrarEnInforme
                     ].valor"
                     :key="idRes + 'R'"
+                    class="ma-0 pa-0"
                     align="center"
                   >
                     <v-col
@@ -594,7 +570,7 @@ export default {
       seeDiagnostics: true,
       dialogDiagnostic: false,
       problem: false,
-      sm: '6',
+      sm: 6,
       action: '',
       editedIndex: -1,
       informs: [

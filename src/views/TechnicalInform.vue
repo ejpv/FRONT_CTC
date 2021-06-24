@@ -14,11 +14,7 @@
 
           <v-card-text v-if="seeDiagnostics" class="pa-0">
             <div v-if="!loading && diagnostics.length > 0">
-              <div
-                v-for="(fecha, i) in dateNotRepeted"
-                :key="i + 'Date'"
-                style="margin-bottom: -15px"
-              >
+              <div v-for="(fecha, i) in dateNotRepeted" :key="i + 'Date'">
                 <v-card-title class="secondary lighten-1">
                   <span class="headline">{{ fecha }}</span>
                 </v-card-title>
@@ -28,9 +24,9 @@
                   :key="index + 'diagnostics'"
                   class="pa-0 ma-0"
                 >
-                  <div v-if="formatFecha(item.fecha).includes(fecha.toLowerCase())">
-                    <v-row>
-                      <v-col cols="2" class="pt-5 pb-5" align="center">
+                  <div v-show="formatFecha(item.fecha).includes(fecha.toLowerCase())">
+                    <v-row class="pa-0 ma-0">
+                      <v-col cols="2" align="center">
                         <v-btn
                           icon
                           class="info--text"
@@ -50,16 +46,16 @@
                         </v-btn>
                       </v-col>
 
-                      <v-col cols="8" class="pt-6 ma-0">
-                        <h3 class="pa-0 ma-0">
+                      <v-col cols="7" class="pt-4">
+                        <h3>
                           {{ item.formulario.nombre }} - {{ formatFecha(item.fecha) }} -
-                          <span :class="getColorTotal(item.total) + '--text pa-0 ma-0'">
+                          <span :class="getColorTotal(item.total) + '--text'">
                             {{ item.total }}
                           </span>
                         </h3>
                       </v-col>
 
-                      <v-col cols="2" align="center" class="pt-5 pa-0 ma-0">
+                      <v-col cols="3" align="center">
                         <v-btn icon @click="seeDiagnostic(item)">
                           <v-icon class="info--text"> fa-eye</v-icon>
                         </v-btn>
@@ -242,13 +238,12 @@
                   <div v-if="id === item._id">
                     <div v-if="item.formulario.mostrarEnInforme != null">
                       <v-divider></v-divider>
-                      <v-row>
+                      <v-row class="ma-0 pa-0">
                         <v-col
                           v-for="(header, idHeader) in item.formulario.pregunta[
                             item.formulario.mostrarEnInforme
                           ].encabezado"
                           :key="idHeader + 'H'"
-                          class="d-flex child-flex pt-2"
                           align="center"
                         >
                           <span class="font-weight-medium">{{ header }}</span>
@@ -260,6 +255,7 @@
                           item.formulario.mostrarEnInforme
                         ].valor"
                         :key="idRes + 'R'"
+                        class="ma-0 pa-0"
                         align="center"
                       >
                         <v-col
@@ -752,6 +748,10 @@ export default {
 
     enough(v) {
       if (v) this.seeDiagnostics = false
+    },
+
+    establishment() {
+      this.getDiagnostics()
     }
   }
 }

@@ -5,16 +5,15 @@
     </v-card-title>
 
     <v-card-text>
-      <v-row class="pb-0">
-        <v-col class="pb-0"><h2>Información General</h2></v-col>
-        <v-col cols="1" align="end" class="pb-0">
-          <v-btn icon style="margin-left: -15px" @click="general = !general">
+      <v-row class="pa-0 ma-0">
+        <v-col><h2>Información General</h2></v-col>
+        <v-col cols="1" align="end">
+          <v-btn icon @click="general = !general">
             <v-icon v-if="general">fa-angle-up</v-icon>
             <v-icon v-else>fa-angle-down</v-icon>
           </v-btn>
         </v-col>
       </v-row>
-
       <v-divider></v-divider>
       <v-row v-if="general">
         <v-col class="ml-4 mr-4">
@@ -130,10 +129,10 @@
         </v-col>
       </v-row>
 
-      <v-row class="pb-0">
-        <v-col class="pb-0"><h2>Ubicación</h2></v-col>
-        <v-col cols="1" align="end" class="pb-0">
-          <v-btn icon style="margin-left: -15px" @click="place = !place">
+      <v-row class="pa-0 ma-0">
+        <v-col><h2>Ubicación</h2></v-col>
+        <v-col cols="1" align="end">
+          <v-btn icon @click="place = !place">
             <v-icon v-if="place">fa-angle-up</v-icon>
             <v-icon v-else>fa-angle-down</v-icon>
           </v-btn>
@@ -216,10 +215,10 @@
         </v-col>
       </v-row>
 
-      <v-row class="pb-0">
-        <v-col class="pb-0"><h2>Servicios Básicos</h2></v-col>
-        <v-col cols="1" align="end" class="pb-0">
-          <v-btn icon style="margin-left: -15px" @click="basic = !basic">
+      <v-row class="ma-0 pa-0">
+        <v-col><h2>Servicios Básicos</h2></v-col>
+        <v-col cols="1" align="end">
+          <v-btn icon @click="basic = !basic">
             <v-icon v-if="basic">fa-angle-up</v-icon>
             <v-icon v-else>fa-angle-down</v-icon>
           </v-btn>
@@ -267,10 +266,10 @@
         </v-col>
       </v-row>
 
-      <v-row class="pb-0">
-        <v-col class="pb-0"><h2>Personal</h2></v-col>
-        <v-col cols="1" align="end" class="pb-0">
-          <v-btn icon style="margin-left: -15px" @click="people = !people">
+      <v-row class="ma-0 pa-0">
+        <v-col><h2>Personal</h2></v-col>
+        <v-col cols="1" align="end">
+          <v-btn icon @click="people = !people">
             <v-icon v-if="people">fa-angle-up</v-icon>
             <v-icon v-else>fa-angle-down</v-icon>
           </v-btn>
@@ -291,9 +290,9 @@
         </v-col>
       </v-row>
 
-      <v-row class="pb-0">
-        <v-col class="pb-0"
-          ><h2>
+      <v-row class="ma-0 pa-0">
+        <v-col>
+          <h2>
             Actividades Turísticas
             <v-tooltip right>
               <template v-slot:activator="{ on, attrs }">
@@ -309,10 +308,10 @@
               </template>
               <span> Agregar una Actividad Turística </span>
             </v-tooltip>
-          </h2></v-col
-        >
-        <v-col cols="1" align="end" class="pb-0">
-          <v-btn icon style="margin-left: -15px" @click="activity = !activity">
+          </h2>
+        </v-col>
+        <v-col cols="1" align="end">
+          <v-btn icon @click="activity = !activity">
             <v-icon v-if="activity">fa-angle-up</v-icon>
             <v-icon v-else>fa-angle-down</v-icon>
           </v-btn>
@@ -321,7 +320,7 @@
       <v-divider></v-divider>
 
       <div v-if="activity">
-        <v-row v-if="basicInformation.actividad.length > 0">
+        <v-row v-if="basicInformation.actividad.length > 0" class="ma-0 pa-0">
           <v-col
             class="ml-4 mr-4"
             v-for="(item, index) in basicInformation.actividad"
