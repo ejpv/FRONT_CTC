@@ -14,54 +14,35 @@
 
           <v-card-text v-if="seeInforms" class="pa-0">
             <div v-if="informs.length > 0 && !loading">
-              <div
-                v-for="(fecha, i) in dateNotRepeted"
-                :key="i"
-                style="margin-bottom: -15px"
-              >
+              <div v-for="(fecha, i) in dateNotRepeted" :key="i">
                 <v-card-title class="secondary lighten-1">
                   <span class="headline">{{ fecha }}</span>
                 </v-card-title>
+                
+                <div v-for="(item, index) in informs" :key="item._id">
+                  <v-row
+                    v-if="formatFecha(item.fechaCreacion).includes(fecha.toLowerCase())"
+                    class="ma-0"
+                  >
+                    <v-col>
+                      <h4>
+                        Informe del
+                        <span class="font-weight-black">
+                          {{ formatFecha(informs[index].fechaCreacion) }}
+                        </span>
+                      </h4>
+                    </v-col>
 
-                <v-card-text>
-                  <div v-for="(item, index) in informs" :key="item._id">
-                    <div
-                      v-if="formatFecha(item.fechaCreacion).includes(fecha.toLowerCase())"
-                    >
-                      <v-row>
-                        <v-col class="pa-0 ma-0">
-                          <h4 class="pt-4 pl-6">
-                            Informe del
-                            <span class="font-weight-black">
-                              {{ formatFecha(informs[index].fechaCreacion) }}
-                            </span>
-                          </h4>
-                        </v-col>
-
-                        <v-col
-                          cols="4"
-                          sm="3"
-                          class="
-                            d-flex
-                            align-content-center
-                            flex-wrap
-                            pa-0
-                            pt-2
-                            pb-2
-                            ma-0
-                          "
-                        >
-                          <v-chip class="success white--text" style="margin-left: -15px">
-                            Aprobado
-                          </v-chip>
-                          <v-btn @click="prepareWorkStation(item, 'see')" icon>
-                            <v-icon class="info--text">fa-eye </v-icon>
-                          </v-btn>
-                        </v-col>
-                      </v-row>
-                    </div>
-                  </div>
-                </v-card-text>
+                    <v-col cols="6" sm="5" md="4" lg="3">
+                      <v-chip class="success white--text mr-1"> Aprobado </v-chip>
+                      <v-icon
+                        class="info--text pa-0 ma-0"
+                        @click="prepareWorkStation(item, 'see')"
+                        >fa-eye
+                      </v-icon>
+                    </v-col>
+                  </v-row>
+                </div>
               </div>
             </div>
 
@@ -75,11 +56,10 @@
           </v-card-text>
         </v-card>
 
-        <v-card class="pt-1 pb-1" flat>
+        <v-card class="pt-1 pb-1" flat v-show="loading">
           <v-progress-linear
             indeterminate
             color="primary"
-            v-show="loading"
           ></v-progress-linear>
         </v-card>
       </v-col>
@@ -238,13 +218,12 @@
               >
                 <div v-if="item.formulario.mostrarEnInforme != null">
                   <v-divider></v-divider>
-                  <v-row>
+                  <v-row class="ma-0 pa-0">
                     <v-col
                       v-for="(header, idHeader) in item.formulario.pregunta[
                         item.formulario.mostrarEnInforme
                       ].encabezado"
                       :key="idHeader + 'H'"
-                      class="d-flex child-flex pt-2"
                       align="center"
                     >
                       <span class="font-weight-medium">{{ header }}</span>
@@ -256,6 +235,7 @@
                       item.formulario.mostrarEnInforme
                     ].valor"
                     :key="idRes + 'R'"
+                    class="ma-0 pa-0"
                     align="center"
                   >
                     <v-col
