@@ -752,6 +752,7 @@ export default {
 
     establishment() {
       this.getDiagnostics()
+      this.editedInform = Object.assign({}, this.defaultInform)
     }
   }
 }
