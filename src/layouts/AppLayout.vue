@@ -109,7 +109,24 @@
       </v-navigation-drawer>
 
       <v-main>
-        <v-container>
+        <v-container fluid fill-height v-if="this.$route.path === '/'">
+          <v-layout flex align-center justify-center>
+            <v-flex xs12>
+              <v-img contain src="/img/logo.png" aspect-ratio="4">
+                <template v-slot:placeholder>
+                  <v-row class="fill-height ma-0" align="center" justify="center">
+                    <v-progress-circular
+                      indeterminate
+                      color="primary"
+                    ></v-progress-circular>
+                  </v-row>
+                </template>
+              </v-img>
+              <h1 class="text-center">CTC</h1>
+            </v-flex>
+          </v-layout>
+        </v-container>
+        <v-container v-else>
           <router-view class="app-container" tag="v-container" fluid fill-height />
         </v-container>
       </v-main>
