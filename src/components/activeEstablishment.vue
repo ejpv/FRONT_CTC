@@ -133,7 +133,7 @@
                         ></v-text-field>
 
                         <h3 class="pb-1 pt-2">Área Protegida</h3>
-                        <v-divider></v-divider>
+                        <v-divider class="pb-2"></v-divider>
 
                         <v-autocomplete
                           v-model="editedItem.areaProtegida"
@@ -148,7 +148,7 @@
                         ></v-autocomplete>
 
                         <h3 class="pb-1">Representante</h3>
-                        <v-divider></v-divider>
+                        <v-divider class="pb-2"></v-divider>
                         <v-autocomplete
                           v-model="editedItem.representante"
                           :items="representants"
@@ -159,6 +159,7 @@
                           dense
                           clearable
                           :loading="loading"
+                          autocomplete="false"
                         ></v-autocomplete>
 
                         <h3 class="pb-1">Ubicación</h3>
@@ -1086,6 +1087,8 @@ export default {
         .get('api/representantes/noAsignados')
         .then(res => {
           this.loading = false
+          console.log("representantes no asignados");
+          console.log(res.data.data);
           this.representants = res.data.data
         })
         .catch(error => {

@@ -464,8 +464,8 @@ export default {
     },
 
     saveCoordinates(data) {
-      this.basicInformation.lat = data.lat
-      this.basicInformation.lng = data.lng
+      this.basicInformation.lat = data.lat()
+      this.basicInformation.lng = data.lng()
       this.dialogMap = false
     },
 

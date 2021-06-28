@@ -255,31 +255,30 @@
         </v-chip>
       </template>
 
-      <template v-slot:item.usuario="{ item }">
-        <div v-if="item.usuario">
-          <v-chip :color="getColor(item, 'usuario')" dark>
-            {{ getText(item, 'usuario') }}
-          </v-chip>
+      <template v-slot:item.asignado="{ item }">
+        <v-chip :color="getColor(item, 'asignado')" dark>
+          {{ getText(item, 'asignado') }}
+        </v-chip>
+      </template>
 
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
-              <v-icon
-                class="info--text ml-2"
-                v-on="on"
-                v-bind="attrs"
-                @click="seeUser(item.usuario)"
-              >
-                fa-eye
-              </v-icon>
-            </template>
-            <span> Ver Usuario asignado</span>
-          </v-tooltip>
-        </div>
-        <div v-else>
-          <v-chip :color="getColor(item, 'usuario')" dark>
-            {{ getText(item, 'usuario') }}
-          </v-chip>
-        </div>
+      <template v-slot:item.usuario="{ item }">
+        <v-chip :color="getColor(item, 'usuario')" dark>
+          {{ getText(item, 'usuario') }}
+        </v-chip>
+
+        <v-tooltip bottom v-if="item.usuario">
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon
+              class="info--text ml-2"
+              v-on="on"
+              v-bind="attrs"
+              @click="seeUser(item.usuario)"
+            >
+              fa-eye
+            </v-icon>
+          </template>
+          <span> Ver Usuario asignado</span>
+        </v-tooltip>
       </template>
     </v-data-table>
 
@@ -413,27 +412,29 @@ export default {
   data() {
     return {
       loading: true,
-      message: '',
       asign: false,
       sheet: false,
-      representants: [],
-      users: [],
-      usuario: {
-        _id: '',
-        nombre: '',
-        apellido: '',
-        avatar: '',
-        rol: '',
-        email: ''
-      },
-      usuarioDefault: {
-        _id: '',
-        nombre: '',
-        apellido: '',
-        avatar: '',
-        rol: '',
-        email: ''
-      },
+      dialogUser: false,
+      dialog: false,
+      dialogDelete: false,
+      problem: false,
+      dialogUnassign: false,
+      messageUnassign: false,
+      message: '',
+      editedIndex: -1,
+      emailRules: [
+        v => !!v || 'Correo es necesario',
+        v => /.+@.+\..+/.test(v) || 'El correo tiene que ser válido'
+      ],
+      fieldRules: [
+        v => !!v || 'Campo necesario',
+        v => (v && v.length >= 3) || 'Debe tener mas de 3 letras'
+      ],
+      numberRules: [
+        v => !!v || 'Campo necesario',
+        v => Number.isInteger(parseInt(v)) || 'Solo se permiten números',
+        v => (v && v.length === 10) || 'Debe tener 10 números'
+      ],
       headers: [
         {
           text: 'Nombre',
@@ -462,6 +463,10 @@ export default {
           sortable: false
         },
         {
+          text: 'Establecimiento',
+          value: 'asignado'
+        },
+        {
           text: 'Usuario',
           value: 'usuario',
           align: 'center'
@@ -479,28 +484,27 @@ export default {
           sortable: false
         }
       ],
-      dialogUser: false,
-      dialog: false,
-      dialogDelete: false,
-      editedIndex: -1,
+      representants: [],
+      establishments: [],
+      users: [],
+      usuario: {
+        _id: '',
+        nombre: '',
+        apellido: '',
+        avatar: '',
+        rol: '',
+        email: ''
+      },
+      usuarioDefault: {
+        _id: '',
+        nombre: '',
+        apellido: '',
+        avatar: '',
+        rol: '',
+        email: ''
+      },
       editedItem: {},
-      defaultItem: {},
-      problem: false,
-      emailRules: [
-        v => !!v || 'Correo es necesario',
-        v => /.+@.+\..+/.test(v) || 'El correo tiene que ser válido'
-      ],
-      fieldRules: [
-        v => !!v || 'Campo necesario',
-        v => (v && v.length >= 3) || 'Debe tener mas de 3 letras'
-      ],
-      numberRules: [
-        v => !!v || 'Campo necesario',
-        v => Number.isInteger(parseInt(v)) || 'Solo se permiten números',
-        v => (v && v.length === 10) || 'Debe tener 10 números'
-      ],
-      dialogUnassign: false,
-      messageUnassign: false
+      defaultItem: {}
     }
   },
 
@@ -509,7 +513,11 @@ export default {
       if (detail === 'estado') {
         return 'success'
       } else {
-        return item.usuario ? 'success' : 'error'
+        if (detail === 'asignado') {
+          return item.asignado ? 'success' : 'edit'
+        } else {
+          return item.usuario ? 'success' : 'error'
+        }
       }
     },
 
@@ -517,7 +525,16 @@ export default {
       if (detail === 'estado') {
         return 'Activo'
       } else {
-        return item.usuario ? 'Asignado' : 'Sin asignar'
+        if (detail === 'asignado') {
+          var establecimiento = this.establishments.filter(v => {
+            if (v.representante) return v.representante._id === item._id
+          })
+          return item.asignado
+            ? 'Asignado:' + ' ' + establecimiento[0].nombre
+            : 'Sin asignar'
+        } else {
+          return item.usuario ? 'Asignado' : 'Sin asignar'
+        }
       }
     },
 
@@ -577,6 +594,25 @@ export default {
         .then(res => {
           this.loading = false
           this.representants = res.data.data
+        })
+        .catch(error => {
+          this.loading = false
+          swalError(
+            error.body.err != undefined
+              ? error.body.err.message
+              : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
+          )
+        })
+    },
+
+    async getEstablishments() {
+      this.loading = true
+      this.establishments = []
+      await this.$http
+        .get('api/establecimientos')
+        .then(res => {
+          this.loading = false
+          this.establishments = res.data.data
         })
         .catch(error => {
           this.loading = false
@@ -791,8 +827,9 @@ export default {
   },
 
   async created() {
-    await this.getRepresentants()
     await this.getUsers()
+    await this.getEstablishments()
+    await this.getRepresentants()
   },
 
   watch: {

@@ -43,6 +43,12 @@
         </v-tooltip>
       </template>
 
+      <template v-slot:item.asignado="{ item }">
+        <v-chip :color="item.asignado ? 'success' : 'edit'" dark>
+          {{ getText(item) }}
+        </v-chip>
+      </template>
+
       <template v-slot:item.estado>
         <v-chip color="error" dark> Borrado </v-chip>
       </template>
@@ -117,6 +123,10 @@ export default {
           sortable: false
         },
         {
+          text: 'Establecimiento',
+          value: 'asignado'
+        },
+        {
           text: 'Estado',
           value: 'estado',
           sortable: false
@@ -127,6 +137,7 @@ export default {
           sortable: false
         }
       ],
+      establishments: [],
       dialogRestore: false,
       problem: false,
       editedIndex: -1,
@@ -215,6 +226,32 @@ export default {
         )
         this.problem = true
       }
+    },
+
+    async getEstablishments() {
+      this.loading = true
+      this.establishments = []
+      await this.$http
+        .get('api/establecimientos')
+        .then(res => {
+          this.loading = false
+          this.establishments = res.data.data
+        })
+        .catch(error => {
+          this.loading = false
+          swalError(
+            error.body.err != undefined
+              ? error.body.err.message
+              : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
+          )
+        })
+    },
+
+    getText(item) {
+      var establecimiento = this.establishments.filter(v => {
+        if (v.representante) return v.representante._id === item._id
+      })
+      return item.asignado ? 'Asignado:' + ' ' + establecimiento[0].nombre : 'Sin asignar'
     }
   },
   watch: {
@@ -223,6 +260,7 @@ export default {
     },
     activator(val) {
       if (val) {
+        this.getEstablishments()
         this.getRepresentants()
       }
     }

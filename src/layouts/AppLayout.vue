@@ -154,16 +154,16 @@ export default {
         link: '/users'
       },
       {
-        title: 'Establecimientos',
-        icon: 'fa-store-alt',
-        rol: 'ADMIN_ROLE',
-        link: '/establishment'
-      },
-      {
         title: 'Representantes',
         icon: 'fa-user-tag',
         rol: 'ADMIN_ROLE',
         link: '/representant'
+      },
+      {
+        title: 'Establecimientos',
+        icon: 'fa-store-alt',
+        rol: 'ADMIN_ROLE',
+        link: '/establishment'
       },
       {
         title: 'Áreas Protegidas',

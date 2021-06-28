@@ -87,7 +87,7 @@
             </v-col>
             <v-col cols="12" class="white--text justify-center">
               <div class="text-center primary">
-                <span class="headline"> ¿Está seguro de restaurar este Lugar?</span>
+                <span class="headline"> ¿Está seguro de restaurar este Establecimiento?</span>
               </div>
             </v-col>
           </v-row>
