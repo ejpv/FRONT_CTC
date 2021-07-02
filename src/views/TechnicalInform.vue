@@ -30,7 +30,6 @@
                         <v-btn
                           icon
                           class="info--text"
-                          :disabled="enough"
                           v-if="existInInform(item)"
                           @click="addDiagnostic(item._id)"
                         >
@@ -89,9 +88,7 @@
           </v-card-title>
 
           <v-card-text class="pl-5 pr-5 pt-2">
-            <h3 class="pt-2 pb-1">
-              Diagnosticos {{ editedInform.diagnostico.length }} / {{ numberForms }}
-            </h3>
+            <h3 class="pt-2 pb-1">Diagnosticos seleccionados</h3>
 
             <div v-for="item in editedInform.diagnostico" :key="item + 'DiagnosticoID'">
               <div
@@ -99,7 +96,8 @@
                 :key="index + 'diagnisticosInInform'"
               >
                 <div v-if="diagnostic._id.includes(item)" class="pb-2">
-                  {{ diagnostic.formulario.nombre }} -- {{ diagnostic.fecha }} --
+                  {{ diagnostic.formulario.nombre }} --
+                  {{ formatFecha(diagnostic.fecha) }} --
                   <span :class="getColorTotal(diagnostic.total) + '--text pa-0 ma-0'">
                     {{ diagnostic.total }}
                   </span>
@@ -111,7 +109,7 @@
               Agregue Diagnósticos para continuar
             </div>
 
-            <div v-if="editedInform.diagnostico.length == 0 ? false : enough">
+            <div v-else>
               <h3 class="pt-2 pb-1">Resumen de diagnosticos</h3>
 
               <v-row>
@@ -203,7 +201,7 @@
                 <span class="pt-5 ml-0 pl-0"> /{{ establishment.personal }} </span>
               </v-row>
 
-              <div class="error" v-if="enough">
+              <div class="error">
                 <h4 v-if="!maxPeople" class="ml-4 white--text">
                   El distribuido es: {{ currentPeople }}, la distribución no puede ser
                   menor o mayor a {{ establishment.personal }}.
@@ -295,7 +293,6 @@
                                   idRes
                                 ][idFormat]
                               "
-                              style="margin-bottom: -10px; margin-top: -2px"
                             >
                               <v-radio
                                 v-for="(option, number) in format.opciones"
@@ -319,8 +316,6 @@
                                   ][idFormat][checkIndex]
                                 "
                                 disabled
-                                class="pa-0"
-                                style="margin-bottom: -35px"
                               >
                                 <template v-slot:label>
                                   <span class="subtitle-2">{{ check }}</span>
@@ -448,13 +443,7 @@
               class="success"
               @click="save"
               block
-              :disabled="
-                editedInform.diagnostico.length === 0
-                  ? true
-                  : enough && maxPeople
-                  ? false
-                  : true
-              "
+              :disabled="editedInform.diagnostico.length === 0 ? true : maxPeople"
             >
               Enviar Informe
             </v-btn>
@@ -482,7 +471,6 @@ export default {
       seeDiagnostics: true,
       dialogDiagnostic: false,
       sm: '6',
-      numberForms: 0,
       diagnostic: {
         formulario: {
           nombre: ''
@@ -522,14 +510,6 @@ export default {
   computed: {
     ...mapState(['user', 'establishment']),
 
-    enough() {
-      if (this.editedInform.diagnostico.length >= this.numberForms) {
-        return true
-      } else {
-        return false
-      }
-    },
-
     maxPeople() {
       if (
         this.currentPeople > this.establishment.personal ||
@@ -565,25 +545,6 @@ export default {
           this.loading = false
           this.diagnostics = res.data.data
           this.getDate()
-        })
-        .catch(error => {
-          this.loading = false
-          swalError(
-            error.body.err != undefined
-              ? error.body.err.message
-              : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
-          )
-        })
-    },
-
-    async getForms() {
-      this.loading = true
-      this.numberForms = 0
-      await this.$http
-        .get('api/formularios')
-        .then(res => {
-          this.loading = false
-          this.numberForms = res.data.total
         })
         .catch(error => {
           this.loading = false
@@ -729,7 +690,6 @@ export default {
 
   async created() {
     this.getDiagnostics()
-    this.getForms()
     if (this.establishment.actividad.length > 0) {
       this.editedInform.actividad = this.establishment.actividad.map(v => {
         return v.nombre
@@ -746,13 +706,19 @@ export default {
       }
     },
 
-    enough(v) {
-      if (v) this.seeDiagnostics = false
-    },
-
     establishment() {
       this.getDiagnostics()
-      this.editedInform = Object.assign({}, this.defaultInform)
+      this.editedInform = {
+        diagnostico: [],
+        conclusion: [''],
+        recomendacion: [''],
+        observacion: [''],
+        servicio: [],
+        clasificacion: [],
+        personal: [],
+        actividad: [],
+        actualPersonal: 0
+      }
     }
   }
 }

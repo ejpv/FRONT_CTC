@@ -166,6 +166,12 @@ export default {
         link: '/establishment'
       },
       {
+        title: 'Actividades Turísticas',
+        icon: 'fa-hiking',
+        rol: 'ADMIN_ROLE',
+        link: '/activity'
+      },
+      {
         title: 'Áreas Protegidas',
         icon: 'fa-map-marked-alt',
         rol: 'ADMIN_ROLE',
@@ -230,12 +236,6 @@ export default {
         rol: 'REPRESENTANT_ROLE',
         icon: 'fa-folder-open',
         link: '/reportRepresentant'
-      },
-      {
-        title: 'Actividades Turísticas',
-        icon: 'fa-hiking',
-        rol: 'ADMIN_ROLE',
-        link: '/activity'
       }
     ],
     establishments: [],

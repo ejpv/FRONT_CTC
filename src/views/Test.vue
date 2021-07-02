@@ -184,6 +184,23 @@
                       :key="idRes + 'R'"
                       class="pa-0 ma-0"
                     >
+                      <v-tooltip right>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                            icon
+                            @click="editedItem.respuesta[index].valor.splice(idRes, 1)"
+                            small
+                            v-on="on"
+                            v-bind="attrs"
+                            class="pa-0 ma-0 error--text"
+                            v-show="editedItem.respuesta[index].valor.length > 1"
+                          >
+                            <v-icon> fa-times</v-icon>
+                          </v-btn>
+                        </template>
+                        <span> Eliminar esta respuesta </span>
+                      </v-tooltip>
+
                       <v-col
                         v-for="(format, idFormat) in item.formato"
                         :key="idFormat + 'F'"
@@ -227,7 +244,7 @@
                             </v-radio>
                           </v-radio-group>
                         </div>
-                        <div v-else-if="format.tipo === 'MULTIPLE'">
+                        <div v-else-if="format.tipo === 'MULTIPLE'" class="pb-4">
                           <div
                             v-for="(check, checkIndex) in format.opciones"
                             :key="checkIndex"

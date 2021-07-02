@@ -8,44 +8,44 @@ export default new Vuex.Store({
     user: JSON.parse(sessionStorage.getItem('user'))
       ? JSON.parse(sessionStorage.getItem('user'))
       : {
-          _id: '',
-          avatar: '',
-          rol: '',
-          nombre: '',
-          apellido: '',
-          password: '',
-          verificacionToken: '',
-          email: '',
-          activado: true
-        },
+        _id: '',
+        avatar: '',
+        rol: '',
+        nombre: '',
+        apellido: '',
+        password: '',
+        verificacionToken: '',
+        email: '',
+        activado: true
+      },
     establishment: JSON.parse(sessionStorage.getItem('establishment'))
       ? JSON.parse(sessionStorage.getItem('establishment'))
       : {
-          _id: '',
-          nombre: '',
-          administrador: '',
-          lugar: {},
-          areaProtegida: {},
-          representante: {},
-          registro: '',
-          LUAF: '',
-          email: '',
-          nacionalidad: '',
-          web: '',
-          telefono: '',
-          ciudad: '',
-          parroquia: '',
-          canton: 'Riobamba',
-          provincia: 'Chimborazo',
-          lat: 0,
-          lng: 0,
-          agua: '',
-          saneamiento: '',
-          energia: '',
-          desechos: '',
-          personal: 0,
-          actividad: []
-        },
+        _id: '',
+        nombre: '',
+        administrador: '',
+        lugar: {},
+        areaProtegida: {},
+        representante: {},
+        registro: '',
+        LUAF: '',
+        email: '',
+        nacionalidad: '',
+        web: '',
+        telefono: '',
+        ciudad: '',
+        parroquia: '',
+        canton: 'Riobamba',
+        provincia: 'Chimborazo',
+        lat: 0,
+        lng: 0,
+        agua: '',
+        saneamiento: '',
+        energia: '',
+        desechos: '',
+        personal: 0,
+        actividad: []
+      },
     token: sessionStorage.getItem('token') ? sessionStorage.getItem('token') : '',
     expira: sessionStorage.getItem('expira') ? sessionStorage.getItem('expira') : '',
 
@@ -113,6 +113,44 @@ export default new Vuex.Store({
           return v != undefined
         })
       sessionStorage.setItem('sanitation', JSON.stringify(state.sanitation))
+    },
+
+    verifyOptions(state, payload) {
+      var index = 0
+      if (payload.agua) {
+        index = state.waters.indexOf(payload.agua)
+        if (index === -1) {
+          state.waters.push(payload.agua)
+          sessionStorage.setItem('waters', JSON.stringify(state.waters))
+        }
+      }
+
+      index = 0
+      if (payload.energia) {
+        index = state.energies.indexOf(payload.energia)
+        if (index === -1) {
+          state.energies.push(payload.energia)
+          sessionStorage.setItem('waters', JSON.stringify(state.energies))
+        }
+      }
+
+      index = 0
+      if (payload.desechos) {
+        index = state.waste.indexOf(payload.desechos)
+        if (index === -1) {
+          state.waste.push(payload.desechos)
+          sessionStorage.setItem('waters', JSON.stringify(state.waste))
+        }
+      }
+
+      index = 0
+      if (payload.saneamiento) {
+        index = state.sanitation.indexOf(payload.saneamiento)
+        if (index === -1) {
+          state.sanitation.push(payload.saneamiento)
+          sessionStorage.setItem('waters', JSON.stringify(state.sanitation))
+        }
+      }
     }
   },
 
@@ -192,6 +230,11 @@ export default new Vuex.Store({
 
     prepareBasicService({ commit }, establishments) {
       commit('syncOptions', establishments)
+      return
+    },
+
+    updateBasicService({ commit }, establishment) {
+      commit('verifyOptions', establishment)
       return
     }
   },

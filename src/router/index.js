@@ -122,6 +122,11 @@ const routes = [
     component: () => import('../views/ForgetPass.vue')
   },
   {
+    name: 'Crear nuevo Establecimiento',
+    path: '/technicalEstablishment',
+    component: () => import('../views/TechnicalEstablishment.vue')
+  },
+  {
     name: 'Reestablecer Contraseña',
     path: '/restorePass/:token/:exp',
     component: () => import('../views/RestorePass.vue')

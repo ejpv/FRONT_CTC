@@ -308,8 +308,8 @@
                           </v-tooltip>
                         </h3>
 
-                        <v-row v-if="editedItem.actividad.length > 0" class="ma-0 pa-0">
-                          <v-col
+                        <div v-if="editedItem.actividad.length > 0" class="ml-4 mt-4">
+                          <v-row
                             class="ml-4 mr-4"
                             v-for="(item, index) in editedItem.actividad"
                             :key="index + 'Activities'"
@@ -330,9 +330,10 @@
                                 >
                               </template>
                             </v-autocomplete>
-                          </v-col>
-                        </v-row>
-                        <v-row v-else class="ml-4 mt-4">
+                          </v-row>
+                        </div>
+
+                        <v-row v-else class="ml-4 mt-1">
                           <h4>No Aplica, el establecimiento no tiene Actividades</h4>
                         </v-row>
                       </v-container>
@@ -1087,8 +1088,6 @@ export default {
         .get('api/representantes/noAsignados')
         .then(res => {
           this.loading = false
-          console.log("representantes no asignados");
-          console.log(res.data.data);
           this.representants = res.data.data
         })
         .catch(error => {

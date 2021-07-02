@@ -62,7 +62,7 @@
             <span class="ml-4 subtitle-1 white--text">Pregunta {{ index + 1 }}</span>
           </v-system-bar>
 
-          <v-container style="margin-bottom: -20px">
+          <v-container>
             <v-row>
               <v-col cols="12" sm="5" md="3" class="pa-4 mt-3">
                 <v-menu offset-y>
@@ -87,7 +87,7 @@
                 </v-menu>
               </v-col>
 
-              <v-col cols="12" sm="7" md="9" style="margin-bottom: -20px">
+              <v-col cols="12" sm="7" md="9">
                 <h3 class="pt-2 pb-1">Pregunta</h3>
                 <v-text-field
                   v-model="item.enunciado"
@@ -140,7 +140,6 @@
                     filled
                     rounded
                     dense
-                    style="margin-bottom: -15px"
                   >
                     <template v-if="item.opciones.length > 1" v-slot:append>
                       <v-icon @click="removeOption(index, number)"
@@ -173,7 +172,7 @@
                   <v-col
                     v-for="(header, id) in item.encabezado"
                     :key="id + 'h'"
-                    class="d-flex child-flex pa-1"
+                    class="d-flex child-flex pl-2 pr-2"
                   >
                     <v-text-field
                       v-model="form.pregunta[index].encabezado[id]"
@@ -200,7 +199,7 @@
                   <v-col
                     v-for="(format, idF) in item.formato"
                     :key="idF + 'F'"
-                    class="d-flex child-flex pa-1"
+                    class="d-flex child-flex pl-2 pr-2"
                   >
                     <v-autocomplete
                       v-model="form.pregunta[index].formato[idF].tipo"
@@ -222,7 +221,7 @@
                   <v-col
                     v-for="(format, idF) in item.formato"
                     :key="idF + 'R'"
-                    class="d-flex child-flex pa-1"
+                    class="d-flex child-flex pl-2 pr-2"
                   >
                     <div v-if="format.tipo === 'SN'">
                       <v-switch
@@ -265,7 +264,6 @@
                           filled
                           rounded
                           dense
-                          style="margin-bottom: -15px"
                         >
                           <template v-if="format.opciones.length > 1" v-slot:append>
                             <v-icon @click="removeColumOption(index, idF, number)"
@@ -306,51 +304,52 @@
             </v-col>
             <v-spacer></v-spacer>
             <v-divider vertical calss="mx-2"></v-divider>
-
-            <v-tooltip right>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  icon
-                  v-on="on"
-                  v-bind="attrs"
-                  v-if="form.mostrarEnInforme === null"
-                  @click="form.mostrarEnInforme = index"
-                >
-                  <v-icon class="info--text"> fa-plus</v-icon>
-                </v-btn>
-                <v-btn
-                  icon
+            <div v-show="item.tipo === 'COMPLEX'">
+              <v-tooltip right>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    icon
+                    v-on="on"
+                    v-bind="attrs"
+                    v-if="form.mostrarEnInforme === null"
+                    @click="form.mostrarEnInforme = index"
+                  >
+                    <v-icon class="info--text"> fa-plus</v-icon>
+                  </v-btn>
+                  <v-btn
+                    icon
+                    v-else-if="
+                      form.mostrarEnInforme != null && form.mostrarEnInforme != index
+                    "
+                    v-on="on"
+                    v-bind="attrs"
+                    @click="form.mostrarEnInforme = index"
+                  >
+                    <v-icon class="edit--text">fa-exchange-alt</v-icon>
+                  </v-btn>
+                  <v-btn
+                    icon
+                    v-else
+                    @click="form.mostrarEnInforme = null"
+                    v-on="on"
+                    v-bind="attrs"
+                  >
+                    <v-icon class="error--text">fa-times</v-icon>
+                  </v-btn>
+                </template>
+                <span v-if="form.mostrarEnInforme === null"> Elegir Pregunta </span>
+                <span
                   v-else-if="
                     form.mostrarEnInforme != null && form.mostrarEnInforme != index
                   "
-                  v-on="on"
-                  v-bind="attrs"
-                  @click="form.mostrarEnInforme = index"
                 >
-                  <v-icon class="edit--text">fa-exchange-alt</v-icon>
-                </v-btn>
-                <v-btn
-                  icon
-                  v-else
-                  @click="form.mostrarEnInforme = null"
-                  v-on="on"
-                  v-bind="attrs"
-                >
-                  <v-icon class="error--text">fa-times</v-icon>
-                </v-btn>
-              </template>
-              <span v-if="form.mostrarEnInforme === null"> Elegir Pregunta </span>
-              <span
-                v-else-if="
-                  form.mostrarEnInforme != null && form.mostrarEnInforme != index
-                "
-              >
-                Cambiar por esta Pregunta
-              </span>
-              <span v-else> Eliminar Selección </span>
-            </v-tooltip>
-            Mostrar en Informe
-            <v-divider vertical class="mx-2" />
+                  Cambiar por esta Pregunta
+                </span>
+                <span v-else> Eliminar Selección </span>
+              </v-tooltip>
+              Mostrar en Informe
+              <v-divider vertical class="mx-2" />
+            </div>
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn @click="deleteQuestion(item)" v-on="on" v-bind="attrs" icon>

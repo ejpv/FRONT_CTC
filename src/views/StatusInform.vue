@@ -124,11 +124,10 @@
               </v-tooltip>
               <v-chip
                 :class="`${getColor(editedInform.estado)} white--text`"
-                style="margin-left: -5px"
               >
                 {{ getText(editedInform.estado) }}
               </v-chip>
-              <v-btn icon @click="restoreDefault" style="margin-left: -5px">
+              <v-btn icon @click="restoreDefault">
                 <v-icon> fa-times</v-icon></v-btn
               >
             </v-card-title>
@@ -236,7 +235,7 @@
                 <span class="pt-5 ml-0 pl-0"> /{{ editedInform.actualPersonal }} </span>
               </v-row>
 
-              <div class="error" v-if="!maxPeople">
+              <div class="error" v-if="!maxPeople && !editedInform.estado">
                 <h4 class="ml-4 white--text">
                   El distribuido es: {{ currentPeople }}, la distribución no puede ser
                   menor o mayor a {{ establishment.personal }}.
@@ -321,9 +320,7 @@
                             item.respuesta[item.formulario.mostrarEnInforme].valor[idRes][
                               idFormat
                             ]
-                          "
-                          style="margin-bottom: -10px; margin-top: -2px"
-                        >
+                          "                        >
                           <v-radio
                             v-for="(option, number) in format.opciones"
                             :label="option"
@@ -347,7 +344,6 @@
                             "
                             disabled
                             class="pa-0"
-                            style="margin-bottom: -35px"
                           >
                             <template v-slot:label>
                               <span class="subtitle-2">{{ check }}</span>
