@@ -4,7 +4,12 @@
       <v-flex xs12 sm9 md7 lg4 elevation-6>
         <v-card color="primary" outlined>
           <v-card-text class="white--text" align="center">
-            <h2 class="pt-2">CTC - Calidad Turismo Comunitario</h2>
+            <h2 class="pa-0 ma-0">
+              <v-avatar class="profile pa-0 ma-0" size="64" tile>
+                <v-img contain src="/img/logo.png"> </v-img>
+              </v-avatar>
+              CTC - Calidad Turismo Comunitario
+            </h2>
           </v-card-text>
         </v-card>
         <v-card :loading="loading">
