@@ -224,7 +224,21 @@
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-icon
-              class="mr-2 edit--text"
+              class="info--text mr-2"
+              v-on="on"
+              v-bind="attrs"
+              :disabled="item.usuario ? true : false"
+              @click="createUser(item)"
+            >
+              fa-user-plus
+            </v-icon>
+          </template>
+          <span> Crear un usuario con esta información</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon
+              class="mr-2 ml-2 edit--text"
               @click="editItem(item)"
               v-on="on"
               v-bind="attrs"
@@ -400,6 +414,82 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <v-dialog v-model="dialogCreateUser" max-width="500px">
+      <v-card>
+        <v-card-title class="primary white--text">
+          <span class="headline">Crear un Usuario Representante</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-form ref="form">
+              <h3>Avatar</h3>
+              <div class="text-center">
+                <v-avatar size="200" :tile="!editedUser.avatar">
+                  <v-img :src="editedUser.avatar || '/image-gallery.svg'">
+                    <template v-slot:placeholder>
+                      <v-row class="fill-height ma-0" align="center" justify="center">
+                        <v-progress-circular
+                          indeterminate
+                          color="grey lighten-5"
+                        ></v-progress-circular>
+                      </v-row>
+                    </template>
+                  </v-img>
+                </v-avatar>
+              </div>
+
+              <h3 class="pt-2 pb-1"><strong class="error--text">*</strong> Nombre</h3>
+              <v-text-field
+                v-model="editedUser.nombre"
+                filled
+                rounded
+                dense
+                disabled
+              ></v-text-field>
+
+              <h3 class="pb-1"><strong class="error--text">*</strong> Apellido</h3>
+              <v-text-field
+                v-model="editedUser.apellido"
+                filled
+                rounded
+                dense
+                disabled
+              ></v-text-field>
+
+              <h3 class="pb-1"><strong class="error--text">*</strong> Correo</h3>
+              <v-text-field
+                v-model="editedUser.email"
+                filled
+                rounded
+                dense
+                disabled
+              ></v-text-field>
+
+              <h3 class="pb-1"><strong class="error--text">*</strong> Rol</h3>
+              <v-radio-group v-model="editedUser.rol" class="ma-0">
+                <v-radio label="Administrador" disabled> </v-radio>
+                <v-radio value="REPRESENTANT_ROLE" label="Representante"> </v-radio>
+                <v-radio label="Técnico" disabled> </v-radio>
+              </v-radio-group>
+            </v-form>
+          </v-container>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-container>
+            <v-row>
+              <v-col cols="6" class="d-flex justify-space-around pa-0">
+                <v-btn text @click="closeCreateUser">Cancelar</v-btn>
+              </v-col>
+              <v-col cols="6" class="d-flex justify-space-around pa-0">
+                <v-btn text @click="saveUser">Guardar</v-btn>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -414,6 +504,7 @@ export default {
       loading: true,
       asign: false,
       sheet: false,
+      dialogCreateUser: false,
       dialogUser: false,
       dialog: false,
       dialogDelete: false,
@@ -487,6 +578,14 @@ export default {
       representants: [],
       establishments: [],
       users: [],
+      editedUser: {
+        _id: '',
+        nombre: '',
+        apellido: '',
+        avatar: '',
+        rol: 'REPRESENTANT_ROLE',
+        email: ''
+      },
       usuario: {
         _id: '',
         nombre: '',
@@ -509,6 +608,65 @@ export default {
   },
 
   methods: {
+    createUser(item) {
+      this.dialogCreateUser = true
+      this.editedIndex = this.representants.indexOf(item)
+      this.editedItem = this.representants[this.editedIndex]
+      this.editedUser.nombre = item.nombre
+      this.editedUser.apellido = item.apellido
+      this.editedUser.email = item.email
+      this.editedUser.rol = 'REPRESENTANT_ROLE'
+    },
+
+    async saveUser() {
+      await this.addUser()
+      if (!this.problem) {
+        this.closeCreateUser()
+      }
+    },
+
+    async addUser() {
+      this.loading = true
+      swalLoading('Ingresando usuario')
+      try {
+        await this.$http.post('api/usuario', this.editedUser).then(async res => {
+          this.loading = false
+          this.editedItem.usuario = res.data.data
+          swalConfirm('Usuario nuevo ingresado')
+          this.problem = false
+          swalLoading('Asignando usuario')
+          try {
+            await this.$http
+              .put(`api/representante/asignar/${this.editedItem._id}`, {
+                usuario: this.editedItem.usuario._id
+              })
+              .then(res => {
+                this.loading = false
+                swalConfirm('Usuario Asignado')
+                this.editedItem.usuario = res.data.data
+              })
+            this.problem = false
+          } catch (error) {
+            this.loading = false
+            swalError(
+              error.body.err != undefined
+                ? error.body.err.message
+                : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
+            )
+            this.problem = true
+          }
+        })
+      } catch (error) {
+        this.loading = false
+        swalError(
+          error.body.err != undefined
+            ? error.body.err.message
+            : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
+        )
+        this.problem = true
+      }
+    },
+
     getColor(item, detail) {
       if (detail === 'estado') {
         return 'success'
@@ -655,6 +813,12 @@ export default {
         this.editedItem = Object.assign({}, this.defaultItem)
         this.editedIndex = -1
       })
+    },
+
+    closeCreateUser() {
+      this.dialogCreateUser = false
+      this.editedUser = {}
+      this.editedIndex = -1
     },
 
     closeDelete() {
@@ -838,6 +1002,9 @@ export default {
     },
     dialogDelete(val) {
       val || this.closeDelete()
+    },
+    dialogCreateUser(val) {
+      val || this.closeCreateUser()
     },
     activator(val) {
       if (!val) {
