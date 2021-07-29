@@ -36,7 +36,17 @@
 
       <v-tooltip left>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn @click="form.pregunta.push(defaultQuest)" v-on="on" v-bind="attrs" icon>
+          <v-btn @click="form.pregunta.push({
+        encabezado: ['Encabezado 1'],
+        formato: [
+          {
+            tipo: 'SN',
+            opciones: ['']
+          }
+        ],
+        tipo: 'COMPLEX',
+        opciones: ['']
+      })" v-on="on" v-bind="attrs" icon>
             <v-icon class="info--text"> fa-plus </v-icon>
           </v-btn>
         </template>
@@ -314,7 +324,7 @@
                     v-if="form.mostrarEnInforme === null"
                     @click="form.mostrarEnInforme = index"
                   >
-                    <v-icon class="info--text"> fa-plus</v-icon>
+                    <v-icon class="info--text">far fa-check-square</v-icon>
                   </v-btn>
                   <v-btn
                     icon
@@ -334,7 +344,7 @@
                     v-on="on"
                     v-bind="attrs"
                   >
-                    <v-icon class="error--text">fa-times</v-icon>
+                    <v-icon class="success--text">fas fa-check-square</v-icon>
                   </v-btn>
                 </template>
                 <span v-if="form.mostrarEnInforme === null"> Elegir Pregunta </span>

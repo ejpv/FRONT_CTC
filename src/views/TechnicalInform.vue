@@ -443,7 +443,7 @@
               class="success"
               @click="save"
               block
-              :disabled="editedInform.diagnostico.length === 0 ? true : maxPeople"
+              :disabled="editedInform.diagnostico.length === 0 ? true : !maxPeople"
             >
               Enviar Informe
             </v-btn>
@@ -502,7 +502,8 @@ export default {
       dateNotRepeted: [],
       numberRules: [
         v => !!v || 'Campo necesario',
-        v => Number.isInteger(parseInt(v)) || 'Solo se permiten números'
+        v => Number.isInteger(parseInt(v)) || 'Solo se permiten números',
+        v => Number.isInteger(parseFloat(v.toString().replace(/,/g, '.'))) || 'Solo se permiten números enteros',
       ]
     }
   },

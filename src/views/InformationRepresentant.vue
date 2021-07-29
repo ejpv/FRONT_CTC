@@ -141,6 +141,17 @@
                   </v-col>
                 </v-row>
 
+                <h3>Personal</h3>
+                <v-divider class="pb-1"></v-divider>
+                <v-row class="pb-0 mb-0">
+                  <v-col class="pb-0 mb-0">
+                    <h4 class="pb-1 pt-1">Total Colaboradores</h4>
+                    <p class="pl-2">
+                      {{ getRespuesta(establishment.personal) }}
+                    </p>
+                  </v-col>
+                </v-row>
+
                 <h3>Actividades Turísticas</h3>
                 <v-divider class="pb-1"></v-divider>
                 <v-row v-if="establishment.actividad.length > 0">

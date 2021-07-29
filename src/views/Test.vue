@@ -531,12 +531,14 @@ export default {
       var valorActual = 0
       var totalEsperado = 0
       this.editedItem.respuesta.forEach(v => {
-        valorActual = parseInt(valorActual) + parseInt(v.puntaje)
+        if (v.puntaje) {
+          valorActual = parseFloat(valorActual) + parseFloat(v.puntaje.toString().replace(/,/g, '.'))
+        }
       })
       this.editedForm.pregunta.forEach(v => {
         totalEsperado = parseInt(totalEsperado) + parseInt(v.peso)
       })
-      return ((parseInt(valorActual) / parseInt(totalEsperado)) * 100).toFixed(2) + '%'
+      return ((parseFloat(valorActual) / parseInt(totalEsperado)) * 100).toFixed(2) + '%'
     },
 
     ...mapState(['user'])
