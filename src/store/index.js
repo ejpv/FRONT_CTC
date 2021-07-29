@@ -46,6 +46,7 @@ export default new Vuex.Store({
         personal: 0,
         actividad: []
       },
+    establishments: JSON.parse(sessionStorage.getItem('establishments')) ? JSON.parse(sessionStorage.getItem('establishments')) : [],
     token: sessionStorage.getItem('token') ? sessionStorage.getItem('token') : '',
     expira: sessionStorage.getItem('expira') ? sessionStorage.getItem('expira') : '',
 
@@ -151,6 +152,11 @@ export default new Vuex.Store({
           sessionStorage.setItem('waters', JSON.stringify(state.sanitation))
         }
       }
+    },
+
+    establishmentReport(state, payload) {
+      state.establishments = payload
+      sessionStorage.setItem('establishments', JSON.stringify(state.establishments))
     }
   },
 
@@ -235,6 +241,11 @@ export default new Vuex.Store({
 
     updateBasicService({ commit }, establishment) {
       commit('verifyOptions', establishment)
+      return
+    },
+
+    syncBodyReport({commit}, body){
+      commit('establishmentReport', body)
       return
     }
   },

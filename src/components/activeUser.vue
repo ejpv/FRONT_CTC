@@ -178,6 +178,7 @@
         </v-tooltip>
         <h3 v-if="user._id === item._id" class="primary--text">Este eres tú</h3>
       </template>
+
       <template v-slot:item.activado="{ item }">
         <v-chip
           :color="getColor(item, 'activado')"
@@ -201,11 +202,13 @@
           <span> Enviar correo para verificación </span>
         </v-tooltip>
       </template>
+
       <template v-slot:item.estado="{ item }">
         <v-chip :color="getColor(item, 'estado')" dark>
           {{ getText(item, 'estado') }}
         </v-chip>
       </template>
+      
       <template v-slot:item.rol="{ item }">
         <p class="font-weight-black">{{ getText(item, 'rol') }}</p>
       </template>

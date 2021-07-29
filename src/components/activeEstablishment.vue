@@ -829,6 +829,7 @@
 
 <script>
 import { swalError, swalConfirm, swalLoading } from '@/utils/notify'
+import { mapActions } from 'vuex'
 
 export default {
   props: ['texto', 'activator'],
@@ -1044,6 +1045,8 @@ export default {
   },
 
   methods: {
+    ...mapActions(['syncBodyReport']),
+
     async getEstablishments() {
       this.loading = true
       this.establishments = []
@@ -1052,6 +1055,7 @@ export default {
         .then(res => {
           this.loading = false
           this.establishments = res.data.data
+          this.syncBodyReport(this.establishments)
           this.getBasicServices()
         })
         .catch(error => {

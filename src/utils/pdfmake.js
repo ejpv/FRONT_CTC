@@ -10,10 +10,161 @@ export class Report {
   static gray = '#ACB9CA'
 
   //Abre el PDF
-  static async openPDF(item) {
-    await this.definition(item).then(res => {
-      res.create().open()
-    })
+  static async openPDF(item, critery) {
+    if (critery) {
+      await this.establishmentList(item).then(res => {
+        res.create().open()
+      })
+    } else {
+      await this.definition(item).then(res => {
+        res.create().open()
+      })
+    }
+  }
+
+  static async establishmentList(item) {
+    const pdf = new PdfMakeWrapper()
+    pdf.pageOrientation('landscape'); // para hacer la página en horizontal
+
+    //encabezado con las imagenes
+    pdf.add(
+      new Table([
+        [
+          new Cell(await this.image('gobierno-diagnostico.png', 90, 40)).end,
+          new Cell(await this.image('unach-diagnostico.jpeg', 90, 40)).end,
+          new Cell(await this.image('municipio-diagnostico.jpeg', 90, 40)).end
+        ]
+      ])
+        .widths('*')
+        .alignment('center').end
+    )
+
+    pdf.add(
+      new Table([
+        [
+          new Cell(
+            new Txt('Listado de Establecimientos')
+              .bold()
+              .fontSize(20)
+              .color(this.white).end
+          ).fillColor(this.primary).end
+        ]
+      ])
+        .widths('*')
+        .alignment('center').end
+    )
+
+    for (let i = 0; i < item.length; i++) {
+      pdf.add(this.enter())
+      pdf.add(
+        new Table([
+          [
+            new Cell(new Txt(item[i].nombre).bold().color(this.white).fontSize(16).end).fillColor(this.blue).colSpan(4).end, '', '', ''
+          ],
+          [
+            new Cell(new Txt('Administrador:').bold().fontSize(13).alignment('left').end).end,
+            new Cell(new Txt(item[i].administrador).alignment('left').end).end,
+            new Cell(new Txt('Teléfono:').bold().fontSize(13).alignment('left').end).end,
+            new Cell(new Txt(await this.getTelefono(item[i].telefono)).alignment('left').end).end
+          ],
+          [
+            new Cell(new Txt('Actividades Turísticas:').bold().fontSize(13).alignment('left').end).end,
+            new Cell(new Txt(item[i].actividad.length > 0 ? await this.getActividades(item[i].actividad) : 'No tiene actividades').alignment('left').end).end,
+            new Cell(new Txt('Personal:').bold().fontSize(13).alignment('left').end).end,
+            new Cell(new Txt(item[i].personal).alignment('left').end).end
+          ],
+          [
+            new Cell(new Txt('Correo:').bold().fontSize(13).alignment('left').end).end,
+            new Cell(new Txt(item[i].email).alignment('left').end).end,
+            new Cell(new Txt('Comunidad u organización:').bold().fontSize(13).alignment('left').end).end,
+            new Cell(new Txt(item[i].comunidad).alignment('left').end).end
+          ],
+          [
+            new Cell(new Txt('Página web:').bold().fontSize(13).alignment('left').end).end,
+            new Cell(new Txt(item[i].web).alignment('left').end).end,
+            new Cell(new Txt('Nacionalidad / Pueblo:').bold().fontSize(13).alignment('left').end).end,
+            new Cell(new Txt(item[i].nacionalidad).alignment('left').end).end
+          ],
+          [
+            new Cell(new Txt('Registro:').bold().fontSize(13).alignment('left').end).end,
+            new Cell(new Txt(item[i].registro).alignment('left').end).end,
+            new Cell(new Txt('LUAF:').bold().fontSize(13).alignment('left').end).end,
+            new Cell(new Txt(item[i].LUAF).alignment('left').end).end
+          ],
+          [
+            new Cell(new Txt('Representante:').bold().fontSize(13).alignment('left').end).end,
+            new Cell(new Txt(item[i].representante ? item[i].representante.nombre + ' ' + item[i].representante.apellido : ' ').alignment('left').end).end,
+            new Cell(new Txt('Área protegida:').bold().fontSize(13).alignment('left').end).end,
+            new Cell(new Txt(item[i].areaProtegida ? item[i].areaProtegida.tipo + ' ' + item[i].areaProtegida.nombre : ' ').alignment('left').end).end
+          ],
+          [
+            new Cell(new Txt('Servicio de básicos').bold().fontSize(14).end).fillColor(this.gray).colSpan('4').end, '', '', ''
+          ],
+          [
+            new Cell(new Txt('Agua:').bold().fontSize(13).alignment('left').end).end,
+            new Cell(new Txt(item[i].agua).alignment('left').end).end,
+            new Cell(new Txt('Energia:').bold().fontSize(13).alignment('left').end).end,
+            new Cell(new Txt(item[i].energia).alignment('left').end).end
+          ],
+          [
+            new Cell(new Txt('Saneamientto:').bold().fontSize(13).alignment('left').end).end,
+            new Cell(new Txt(item[i].saneamiento).alignment('left').end).end,
+            new Cell(new Txt('Desechos:').bold().fontSize(13).alignment('left').end).end,
+            new Cell(new Txt(item[i].desechos).alignment('left').end).end
+          ],
+          [
+            new Cell(new Txt('Localización').bold().fontSize(14).end).fillColor(this.gray).colSpan('4').end, '', '', ''
+          ],
+          [
+            new Cell(new Txt('Provincia:').bold().fontSize(13).alignment('left').end).end,
+            new Cell(new Txt(item[i].provincia).alignment('left').end).end,
+            new Cell(new Txt('Cantón:').bold().fontSize(13).alignment('left').end).end,
+            new Cell(new Txt(item[i].canton).alignment('left').end).end
+          ],
+          [
+            new Cell(new Txt('Ciudad:').bold().fontSize(13).alignment('left').end).end,
+            new Cell(new Txt(item[i].ciudad).alignment('left').end).end,
+            new Cell(new Txt('Parroquia:').bold().fontSize(13).alignment('left').end).end,
+            new Cell(new Txt(item[i].parroquia).alignment('left').end).end
+          ],
+          [
+            new Cell(new Txt('Latitud:').bold().fontSize(13).alignment('left').end).end,
+            new Cell(new Txt(item[i].lat).alignment('left').end).end,
+            new Cell(new Txt('Longitud:').bold().fontSize(13).alignment('left').end).end,
+            new Cell(new Txt(item[i].lng).alignment('left').end).end
+          ]
+        ])
+          .widths('*')
+          .layout({
+            paddingTop: (rowIndex) => {
+              return rowIndex === 0 ? 6 : 1
+            },
+            paddingBottom: (rowIndex) => {
+              return rowIndex === 0 ? 6 : 1
+            }
+          })
+          .alignment('center').end
+      )
+      if (i != (item.length - 1)) {
+        pdf.add(new Txt('').pageBreak('after').end)
+      }
+    }
+
+    //footer
+    pdf.footer(
+      new Table([
+        [
+          '',
+          new Txt(
+            'Universidad Nacional de Chimborazo\nVinculación con la Sociedad - Carrera de Gestión Turística y Hotelera'
+          ).end
+        ]
+      ])
+        .layout('noBorders')
+        .widths([15, '*']).end
+    )
+
+    return pdf
   }
 
   static async definition(item) {
@@ -82,10 +233,10 @@ export class Report {
           new Txt('Georeferenciación:').bold().color(this.white).end,
           new Txt(
             'Lat:' +
-              item.diagnostico[0].establecimiento.lat +
-              '\n' +
-              'Lng: ' +
-              item.diagnostico[0].establecimiento.lng
+            item.diagnostico[0].establecimiento.lat +
+            '\n' +
+            'Lng: ' +
+            item.diagnostico[0].establecimiento.lng
           ).bold().end
         ],
         [
@@ -95,8 +246,8 @@ export class Report {
           new Txt(
             item.diagnostico[0].establecimiento.areaProtegida
               ? item.diagnostico[0].establecimiento.areaProtegida.tipo +
-                ' - ' +
-                item.diagnostico[0].establecimiento.areaProtegida.nombre
+              ' - ' +
+              item.diagnostico[0].establecimiento.areaProtegida.nombre
               : 'Sin Área protegida asignada'
           ).bold().end
         ],
@@ -260,8 +411,8 @@ export class Report {
         await pdf.add(
           new Txt(
             ' (Tipo: ' +
-              (await this.getTipo(item.diagnostico[i].formulario.pregunta[j].tipo)) +
-              ')'
+            (await this.getTipo(item.diagnostico[i].formulario.pregunta[j].tipo)) +
+            ')'
           ).fontSize(10).end
         )
 
@@ -564,6 +715,18 @@ export class Report {
         text = item[0]
       } else {
         text = text + '\n' + item[i]
+      }
+    }
+    return text
+  }
+
+  static getActividades(item) {
+    var text = ''
+    for (let i = 0; i < item.length; i++) {
+      if (i === 0) {
+        text = item[0].nombre
+      } else {
+        text = text + '\n' + item[i].nombre
       }
     }
     return text
