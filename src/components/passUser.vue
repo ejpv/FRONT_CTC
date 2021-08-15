@@ -160,6 +160,10 @@ export default {
     verifiPass() {
       return this.password === this.secondPassword && this.password != '' ? false : true
     }
+  },
+  created() {
+    this.password = ''
+    this.secondPassword = ''
   }
 }
 </script>
