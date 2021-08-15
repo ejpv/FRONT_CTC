@@ -12,6 +12,7 @@
         :append-icon="show ? 'fa-eye' : 'fa-eye-slash'"
         @click:append="show = !show"
       ></v-text-field>
+      {{password}}
       <h3>Repita su Contraseña</h3>
       <v-text-field
         filled
