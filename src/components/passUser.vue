@@ -12,7 +12,6 @@
         :append-icon="show ? 'fa-eye' : 'fa-eye-slash'"
         @click:append="show = !show"
       ></v-text-field>
-      {{password}}
       <h3>Repita su Contraseña</h3>
       <v-text-field
         filled
@@ -163,7 +162,9 @@ export default {
     }
   },
   created() {
-    this.password = ''
+    if (this.password) {
+      this.password = ''
+    }
     this.secondPassword = ''
   }
 }
