@@ -7,8 +7,8 @@
         rounded
         dense
         :rules="passwordRules"
-        v-model="password"
-        :type="show ? 'text' : 'password'"
+        v-model="firstPassword"
+        :type="show ? 'text' : 'firstPassword'"
         :append-icon="show ? 'fa-eye' : 'fa-eye-slash'"
         @click:append="show = !show"
       ></v-text-field>
@@ -19,12 +19,12 @@
         dense
         :rules="passwordRules"
         v-model="secondPassword"
-        :type="show1 ? 'text' : 'password'"
+        :type="show1 ? 'text' : 'firstPassword'"
         :append-icon="show1 ? 'fa-eye' : 'fa-eye-slash'"
         @click:append="show1 = !show1"
       ></v-text-field>
       <div v-if="verifiPass" class="error--text">
-        <span v-if="password != ''">Contraseñas deben ser iguales</span>
+        <span v-if="firstPassword != ''">Contraseñas deben ser iguales</span>
       </div>
       <div v-if="cancel">
         <v-row>
@@ -67,7 +67,7 @@ export default {
       passwordRules: [v => !!v || 'Contraseña es necesaria'],
       show1: false,
       show: false,
-      password: '',
+      firstPassword: '',
       secondPassword: ''
     }
   },
@@ -77,7 +77,7 @@ export default {
       swalLoading('Actualizando contraseña')
       try {
         await this.$http
-          .post('api/usuario/changePass', { password: this.password })
+          .post('api/usuario/changePass', { password: this.firstPassword })
           .then(() => {
             this.loading = false
             swalConfirm('Contraseña actualizada')
@@ -95,7 +95,7 @@ export default {
 
     changeSection() {
       this.$emit('accion')
-      this.password = ''
+      this.firstPassword = ''
       this.secondPassword = ''
     },
 
@@ -112,7 +112,7 @@ export default {
       this.loading = true
       try {
         await this.$http
-          .post('api/usuario/password', { password: this.password }, { headers })
+          .post('api/usuario/password', { password: this.firstPassword }, { headers })
           .then(() => {
             this.loading = false
             swalConfirm('Contraseña actualizada')
@@ -140,7 +140,7 @@ export default {
       swalLoading('Estableciendo contraseña')
       try {
         await this.$http
-          .post('api/usuario/activar', { password: this.password }, { headers })
+          .post('api/usuario/activar', { password: this.firstPassword }, { headers })
           .then(() => {
             this.loading = false
             swalConfirm('Contraseña establecida')
@@ -158,12 +158,12 @@ export default {
   },
   computed: {
     verifiPass() {
-      return this.password === this.secondPassword && this.password != '' ? false : true
+      return this.firstPassword === this.secondPassword && this.firstPassword != '' ? false : true
     }
   },
   created() {
-    if (this.password) {
-      this.password = ''
+    if (this.firstPassword) {
+      this.firstPassword = ''
     }
     this.secondPassword = ''
   }
