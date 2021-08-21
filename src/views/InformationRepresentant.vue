@@ -185,8 +185,8 @@
             <v-card-title class="primary white--text">
               Información del Representante
             </v-card-title>
-            <v-container v-if="representant.nombre">
-              <v-container>
+            <v-container>
+              <v-container v-if="representant.nombre">
                 <h3 class="pb-2 pt-1">Nombre</h3>
                 {{ getRespuesta(representant.nombre) }}
                 <h3 class="pb-2 pt-1">Apellido</h3>
@@ -198,6 +198,7 @@
                 <h3 class="pb-2 pt-1">Teléfono</h3>
                 {{ getRespuesta(representant.telefono) }}
               </v-container>
+              <div v-else>No tiene un Representante Asignado</div>
             </v-container>
           </v-card>
           <v-card class="pt-1 pb-1" flat v-if="loading">
