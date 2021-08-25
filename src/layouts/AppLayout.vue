@@ -300,7 +300,7 @@ export default {
       return this.user.rol == 'ADMIN_ROLE'
         ? 'blue accent-4'
         : this.user.rol == 'TECHNICAL_ROLE'
-        ? 'gre  en accent-4'
+        ? 'green accent-4'
         : 'orange accent-4'
     },
 

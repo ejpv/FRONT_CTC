@@ -1290,8 +1290,6 @@ export default {
       if (!this.editedItem.areaProtegida._id) delete this.editedItem.areaProtegida
       if (!this.editedItem.representante._id) delete this.editedItem.representante
       if (this.editedItem.actividad) this.editedItem.actividad = await this.middlewareActivity(this.editedItem.actividad)
-      console.log("antes de entrar");
-console.log(this.editedItem);
       try {
         await this.$http.post('api/establecimiento', this.editedItem).then(async res => {
           this.loading = false
@@ -1436,8 +1434,6 @@ console.log(this.editedItem);
         .then(res => {
           this.loading = false
           this.activities = res.data.data
-          console.log(this.activities);
-      console.log("tiene?");
         })
         .catch(error => {
           this.loading = false
