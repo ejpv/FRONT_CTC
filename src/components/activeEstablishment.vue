@@ -320,7 +320,7 @@
                               rounded
                               dense
                               :items="activities"
-                              item-value="_id"
+                              item-value="nombre"
                               item-text="nombre"
                               return-object
                             >
@@ -1289,6 +1289,9 @@ export default {
       swalLoading('Ingresando Establecimiento')
       if (!this.editedItem.areaProtegida._id) delete this.editedItem.areaProtegida
       if (!this.editedItem.representante._id) delete this.editedItem.representante
+      if (this.editedItem.actividad) this.editedItem.actividad = await this.middlewareActivity(this.editedItem.actividad)
+      console.log("antes de entrar");
+console.log(this.editedItem);
       try {
         await this.$http.post('api/establecimiento', this.editedItem).then(async res => {
           this.loading = false
@@ -1305,6 +1308,14 @@ export default {
         )
         this.problem = true
       }
+    },
+
+    async middlewareActivity(item){
+      var array = []
+      for (let i = 0; i < item.length; i++) {
+        array.push(item[i]._id)
+      }
+      return array
     },
 
     async eraseRepresentant() {
@@ -1425,6 +1436,8 @@ export default {
         .then(res => {
           this.loading = false
           this.activities = res.data.data
+          console.log(this.activities);
+      console.log("tiene?");
         })
         .catch(error => {
           this.loading = false

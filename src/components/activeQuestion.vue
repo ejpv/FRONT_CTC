@@ -52,7 +52,7 @@
                           <h3 class="pb-1">
                             <strong class="error--text">*</strong> Tipo
                           </h3>
-                          <v-menu offset-y>
+                          <v-menu offset-y :disabled="editedIndex != -1">
                             <template v-slot:activator="{ on, attrs }">
                               <v-btn
                                 v-bind="attrs"
