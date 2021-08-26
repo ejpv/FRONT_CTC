@@ -36,17 +36,24 @@
 
       <v-tooltip left>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn @click="form.pregunta.push({
-        encabezado: ['Encabezado 1'],
-        formato: [
-          {
-            tipo: 'SN',
-            opciones: ['']
-          }
-        ],
-        tipo: 'COMPLEX',
-        opciones: ['']
-      })" v-on="on" v-bind="attrs" icon>
+          <v-btn
+            @click="
+              form.pregunta.push({
+                encabezado: ['Encabezado 1'],
+                formato: [
+                  {
+                    tipo: 'SN',
+                    opciones: ['']
+                  }
+                ],
+                tipo: 'SN',
+                opciones: ['']
+              })
+            "
+            v-on="on"
+            v-bind="attrs"
+            icon
+          >
             <v-icon class="info--text"> fa-plus </v-icon>
           </v-btn>
         </template>
@@ -391,7 +398,17 @@
         <template v-slot:activator="{ on, attrs }">
           <v-btn
             @click="
-              form.pregunta.push({ tipo: 'SELECCION', enunciado: '', opciones: [''] })
+              form.pregunta.push({
+                encabezado: ['Encabezado 1'],
+                formato: [
+                  {
+                    tipo: 'SN',
+                    opciones: ['']
+                  }
+                ],
+                tipo: 'SN',
+                opciones: ['']
+              })
             "
             v-on="on"
             v-bind="attrs"
@@ -550,7 +567,7 @@ export default {
                 opciones: ['']
               }
             ],
-            tipo: 'COMPLEX',
+            tipo: 'SN',
             opciones: ['']
           }
         ],
@@ -564,7 +581,7 @@ export default {
             opciones: ['']
           }
         ],
-        tipo: 'COMPLEX',
+        tipo: 'SN',
         opciones: ['']
       },
       questionItems: [
