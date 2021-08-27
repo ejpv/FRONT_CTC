@@ -43,7 +43,7 @@
                       >
                       <v-col cols="4">
                         <h4>Realizado Por:</h4>
-                        {{ item.ejecutadoPor.nombre }}</v-col
+                        {{ item.ejecutadoPor.nombre }} {{ item.ejecutadoPor.apellido }}</v-col
                       >
                     </v-row>
                   </div>
