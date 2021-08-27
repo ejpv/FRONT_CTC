@@ -232,11 +232,14 @@ export class Report {
           new Txt(item.diagnostico[0].establecimiento.provincia).bold().end,
           new Txt('Georeferenciación:').bold().color(this.white).end,
           new Txt(
-            'Lat:' +
-            item.diagnostico[0].establecimiento.lat +
-            '\n' +
-            'Lng: ' +
-            item.diagnostico[0].establecimiento.lng
+            item.diagnostico[0].establecimiento.lat && item.diagnostico[0].establecimiento.lng ?
+              'Lat:' +
+              item.diagnostico[0].establecimiento.lat +
+              '\n' +
+              'Lng: ' +
+              item.diagnostico[0].establecimiento.lng
+              :
+              'Sin Información'
           ).bold().end
         ],
         [
