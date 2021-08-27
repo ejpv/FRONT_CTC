@@ -221,7 +221,7 @@ export class Report {
           new Txt('Representante:').bold().color(this.white).end,
           new Txt(
             item.diagnostico[0].establecimiento.representante
-              ? item.diagnostico[0].establecimiento.representante.nombre
+              ? item.diagnostico[0].establecimiento.representante.nombre + ' ' + item.diagnostico[0].establecimiento.representante.apellido
               : 'Sin Representante asignado'
           ).bold().end,
           new Txt('Correo:').bold().color(this.white).end,
@@ -585,12 +585,17 @@ export class Report {
 
   static actividadesTuristicas(item) {
     var arreglo = []
-    for (let i = -1; i < item.actividad.length; i++) {
-      if (i === -1) {
-        arreglo.push(new Txt('Actividades Turísticas:').color(this.white).end)
-      } else {
-        arreglo.push(new Txt(item.actividad[i]).end)
+    if (item.actividad.length > 1) {
+      for (let i = -1; i < item.actividad.length; i++) {
+        if (i === -1) {
+          arreglo.push(new Txt('Actividades Turísticas:').color(this.white).end)
+        } else {
+          arreglo.push(new Txt(item.actividad[i]).end)
+        }
       }
+    }else{
+      arreglo.push(new Txt('Actividades Turísticas:').color(this.white).end)
+      arreglo.push('No tiene actividades turísticas')
     }
     return arreglo
   }
