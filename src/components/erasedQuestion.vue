@@ -216,7 +216,8 @@ export default {
         { tipo: 'ABIERTA', title: 'Abierta', icon: 'fa-spell-check' },
         { tipo: 'SN', title: 'Si/No', icon: 'fa-check' },
         { tipo: 'SELECCION', title: 'Selección', icon: 'fa-chevron-circle-down' },
-        { tipo: 'MULTIPLE', title: 'Opción multiple', icon: 'fa-check-square' }
+        { tipo: 'MULTIPLE', title: 'Opción multiple', icon: 'fa-check-square' },
+        { tipo: 'COMPLEX', title: 'Compuesta', icon: 'fa-table' }
       ],
       dialogRestore: false,
       problem: false,
@@ -265,7 +266,11 @@ export default {
           if (critery === 'ABIERTA') {
             return 'Abierta'
           } else {
-            return 'Selección'
+            if (critery === 'SELECCION') {
+              return 'Selección'
+            } else {
+              return 'Compuesta'
+            }
           }
         }
       }

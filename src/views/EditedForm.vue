@@ -486,7 +486,7 @@
             </div>
 
             <div v-if="editedQuest.tipo === 'COMPLEX'">
-              <h4 class="pb-1 pt-2">Ecabezado</h4>
+              <h4 class="pb-1 pt-2">Encabezados</h4>
 
               <v-row>
                 <v-col

@@ -14,7 +14,10 @@
             <v-row>
               <v-col align="start" cols="3" sm="2"> </v-col>
               <v-col align="end" cols="0" sm="10">
-                <v-dialog v-model="dialog" max-width="500px">
+                <v-dialog
+                  v-model="dialog"
+                  :max-width="editedItem.tipo === 'COMPLEX' ? '1000px' : '500px'"
+                >
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn color="new" dark class="mb-2" v-bind="attrs" v-on="on" medium>
                       Nueva Pregunta
@@ -104,7 +107,7 @@
                           <div
                             v-if="
                               editedItem.tipo === 'SELECCION' ||
-                                editedItem.tipo === 'MULTIPLE'
+                              editedItem.tipo === 'MULTIPLE'
                             "
                           >
                             <h3 class="pb-3">Opciones de Respuesta</h3>
@@ -152,6 +155,161 @@
                                 </template>
                               </v-text-field>
                             </div>
+                          </div>
+                          <div v-if="editedItem.tipo === 'COMPLEX'">
+                            <h3 class="pt-2 pb-1">
+                              Encabezados
+                              <v-tooltip right>
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn
+                                    icon
+                                    @click="addHeader()"
+                                    small
+                                    v-on="on"
+                                    v-bind="attrs"
+                                  >
+                                    <v-icon class="info--text" small> fa-plus </v-icon>
+                                  </v-btn>
+                                </template>
+                                <span> Agregar un Encabezado </span>
+                              </v-tooltip>
+                            </h3>
+                            <v-row>
+                              <v-col
+                                v-for="(header, id) in editedItem.encabezado"
+                                :key="id + 'h'"
+                                class="d-flex child-flex"
+                              >
+                                <v-text-field
+                                  v-model="editedItem.encabezado[id]"
+                                  filled
+                                  rounded
+                                  dense
+                                  :rules="fieldRules"
+                                  :disabled="see"
+                                  style="margin-bottom: -25px"
+                                >
+                                  <template
+                                    v-if="editedItem.encabezado.length > 1"
+                                    v-slot:append
+                                  >
+                                    <v-icon
+                                      @click="removeHeader(id)"
+                                      :disabled="editedIndex != -1"
+                                      >far fa-times-circle</v-icon
+                                    >
+                                  </template>
+                                </v-text-field>
+                              </v-col>
+                            </v-row>
+                            <h4 class="pb-1 pt-2">Formatos</h4>
+                            <v-row>
+                              <v-col
+                                v-for="(format, idF) in editedItem.formato"
+                                :key="idF + 'h'"
+                                class="d-flex child-flex"
+                              >
+                                <v-autocomplete
+                                  v-model="editedItem.formato[idF].tipo"
+                                  :items="types"
+                                  :value="types.value"
+                                  item-text="nombre"
+                                  filled
+                                  rounded
+                                  dense
+                                  :disabled="editedIndex != -1"
+                                  style="margin-bottom: -25px"
+                                >
+                                </v-autocomplete>
+                              </v-col>
+                            </v-row>
+                            <h4 class="pb-1 pt-2">Respuestas</h4>
+                            <v-row>
+                              <v-col
+                                v-for="(format, idF) in editedItem.formato"
+                                :key="idF + 'h'"
+                                class="d-flex child-flex"
+                              >
+                                <div v-if="format.tipo === 'SN'">
+                                  <v-switch
+                                    class="pa-1"
+                                    label="Si/no"
+                                    disabled
+                                    filled
+                                    rounded
+                                    dense
+                                  />
+                                </div>
+
+                                <div v-if="format.tipo === 'ABIERTA'">
+                                  <v-text-field
+                                    autocomplete="off"
+                                    disabled
+                                    filled
+                                    rounded
+                                    dense
+                                  />
+                                </div>
+
+                                <div
+                                  v-if="
+                                    format.tipo === 'SELECCION' ||
+                                    format.tipo === 'MULTIPLE'
+                                  "
+                                >
+                                  <div
+                                    v-for="(option, number) in format.opciones"
+                                    :key="number"
+                                  >
+                                    <h3>
+                                      Opción {{ number + 1 }}
+                                      <v-tooltip right>
+                                        <template v-slot:activator="{ on, attrs }">
+                                          <v-btn
+                                            icon
+                                            v-if="number === 0"
+                                            @click="
+                                              editedItem.formato[idF].opciones.push('')
+                                            "
+                                            small
+                                            v-on="on"
+                                            v-bind="attrs"
+                                          >
+                                            <v-icon class="info--text" small>
+                                              fa-plus
+                                            </v-icon>
+                                          </v-btn>
+                                        </template>
+                                        <span> Agregar una opción </span>
+                                      </v-tooltip>
+                                    </h3>
+                                    <v-text-field
+                                      autocomplete="off"
+                                      v-model.trim="format.opciones[number]"
+                                      filled
+                                      rounded
+                                      dense
+                                      style="margin-bottom: -25px"
+                                    >
+                                      <template
+                                        v-if="format.opciones.length > 1"
+                                        v-slot:append
+                                      >
+                                        <v-icon
+                                          @click="
+                                            editedItem.formato[idF].opciones.splice(
+                                              number,
+                                              1
+                                            )
+                                          "
+                                          >far fa-times-circle</v-icon
+                                        >
+                                      </template>
+                                    </v-text-field>
+                                  </div>
+                                </div>
+                              </v-col>
+                            </v-row>
                           </div>
                         </v-form>
                       </v-container>
@@ -290,6 +448,12 @@ export default {
       see: false,
       editedIndex: -1,
       questions: [],
+      types: [
+        { value: 'SN', nombre: 'Si/No' },
+        { value: 'ABIERTA', nombre: 'Abierta' },
+        { value: 'SELECCION', nombre: 'Selección' },
+        { value: 'MULTIPLE', nombre: 'Opción múltiple' }
+      ],
       headers: [
         {
           text: 'Enunciado',
@@ -327,17 +491,32 @@ export default {
         { tipo: 'ABIERTA', title: 'Abierta', icon: 'fa-spell-check' },
         { tipo: 'SN', title: 'Si/No', icon: 'fa-check' },
         { tipo: 'SELECCION', title: 'Selección', icon: 'fa-chevron-circle-down' },
-        { tipo: 'MULTIPLE', title: 'Opción multiple', icon: 'fa-check-square' }
+        { tipo: 'MULTIPLE', title: 'Opción multiple', icon: 'fa-check-square' },
+        { tipo: 'COMPLEX', title: 'Compuesta', icon: 'fa-table' }
       ],
       editedItem: {
         enunciado: '',
         tipo: 'ABIERTA',
-        opciones: ['']
+        opciones: [''],
+        encabezado: ['Encabezado 1'],
+        formato: [
+          {
+            tipo: 'SN',
+            opciones: ['']
+          }
+        ]
       },
       defaultItem: {
         enunciado: '',
         tipo: 'ABIERTA',
-        opciones: ['']
+        opciones: [''],
+        encabezado: ['Encabezado 1'],
+        formato: [
+          {
+            tipo: 'SN',
+            opciones: ['']
+          }
+        ]
       }
     }
   },
@@ -412,7 +591,11 @@ export default {
           if (critery === 'ABIERTA') {
             return 'Abierta'
           } else {
-            return 'Selección'
+            if (critery === 'SELECCION') {
+              return 'Selección'
+            } else {
+              return 'Compuesta'
+            }
           }
         }
       }
@@ -517,6 +700,21 @@ export default {
         )
         this.problem = true
       }
+    },
+
+    addHeader() {
+      this.editedItem.encabezado.push(
+        'Encabezado ' + (this.editedItem.encabezado.length + 1)
+      )
+      this.editedItem.formato.push({
+        tipo: 'SN',
+        opciones: ['']
+      })
+    },
+
+    removeHeader(index) {
+      this.editedItem.encabezado.splice(index, 1)
+      this.editedItem.formato.splice(index, 1)
     }
   },
 
