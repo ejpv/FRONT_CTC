@@ -47,7 +47,7 @@
                         <v-list flat tile>
                           <v-list-item @click="prepareWorkStation(item, 'see')">
                             <v-list-item-icon>
-                              <v-icon class="ml-2 blue--text">fa-eye </v-icon>
+                              <v-icon class="ml-2 info--text">fa-eye </v-icon>
                             </v-list-item-icon>
                             <v-list-item-title>
                               <span> Ver este Informe </span>
