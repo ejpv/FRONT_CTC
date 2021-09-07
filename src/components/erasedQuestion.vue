@@ -6,7 +6,7 @@
       class="elevation-1"
       :loading="loading"
       :search="this.texto"
-      loading-text="Obteniendo todas las Preguntas..."
+      loading-text="Obteniendo todas las preguntas..."
     >
       <template v-slot:top>
         <v-toolbar flat>
@@ -15,7 +15,7 @@
               <v-col align="start" cols="3" sm="2"> </v-col>
               <v-col align="end" cols="0" sm="10">
                 <v-btn color="new" class="mb-2" medium disabled>
-                  Nueva Pregunta
+                  Nueva pregunta
                   <v-icon right>fa-list-ol</v-icon>
                 </v-btn>
                 <v-btn color="info" class="mb-2 ml-4" medium icon>
@@ -45,7 +45,7 @@
                 fa-eye
               </v-icon>
             </template>
-            <span> Ver Pregunta</span>
+            <span> Ver opciones</span>
           </v-tooltip>
         </div>
         <div v-else>
@@ -65,7 +65,7 @@
               fa-trash-restore
             </v-icon>
           </template>
-          <span> Restaurar una Pregunta </span>
+          <span> Restaurar una pregunta </span>
         </v-tooltip>
       </template>
 
@@ -83,7 +83,7 @@
             </v-col>
             <v-col cols="12" class="white--text justify-center">
               <div class="text-center primary">
-                <span class="headline"> ¿Está seguro de restaurar esta Pregunta?</span>
+                <span class="headline"> ¿Está seguro de restaurar esta pregunta?</span>
               </div>
             </v-col>
           </v-row>
@@ -107,7 +107,7 @@
       <v-card>
         <v-card-title class="primary white--text">
           <div>
-            <span class="headline">Ver una Pregunta </span>
+            <span class="headline">Ver una pregunta </span>
           </div>
         </v-card-title>
         <v-card-text>
@@ -130,12 +130,12 @@
               </v-btn>
 
               <div v-if="editedItem.tipo === 'SN'">
-                <h3 class="pb-3">Vista Previa</h3>
+                <h3 class="pb-3">Vista previa</h3>
                 <h4 class="pb-1">Respuesta</h4>
                 <v-switch class="pa-1" label="Si/no" disabled filled rounded dense />
               </div>
               <div v-if="editedItem.tipo === 'ABIERTA'">
-                <h3 class="pb-3">Vista Previa</h3>
+                <h3 class="pb-3">Vista previa</h3>
                 <h4 class="pb-1">Respuesta</h4>
                 <v-text-field autocomplete="off" disabled filled rounded dense />
               </div>
@@ -190,12 +190,12 @@ export default {
           align: 'start'
         },
         {
-          text: 'Tipo de Pregunta',
+          text: 'Tipo de pregunta',
           value: 'tipo',
           align: 'center'
         },
         {
-          text: 'Opciones de Respuesta',
+          text: 'Opciones de respuesta',
           value: 'opciones',
           sortable: false
         },
@@ -216,7 +216,7 @@ export default {
         { tipo: 'ABIERTA', title: 'Abierta', icon: 'fa-spell-check' },
         { tipo: 'SN', title: 'Si/No', icon: 'fa-check' },
         { tipo: 'SELECCION', title: 'Selección', icon: 'fa-chevron-circle-down' },
-        { tipo: 'MULTIPLE', title: 'Opción multiple', icon: 'fa-check-square' },
+        { tipo: 'MULTIPLE', title: 'Opción múltiple', icon: 'fa-check-square' },
         { tipo: 'COMPLEX', title: 'Compuesta', icon: 'fa-table' }
       ],
       dialogRestore: false,

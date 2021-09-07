@@ -6,7 +6,7 @@
       class="elevation-1"
       :loading="loading"
       :search="this.texto"
-      loading-text="Obteniendo todas las Areas..."
+      loading-text="Obteniendo todas las áreas..."
     >
       <template v-slot:top>
         <v-toolbar flat>
@@ -17,7 +17,7 @@
                 <v-dialog v-model="dialog" max-width="500px">
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn color="new" dark class="mb-2" v-bind="attrs" v-on="on" medium>
-                      Nueva Área
+                      Nueva área
                       <v-icon right>fa-map-marked-alt</v-icon>
                     </v-btn>
                     <v-btn color="info" class="mb-2 ml-4" medium icon>
@@ -115,7 +115,7 @@
               fa-pen
             </v-icon>
           </template>
-          <span> Editar un Área </span>
+          <span> Editar un área </span>
         </v-tooltip>
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
@@ -128,7 +128,7 @@
               fa-trash
             </v-icon>
           </template>
-          <span> Eliminar un Área </span>
+          <span> Eliminar un área </span>
         </v-tooltip>
       </template>
 
@@ -223,7 +223,7 @@ export default {
   },
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? 'Crear un Área' : 'Editar un Área'
+      return this.editedIndex === -1 ? 'Crear un área' : 'Editar un área'
     }
   },
   methods: {
@@ -377,7 +377,7 @@ export default {
       try {
         await this.$http.delete(`api/areaProtegida/${this.editedItem._id}`).then(() => {
           this.loading = false
-          swalConfirm('Área Eliminada')
+          swalConfirm('Área eliminada')
         })
         this.problem = false
       } catch (error) {

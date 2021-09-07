@@ -3,7 +3,7 @@
     <v-container>
       <v-card>
         <v-card-title class="primary white--text">
-          <span class="headline">Diagnosticos </span>
+          <span class="headline">Diagnósticos </span>
         </v-card-title>
 
         <v-card-text class="pa-0">
@@ -42,7 +42,7 @@
                         </h3></v-col
                       >
                       <v-col cols="4">
-                        <h4>Realizado Por:</h4>
+                        <h4>Realizado por:</h4>
                         {{ item.ejecutadoPor.nombre }} {{ item.ejecutadoPor.apellido }}</v-col
                       >
                     </v-row>
@@ -55,7 +55,7 @@
           <div v-else>
             <v-card-title class="secondary lighten-1">
               <span class="headline"
-                >No se han realizado Diagnósticos para este Establecimiento</span
+                >No se han realizado diagnósticos para este establecimiento</span
               >
             </v-card-title>
           </div>

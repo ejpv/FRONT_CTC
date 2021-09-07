@@ -2,7 +2,7 @@
   <v-card class="mx-auto">
     <v-container>
       <v-card-title class="d-block text-center">
-        Tabla de Actividades
+        Tabla de actividades
         <v-spacer></v-spacer>
         <v-text-field
           v-model="search"
@@ -37,7 +37,7 @@
                         v-on="on"
                         medium
                       >
-                        Nueva Actividad
+                        Nueva actividad
                         <v-icon right>fa-hiking</v-icon>
                       </v-btn>
                       <v-btn color="info" class="mb-2 ml-4" medium icon>
@@ -95,7 +95,7 @@
                 fa-pen
               </v-icon>
             </template>
-            <span> Editar una Actividad </span>
+            <span> Editar una actividad </span>
           </v-tooltip>
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
@@ -108,7 +108,7 @@
                 fa-trash
               </v-icon>
             </template>
-            <span> Eliminar una Actividad </span>
+            <span> Eliminar una actividad </span>
           </v-tooltip>
         </template>
       </v-data-table>
@@ -122,7 +122,7 @@
               </v-col>
               <v-col cols="12" class="white--text justify-center">
                 <div class="text-center primary">
-                  <span class="headline"> ¿Está seguro de borrar esta Actividad?</span>
+                  <span class="headline"> ¿Está seguro de borrar esta actividad?</span>
                 </div>
               </v-col>
             </v-row>
@@ -252,7 +252,7 @@ export default {
 
     async addActivity() {
       this.loading = true
-      swalLoading('Ingresando Actividad')
+      swalLoading('Ingresando actividad')
       try {
         await this.$http.post('api/actividad', this.editedItem).then(async res => {
           this.loading = false
@@ -273,11 +273,11 @@ export default {
 
     async removeActivity() {
       this.loading = true
-      swalLoading('Eliminando Actividad')
+      swalLoading('Eliminando actividad')
       try {
         await this.$http.delete(`api/actividad/${this.editedItem._id}`).then(() => {
           this.loading = false
-          swalConfirm('Actividad Eliminada')
+          swalConfirm('Actividad eliminada')
         })
         this.problem = false
       } catch (error) {
@@ -293,7 +293,7 @@ export default {
 
     async changeActivity() {
       this.loading = true
-      swalLoading('Editando Actividad')
+      swalLoading('Editando actividad')
       try {
         await this.$http
           .put(`api/actividad/${this.editedItem._id}`, this.editedItem)
@@ -330,7 +330,7 @@ export default {
 
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? 'Crear una Actividad' : 'Editar una Actividad'
+      return this.editedIndex === -1 ? 'Crear una actividad' : 'Editar una actividad'
     }
   }
 }

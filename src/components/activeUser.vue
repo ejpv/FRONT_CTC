@@ -6,7 +6,7 @@
       class="elevation-1"
       :loading="loading"
       :search="this.texto"
-      loading-text="Obteniendo todos los Usuarios..."
+      loading-text="Obteniendo todos los usuarios..."
     >
       <template v-slot:top>
         <v-toolbar flat>
@@ -17,7 +17,7 @@
                 <v-dialog v-model="dialog" max-width="500px">
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn color="new" dark class="mb-2" v-bind="attrs" v-on="on" medium>
-                      Nuevo Usuario
+                      Nuevo usuario
                       <v-icon right>fa-users</v-icon>
                     </v-btn>
                     <v-btn color="info" class="mb-2 ml-4" medium icon>
@@ -127,7 +127,7 @@
                   </v-col>
                   <v-col cols="12" class="white--text justify-center">
                     <div class="text-center primary">
-                      <span class="headline"> ¿Está seguro de borrar este Usuario?</span>
+                      <span class="headline"> ¿Está seguro de borrar este usuario?</span>
                     </div>
                   </v-col>
                 </v-row>
@@ -161,7 +161,7 @@
               fa-pen
             </v-icon>
           </template>
-          <span> Editar un Usuario </span>
+          <span> Editar un usuario </span>
         </v-tooltip>
         <v-tooltip bottom v-if="user._id != item._id">
           <template v-slot:activator="{ on, attrs }">
@@ -174,7 +174,7 @@
               fa-trash
             </v-icon>
           </template>
-          <span> Eliminar un Usuario </span>
+          <span> Eliminar un usuario </span>
         </v-tooltip>
         <h3 v-if="user._id === item._id" class="primary--text">Este eres tú</h3>
       </template>
@@ -498,10 +498,10 @@ export default {
   computed: {
     ...mapState(['user']),
     formTitle() {
-      return this.editedIndex === -1 ? 'Crear un Usuario' : 'Editar un Usuario'
+      return this.editedIndex === -1 ? 'Crear un usuario' : 'Editar un usuario'
     },
     getTitleToastEmail() {
-      return this.new ? 'Usuario ingresado y Correo enviado' : 'Correo enviado'
+      return this.new ? 'Usuario ingresado y correo enviado' : 'Correo enviado'
     }
   },
   async created() {

@@ -22,7 +22,7 @@
             <v-icon class="success--text"> fa-save </v-icon>
           </v-btn>
         </template>
-        <span> Guardar Formulario</span>
+        <span> Guardar formulario</span>
       </v-tooltip>
 
       <v-tooltip left>
@@ -182,7 +182,7 @@
                         <v-icon class="info--text" small> fa-plus </v-icon>
                       </v-btn>
                     </template>
-                    <span> Agregar un Encabezado </span>
+                    <span> Agregar un encabezado </span>
                   </v-tooltip>
                 </h3>
                 <v-row>
@@ -211,7 +211,7 @@
 
                 <v-divider></v-divider>
 
-                <h3 class="pt-2 pb-1">Formato de Respuestas</h3>
+                <h3 class="pt-2 pb-1">Formato de respuestas</h3>
                 <v-row>
                   <v-col
                     v-for="(format, idF) in item.formato"
@@ -354,17 +354,17 @@
                     <v-icon class="success--text">fas fa-check-square</v-icon>
                   </v-btn>
                 </template>
-                <span v-if="form.mostrarEnInforme === null"> Elegir Pregunta </span>
+                <span v-if="form.mostrarEnInforme === null"> Elegir pregunta </span>
                 <span
                   v-else-if="
                     form.mostrarEnInforme != null && form.mostrarEnInforme != index
                   "
                 >
-                  Cambiar por esta Pregunta
+                  Cambiar por esta pregunta
                 </span>
                 <span v-else> Eliminar Selección </span>
               </v-tooltip>
-              Mostrar en Informe
+              Mostrar en informe
               <v-divider vertical class="mx-2" />
             </div>
             <v-tooltip bottom>
@@ -373,7 +373,7 @@
                   <v-icon class="delete--text"> fa-trash </v-icon>
                 </v-btn>
               </template>
-              <span> Eliminar un Lugar </span>
+              <span> Eliminar un lugar </span>
             </v-tooltip>
           </v-card-actions>
         </v-card>
@@ -793,7 +793,7 @@ export default {
       codeQuest = codeQuest.filter(v => v != null)
       codeQuest = codeQuest.filter(v => v.tipo)
       if (codeQuest.length > 0) {
-        swalLoading('Ingresando Preguntas')
+        swalLoading('Ingresando preguntas')
       }
       for (let i = 0; i < codeQuest.length; i++) {
         if (!this.problem) {
@@ -832,7 +832,7 @@ export default {
       var item = this.middlewareForm()
       delete item._id
       this.loading = true
-      swalLoading('Ingresando Formulario')
+      swalLoading('Ingresando formulario')
       try {
         await this.$http.post('api/formulario', item).then(async () => {
           this.loading = false
@@ -870,7 +870,7 @@ export default {
     async changeForm() {
       var item = this.middlewareForm()
       this.loading = true
-      swalLoading('Editando Formulario')
+      swalLoading('Editando formulario')
       try {
         await this.$http.put(`api/formulario/${item._id}`, item).then(async () => {
           this.loading = false

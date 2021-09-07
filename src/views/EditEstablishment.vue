@@ -3,7 +3,7 @@
     <v-col>
       <v-card>
         <v-card-title class="primary white--text">
-          <span class="headline">Información del Representante</span>
+          <span class="headline">Información del representante</span>
           <v-chip :color="getColor" dark class="ml-1">
             {{ getText }}
           </v-chip>
@@ -53,7 +53,7 @@
                 :rules="emailRules"
               ></v-text-field>
 
-              <h3 class="pb-1">Telefono</h3>
+              <h3 class="pb-1">Teléfono</h3>
               <v-text-field
                 v-model="basicInformation.representante.telefono"
                 filled
@@ -91,7 +91,7 @@
     <v-col>
       <v-card>
         <v-card-title class="primary white--text">
-          <span class="headline">Información del Establecimiento </span>
+          <span class="headline">Información del establecimiento </span>
           <v-spacer></v-spacer>
           <v-tooltip left>
             <template v-slot:activator="{ on, attrs }">
@@ -99,13 +99,13 @@
                 <v-icon> fa-plus</v-icon>
               </v-btn>
             </template>
-            <span> Crear un Nuevo Establecimiento </span>
+            <span> Crear un nuevo establecimiento </span>
           </v-tooltip>
         </v-card-title>
 
         <v-card-text>
           <v-row class="pa-0 ma-0">
-            <v-col><h2>Información General</h2></v-col>
+            <v-col><h2>Información general</h2></v-col>
             <v-col cols="2" align="end">
               <v-btn icon @click="general = !general">
                 <v-icon v-if="general">fa-angle-up</v-icon>
@@ -162,7 +162,7 @@
                       <v-icon class="info--text" small> fa-plus </v-icon>
                     </v-btn>
                   </template>
-                  <span> Agregar una Actividad Turística </span>
+                  <span> Agregar un teléfono </span>
                 </v-tooltip>
               </h3>
               <v-text-field
@@ -212,7 +212,7 @@
                 dense
               ></v-text-field>
 
-              <h3 class="pb-1">Área Protegida</h3>
+              <h3 class="pb-1">Área protegida</h3>
               <v-text-field
                 v-if="basicInformation.areaProtegida"
                 v-model="basicInformation.areaProtegida.nombre"
@@ -267,7 +267,7 @@
                 dense
               ></v-text-field>
 
-              <h3 class="pb-1">Ciudad o Localidad Próxima</h3>
+              <h3 class="pb-1">Ciudad o Localidad próxima</h3>
               <v-text-field
                 v-model="basicInformation.ciudad"
                 filled
@@ -325,7 +325,7 @@
           </v-row>
 
           <v-row class="ma-0 pa-0">
-            <v-col><h2>Servicios Básicos</h2></v-col>
+            <v-col><h2>Servicios básicos</h2></v-col>
             <v-col cols="2" align="end">
               <v-btn icon @click="basic = !basic">
                 <v-icon v-if="basic">fa-angle-up</v-icon>
@@ -355,7 +355,7 @@
                 dense
               ></v-combobox>
 
-              <h3 class="pb-1">Energía Eléctrica</h3>
+              <h3 class="pb-1">Energía eléctrica</h3>
               <v-combobox
                 v-model="basicInformation.energia"
                 :items="energies"
@@ -364,7 +364,7 @@
                 dense
               ></v-combobox>
 
-              <h3 class="pb-1">Disposición de Desechos</h3>
+              <h3 class="pb-1">Disposición de desechos</h3>
               <v-combobox
                 v-model="basicInformation.desechos"
                 :items="waste"
@@ -388,7 +388,7 @@
 
           <v-row v-if="people">
             <v-col class="ml-4 mr-4">
-              <h3 class="pt-2 pb-1">Total Colaboradores</h3>
+              <h3 class="pt-2 pb-1">Total colaboradores</h3>
               <v-text-field
                 v-model="basicInformation.personal"
                 filled
@@ -402,7 +402,7 @@
           <v-row class="ma-0 pa-0">
             <v-col>
               <h2>
-                Actividades Turísticas
+                Actividades turísticas
                 <v-tooltip right>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
@@ -415,7 +415,7 @@
                       <v-icon class="info--text" small> fa-plus </v-icon>
                     </v-btn>
                   </template>
-                  <span> Agregar una Actividad Turística </span>
+                  <span> Agregar una actividad turística </span>
                 </v-tooltip>
               </h2>
             </v-col>
@@ -454,7 +454,7 @@
               </v-row>
             </div>
             <v-row v-else class="ml-4 mt-1">
-              <h4>No Aplica, el establecimiento no tiene Actividades</h4>
+              <h4>No aplica, el establecimiento no tiene actividades</h4>
             </v-row>
           </div>
         </v-card-text>
@@ -631,7 +631,7 @@ export default {
 
       var tmp = Object.assign({}, this.basicInformation)
       this.loading = true
-      swalLoading('Guardando Información')
+      swalLoading('Guardando información')
 
       if (existId) {
         tmp.representante = this.basicInformation.representante._id
@@ -756,9 +756,9 @@ export default {
     getText() {
       return this.basicInformation.representante._id
         ? this.basicInformation.representante.usuario
-          ? 'Usuario Asignado'
-          : 'No tiene un Usuario Asignado'
-        : 'Se necesita un Representante'
+          ? 'Usuario asignado'
+          : 'No tiene un usuario asignado'
+        : 'Se necesita un representante'
     }
   },
 

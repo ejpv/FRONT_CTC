@@ -6,7 +6,7 @@
       class="elevation-1"
       :loading="loading"
       :search="this.texto"
-      loading-text="Obteniendo todos los Establecimientos..."
+      loading-text="Obteniendo todos los establecimientos..."
     >
       <template v-slot:top>
         <v-toolbar flat>
@@ -15,7 +15,7 @@
               <v-col align="start" cols="3" sm="2"> </v-col>
               <v-col align="end" cols="0" sm="10">
                 <v-btn color="new" class="mb-2" medium disabled>
-                  Nuevo Establecimiento
+                  Nuevo establecimiento
                   <v-icon right>fa-store-alt</v-icon>
                 </v-btn>
                 <v-btn color="info" class="mb-2 ml-2" medium icon>
@@ -34,7 +34,7 @@
           </v-chip>
         </div>
         <div v-else>
-          <v-chip color="warning" dark> Sin Asignar </v-chip>
+          <v-chip color="warning" dark> Sin asignar </v-chip>
         </div>
       </template>
 
@@ -45,7 +45,7 @@
           </v-chip>
         </div>
         <div v-else>
-          <v-chip color="warning" dark> Sin Asignar </v-chip>
+          <v-chip color="warning" dark> Sin asignar </v-chip>
         </div>
       </template>
 
@@ -61,7 +61,7 @@
               fa-trash-restore
             </v-icon>
           </template>
-          <span> Restaurar un Establecimiento </span>
+          <span> Restaurar un establecimiento </span>
         </v-tooltip>
       </template>
 
@@ -87,7 +87,7 @@
             </v-col>
             <v-col cols="12" class="white--text justify-center">
               <div class="text-center primary">
-                <span class="headline"> ¿Está seguro de restaurar este Establecimiento?</span>
+                <span class="headline"> ¿Está seguro de restaurar este establecimiento?</span>
               </div>
             </v-col>
           </v-row>
@@ -165,13 +165,13 @@ export default {
           sortable: false
         },
         {
-          text: 'Servicios Básicos',
+          text: 'Servicios básicos',
           value: 'servicios',
           align: 'center',
           sortable: false
         },
         {
-          text: 'Área Protegida',
+          text: 'Área protegida',
           value: 'areaProtegida',
           align: 'center'
         },
@@ -315,7 +315,7 @@ export default {
         ? 'Completo'
         : item.agua || item.saneamiento || item.desechos || item.energia
         ? 'Incompleto'
-        : 'Sin Información'
+        : 'Sin información'
     },
 
     serviceColor(item) {
@@ -331,7 +331,7 @@ export default {
         ? 'Completo'
         : item.parroquia && item.ciudad && item.canton && item.provincia
         ? 'Incompleto'
-        : 'Sin Información'
+        : 'Sin información'
     },
 
     placeColor(item) {

@@ -352,7 +352,7 @@ export default {
 
     async addDiagnostic() {
       this.loading = true
-      swalLoading('Ingresando Diagnóstico')
+      swalLoading('Ingresando diagnóstico')
       try {
         await this.$http.post('api/diagnostico', this.editedItem).then(async () => {
           this.loading = false

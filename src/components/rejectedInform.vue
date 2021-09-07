@@ -6,7 +6,7 @@
       <v-text-field
         v-model="search"
         append-icon="fa-search"
-        label="Busque un Informe"
+        label="Busque un informe"
         single-line
         hide-details
         class="pa-4"
@@ -21,7 +21,7 @@
       :search="search"
       item-key="_id"
       single-expand
-      loading-text="Obteniendo todos los Informes..."
+      loading-text="Obteniendo todos los informes..."
       show-expand
     >
       <template v-slot:expanded-item="{ headers, item }">
@@ -80,7 +80,7 @@
 
             <v-row class="pa-0 ma-0">
               <v-col class="pt-8">
-                <span> Servicios Turísticos </span>
+                <span> Servicios turísticos </span>
               </v-col>
               <v-col
                 v-for="(column, index) in item.diagnostico"
@@ -120,7 +120,7 @@
 
             <v-row class="pa-0 ma-0">
               <v-col>
-                <span> Condición Porcentual </span>
+                <span> Condición porcentual </span>
               </v-col>
               <v-col
                 v-for="(column, index) in item.diagnostico"
@@ -151,7 +151,7 @@
               <span class="pt-5 ml-0 pl-0"> /{{ item.actualPersonal }} </span>
             </v-row>
 
-            <h3 class="pt-2">Actividades Turísticas</h3>
+            <h3 class="pt-2">Actividades turísticas</h3>
             <v-row class="pa-0 ma-0" v-if="item.actividad.length > 0">
               <v-col
                 v-for="(column, index) in item.actividad"
@@ -162,16 +162,16 @@
             </v-row>
             <v-row v-else class="pa-0 ma-0">
               <h4 class="pa-3 ma-3">
-                No Aplica, el establecimiento no tiene Actividades
+                No aplica, el establecimiento no tiene actividades
               </h4>
             </v-row>
 
-            <h3 class="pt-2">Productos Turísticos</h3>
             <div
               v-for="(ITEM, index) in item.diagnostico"
               :key="index + 'ProductosTuristicos'"
             >
               <div v-if="ITEM.formulario.mostrarEnInforme != null">
+                <h3 class="pt-2">Productos turísticos</h3>
                 <v-divider></v-divider>
                 <v-row class="ma-0 pa-0">
                   <v-col
@@ -254,7 +254,7 @@
                           "
                           disabled
                           class="pa-0"
-                          style="margin-bottom: -35px"
+                          style="margin-bottom: -10px; margin-top: -2px"
                         >
                           <template v-slot:label>
                             <span class="subtitle-2">{{ check }}</span>
@@ -370,11 +370,11 @@ export default {
       informs: [],
       headers: [
         {
-          text: 'Realizado Por',
+          text: 'Realizado por',
           value: 'realizadoPor.nombre'
         },
         {
-          text: 'Rechazado Por',
+          text: 'Rechazado por',
           value: 'responsable.nombre'
         },
         {
@@ -387,11 +387,11 @@ export default {
           align: 'center'
         },
         {
-          text: 'Fecha Creación',
+          text: 'Fecha creación',
           value: 'fechaCreacion'
         },
         {
-          text: 'Fecha Final',
+          text: 'Fecha de rechazo',
           value: 'fechaFinal'
         },
         {

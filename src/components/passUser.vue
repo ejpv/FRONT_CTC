@@ -45,7 +45,7 @@
           :disabled="verifiPass"
           @click="activateAccount"
         >
-          Establacer Contraseña
+          Establacer contraseña
         </v-btn>
       </div>
       <div v-else>

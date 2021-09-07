@@ -6,7 +6,7 @@
       class="elevation-1"
       :loading="loading"
       :search="this.texto"
-      loading-text="Obteniendo todas las Preguntas..."
+      loading-text="Obteniendo todas las preguntas..."
     >
       <template v-slot:top>
         <v-toolbar flat>
@@ -20,7 +20,7 @@
                 >
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn color="new" dark class="mb-2" v-bind="attrs" v-on="on" medium>
-                      Nueva Pregunta
+                      Nueva pregunta
                       <v-icon right>fa-list-ol</v-icon>
                     </v-btn>
                     <v-btn color="info" class="mb-2 ml-4" medium icon>
@@ -34,7 +34,7 @@
                         <span class="headline">{{ formTitle }}</span>
                       </div>
                       <div v-else>
-                        <span class="headline">Ver una Pregunta </span>
+                        <span class="headline">Ver una pregunta </span>
                       </div>
                     </v-card-title>
                     <v-card-text>
@@ -82,7 +82,7 @@
                             </v-list>
                           </v-menu>
                           <div v-if="editedItem.tipo === 'SN'">
-                            <h3 class="pb-3">Vista Previa</h3>
+                            <h3 class="pb-3">Vista previa</h3>
                             <h4 class="pb-1">Respuesta</h4>
                             <v-switch
                               class="pa-1"
@@ -94,7 +94,7 @@
                             />
                           </div>
                           <div v-if="editedItem.tipo === 'ABIERTA'">
-                            <h3 class="pb-3">Vista Previa</h3>
+                            <h3 class="pb-3">Vista previa</h3>
                             <h4 class="pb-1">Respuesta</h4>
                             <v-text-field
                               autocomplete="off"
@@ -110,7 +110,7 @@
                               editedItem.tipo === 'MULTIPLE'
                             "
                           >
-                            <h3 class="pb-3">Opciones de Respuesta</h3>
+                            <h3 class="pb-3">Opciones de respuesta</h3>
                             <div
                               v-for="(option, number) in editedItem.opciones"
                               :key="number"
@@ -171,7 +171,7 @@
                                     <v-icon class="info--text" small> fa-plus </v-icon>
                                   </v-btn>
                                 </template>
-                                <span> Agregar un Encabezado </span>
+                                <span> Agregar un encabezado </span>
                               </v-tooltip>
                             </h3>
                             <v-row>
@@ -356,7 +356,7 @@
                 fa-eye
               </v-icon>
             </template>
-            <span> Ver Pregunta</span>
+            <span> Ver pregunta</span>
           </v-tooltip>
         </div>
         <div v-else>
@@ -380,7 +380,7 @@
               fa-pen
             </v-icon>
           </template>
-          <span> Editar una Pregunta </span>
+          <span> Editar una pregunta </span>
         </v-tooltip>
 
         <v-tooltip bottom>
@@ -394,7 +394,7 @@
               fa-trash
             </v-icon>
           </template>
-          <span> Eliminar una Pregunta </span>
+          <span> Eliminar una pregunta </span>
         </v-tooltip>
       </template>
 
@@ -412,7 +412,7 @@
             </v-col>
             <v-col cols="12" class="white--text justify-center">
               <div class="text-center primary">
-                <span class="headline"> ¿Está seguro de borrar esta Pregunta?</span>
+                <span class="headline"> ¿Está seguro de borrar esta pregunta?</span>
               </div>
             </v-col>
           </v-row>
@@ -461,12 +461,12 @@ export default {
           align: 'start'
         },
         {
-          text: 'Tipo de Pregunta',
+          text: 'Tipo de pregunta',
           value: 'tipo',
           align: 'center'
         },
         {
-          text: 'Opciones de Respuesta',
+          text: 'Opciones de respuesta',
           value: 'opciones',
           sortable: false
         },
@@ -491,7 +491,7 @@ export default {
         { tipo: 'ABIERTA', title: 'Abierta', icon: 'fa-spell-check' },
         { tipo: 'SN', title: 'Si/No', icon: 'fa-check' },
         { tipo: 'SELECCION', title: 'Selección', icon: 'fa-chevron-circle-down' },
-        { tipo: 'MULTIPLE', title: 'Opción multiple', icon: 'fa-check-square' },
+        { tipo: 'MULTIPLE', title: 'Opción múltiple', icon: 'fa-check-square' },
         { tipo: 'COMPLEX', title: 'Compuesta', icon: 'fa-table' }
       ],
       editedItem: {
@@ -666,7 +666,7 @@ export default {
       try {
         await this.$http.delete(`api/pregunta/${this.editedItem._id}`).then(() => {
           this.loading = false
-          swalConfirm('Pregunta Eliminada')
+          swalConfirm('Pregunta eliminada')
         })
         this.problem = false
       } catch (error) {
@@ -720,7 +720,7 @@ export default {
 
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? 'Crear una Pregunta' : 'Editar una Pregunta'
+      return this.editedIndex === -1 ? 'Crear una pregunta' : 'Editar una pregunta'
     }
   },
 

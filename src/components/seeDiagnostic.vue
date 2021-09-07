@@ -72,7 +72,7 @@
                           v-model="item.valor[idRes][idFormat][checkIndex]"
                           disabled
                           class="pa-0"
-                          style="margin-bottom: -35px"
+                          style="margin-bottom: -10px; margin-top: -2px"
                         >
                           <template v-slot:label>
                             <span class="subtitle-2">{{ check }}</span>
@@ -160,7 +160,7 @@ export default {
         return 'Si y No'
       } else {
         if (item === 'MULTIPLE') {
-          return 'Opción Múltiple'
+          return 'Opción múltiple'
         } else {
           if (item === 'SELECCION') {
             return 'Selección'

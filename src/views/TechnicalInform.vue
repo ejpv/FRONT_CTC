@@ -69,7 +69,7 @@
             <div v-if="!loading && diagnostics.length === 0">
               <v-card-title class="secondary lighten-1">
                 <span class="headline"
-                  >No se han realizado Diagnósticos para este Establecimiento</span
+                  >No se han realizado diagnósticos para este establecimiento</span
                 >
               </v-card-title>
             </div>
@@ -106,7 +106,7 @@
             </div>
 
             <div v-if="editedInform.diagnostico.length == 0">
-              Agregue Diagnósticos para continuar
+              Agregue diagnósticos para continuar
             </div>
 
             <div v-else>
@@ -132,7 +132,7 @@
 
               <v-row class="pa-0 ma-0">
                 <v-col class="pt-8">
-                  <span> Servicios Turísticos </span>
+                  <span> Servicios turísticos </span>
                 </v-col>
                 <v-col
                   v-for="(column, index) in editedInform.diagnostico"
@@ -170,7 +170,7 @@
 
               <v-row class="pa-0 ma-0">
                 <v-col>
-                  <span> Condición Porcentual </span>
+                  <span> Condición porcentual </span>
                 </v-col>
                 <v-col
                   v-for="column in editedInform.diagnostico"
@@ -203,12 +203,12 @@
 
               <div class="error">
                 <h4 v-if="!maxPeople" class="ml-4 white--text">
-                  El distribuido es: {{ currentPeople }}, la distribución no puede ser
-                  menor o mayor a {{ establishment.personal }}.
+                  El personal total es: {{ currentPeople }}, no puede ser menor o mayor a
+                  {{ establishment.personal }}.
                 </h4>
               </div>
 
-              <h3 class="pt-2">Actividades Turísticas</h3>
+              <h3 class="pt-2">Actividades turísticas</h3>
               <v-row class="pa-0 ma-0" v-if="editedInform.actividad.length > 0">
                 <v-col
                   v-for="(column, index) in editedInform.actividad"
@@ -219,11 +219,10 @@
               </v-row>
               <v-row v-else class="pa-0 ma-0">
                 <h4 class="pa-3 ma-3">
-                  No Aplica, el establecimiento no tiene Actividades
+                  No aplica, el establecimiento no tiene actividades
                 </h4>
               </v-row>
 
-              <h3 class="pt-2">Productos Turísticos</h3>
               <div
                 v-for="(item, index) in diagnostics"
                 :key="index + 'ProductosTuristicos'"
@@ -235,6 +234,8 @@
                 >
                   <div v-if="id === item._id">
                     <div v-if="item.formulario.mostrarEnInforme != null">
+                      <h3 class="pt-2">Productos turísticos</h3>
+
                       <v-divider></v-divider>
                       <v-row class="ma-0 pa-0">
                         <v-col
@@ -445,7 +446,7 @@
               block
               :disabled="editedInform.diagnostico.length === 0 ? true : !maxPeople"
             >
-              Enviar Informe
+              Enviar informe
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -503,7 +504,9 @@ export default {
       numberRules: [
         v => !!v || 'Campo necesario',
         v => Number.isInteger(parseInt(v)) || 'Solo se permiten números',
-        v => Number.isInteger(parseFloat(v.toString().replace(/,/g, '.'))) || 'Solo se permiten números enteros',
+        v =>
+          Number.isInteger(parseFloat(v.toString().replace(/,/g, '.'))) ||
+          'Solo se permiten números enteros'
       ]
     }
   },
@@ -666,7 +669,7 @@ export default {
 
     async addInform() {
       this.loading = true
-      swalLoading('Enviando Informe')
+      swalLoading('Enviando informe')
       this.editedInform.actualPersonal = this.establishment.personal
       try {
         await this.$http.post('api/informe', this.editedInform).then(async () => {

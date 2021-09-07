@@ -4,12 +4,12 @@
       <v-col cols="12" sm="7">
         <v-card>
           <v-card-title class="primary white--text">
-            Información del Establecimiento
+            Información del establecimiento
           </v-card-title>
           <v-container>
             <v-container>
               <div v-if="establishment._id">
-                <h3 class="pt-1">Información General</h3>
+                <h3 class="pt-1">Información general</h3>
                 <v-divider class="pb-2"></v-divider>
 
                 <h4 class="pb-2 pt-1">Nombre</h4>
@@ -39,7 +39,7 @@
                 <h4 class="pb-2 pt-1">Página web</h4>
                 {{ getRespuesta(establishment.web) }}
 
-                <h3 class="pt-2 pb-1">Área Protegida</h3>
+                <h3 class="pt-2 pb-1">Área protegida</h3>
                 <v-divider class="pb-2"></v-divider>
                 <v-row v-if="establishment.areaProtegida" class="pb-0 mb-0">
                   <v-col class="pb-0 mb-0">
@@ -53,7 +53,7 @@
                     </p>
                   </v-col>
                 </v-row>
-                <v-row v-else> No pertenece a un Área Protegida</v-row>
+                <v-row v-else> No pertenece a un área protegida</v-row>
 
                 <h3 class="pt-2 pb-1">Ubicación</h3>
                 <v-divider></v-divider>
@@ -69,7 +69,7 @@
                       {{ getRespuesta(establishment.canton) }}
                     </p>
 
-                    <h4 class="pb-1 pt-1">Ciudad o Localidad Próxima</h4>
+                    <h4 class="pb-1 pt-1">Ciudad o Localidad próxima</h4>
                     <p class="pl-2">
                       {{ getRespuesta(establishment.ciudad) }}
                     </p>
@@ -115,7 +115,7 @@
                   </v-col>
                 </v-row>
 
-                <h3 class="pt-2 pb-1">Servicios Básicos</h3>
+                <h3 class="pt-2 pb-1">Servicios básicos</h3>
                 <v-divider></v-divider>
                 <v-row class="pb-0 mb-0">
                   <v-col class="pb-0 mb-0">
@@ -129,12 +129,12 @@
                       {{ getRespuesta(establishment.saneamiento) }}
                     </p>
 
-                    <h4 class="pb-1 pt-1">Energía Eléctrica</h4>
+                    <h4 class="pb-1 pt-1">Energía eléctrica</h4>
                     <p class="pl-2">
                       {{ getRespuesta(establishment.energia) }}
                     </p>
 
-                    <h4 class="pb-1 pt-1">Disposición de Desechos</h4>
+                    <h4 class="pb-1 pt-1">Disposición de desechos</h4>
                     <p class="pl-2">
                       {{ getRespuesta(establishment.desechos) }}
                     </p>
@@ -145,14 +145,14 @@
                 <v-divider class="pb-1"></v-divider>
                 <v-row class="pb-0 mb-0">
                   <v-col class="pb-0 mb-0">
-                    <h4 class="pb-1 pt-1">Total Colaboradores</h4>
+                    <h4 class="pb-1 pt-1">Total colaboradores</h4>
                     <p class="pl-2">
                       {{ getRespuesta(establishment.personal) }}
                     </p>
                   </v-col>
                 </v-row>
 
-                <h3>Actividades Turísticas</h3>
+                <h3>Actividades turísticas</h3>
                 <v-divider class="pb-1"></v-divider>
                 <v-row v-if="establishment.actividad.length > 0">
                   <v-col class="ml-4">
@@ -162,10 +162,10 @@
                   </v-col>
                 </v-row>
                 <v-row v-else class="ml-4 mt-4">
-                  No Aplica, el establecimiento no tiene Actividades
+                  No aplica, el establecimiento no tiene actividades
                 </v-row>
               </div>
-              <div v-else>No tiene un Establecimiento Asignado</div>
+              <div v-else>No tiene un establecimiento asignado</div>
             </v-container>
           </v-container>
         </v-card>
@@ -182,7 +182,7 @@
       <v-col cols="12" sm="5">
         <v-card>
           <v-card-title class="primary white--text">
-            Información del Representante
+            Información del representante
           </v-card-title>
           <v-container>
             <v-container>
@@ -198,7 +198,7 @@
                 <h3 class="pb-2 pt-1">Teléfono</h3>
                 {{ getRespuesta(representant.telefono) }}
               </div>
-              <div v-else>No tiene un Representante Asignado</div>
+              <div v-else>No tiene un representante asignado</div>
             </v-container>
           </v-container>
         </v-card>

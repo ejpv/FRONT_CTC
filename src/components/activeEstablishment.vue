@@ -6,7 +6,7 @@
       class="elevation-1"
       :loading="loading"
       :search="this.texto"
-      loading-text="Obteniendo todos los Establecimientos..."
+      loading-text="Obteniendo todos los establecimientos..."
     >
       <template v-slot:top>
         <v-toolbar flat>
@@ -17,7 +17,7 @@
                 <v-dialog v-model="dialog" max-width="500px">
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn color="new" dark class="mb-2" v-bind="attrs" v-on="on" medium>
-                      Nuevo Establecimiento
+                      Nuevo establecimiento
                       <v-icon right>fa-store-alt</v-icon>
                     </v-btn>
                     <v-btn color="info" class="mb-2 ml-2" medium icon>
@@ -82,7 +82,7 @@
                                 <v-icon class="info--text" small> fa-plus </v-icon>
                               </v-btn>
                             </template>
-                            <span> Agregar una Actividad Turística </span>
+                            <span> Agregar un teléfono </span>
                           </v-tooltip>
                         </h3>
                         <v-text-field
@@ -132,7 +132,7 @@
                           dense
                         ></v-text-field>
 
-                        <h3 class="pb-1 pt-2">Área Protegida</h3>
+                        <h3 class="pb-1 pt-2">Área protegida</h3>
                         <v-divider class="pb-2"></v-divider>
 
                         <v-autocomplete
@@ -180,7 +180,7 @@
                           dense
                         ></v-text-field>
 
-                        <h4 class="pb-1">Ciudad o Localidad Próxima</h4>
+                        <h4 class="pb-1">Ciudad o Localidad próxima</h4>
                         <v-text-field
                           v-model="editedItem.ciudad"
                           filled
@@ -235,7 +235,7 @@
                           :rules="numberRules"
                         ></v-text-field>
 
-                        <h3 class="pb-1">Servicios Básicos</h3>
+                        <h3 class="pb-1">Servicios básicos</h3>
                         <v-divider></v-divider>
                         <h4 class="pt-2 pb-1">Agua</h4>
                         <v-combobox
@@ -257,7 +257,7 @@
                           :loading="loading"
                         ></v-combobox>
 
-                        <h4 class="pb-1">Energía Eléctrica</h4>
+                        <h4 class="pb-1">Energía eléctrica</h4>
                         <v-combobox
                           v-model="editedItem.energia"
                           :items="energies"
@@ -268,7 +268,7 @@
                           tags
                         ></v-combobox>
 
-                        <h4 class="pb-1">Disposición de Desechos</h4>
+                        <h4 class="pb-1">Disposición de desechos</h4>
                         <v-combobox
                           v-model="editedItem.desechos"
                           :items="waste"
@@ -281,7 +281,7 @@
                         <h3 class="pb-1">Personal</h3>
                         <v-divider></v-divider>
 
-                        <h4 class="pt-2 pb-1">Total Colaboradores</h4>
+                        <h4 class="pt-2 pb-1">Total colaboradores</h4>
                         <v-text-field
                           v-model="editedItem.personal"
                           filled
@@ -291,7 +291,7 @@
                         ></v-text-field>
 
                         <h3>
-                          Actividades Turísticas
+                          Actividades turísticas
                           <v-tooltip right>
                             <template v-slot:activator="{ on, attrs }">
                               <v-btn
@@ -304,7 +304,7 @@
                                 <v-icon class="info--text" small> fa-plus </v-icon>
                               </v-btn>
                             </template>
-                            <span> Agregar una Actividad Turística </span>
+                            <span> Agregar una actividad turística </span>
                           </v-tooltip>
                         </h3>
 
@@ -334,7 +334,7 @@
                         </div>
 
                         <v-row v-else class="ml-4 mt-1">
-                          <h4>No Aplica, el establecimiento no tiene Actividades</h4>
+                          <h4>No aplica, el establecimiento no tiene actividades</h4>
                         </v-row>
                       </v-container>
                     </v-card-text>
@@ -381,13 +381,13 @@
                     fa-eye
                   </v-icon>
                 </template>
-                <span> Ver Representante</span>
+                <span> Ver representante</span>
               </v-tooltip>
             </v-col>
           </v-row>
         </div>
         <div v-else>
-          <v-chip color="warning" dark> Sin Asignar </v-chip>
+          <v-chip color="warning" dark> Sin asignar </v-chip>
         </div>
       </template>
 
@@ -409,13 +409,13 @@
                     fa-eye
                   </v-icon>
                 </template>
-                <span> Ver Área Protegida</span>
+                <span> Ver área protegida</span>
               </v-tooltip>
             </v-col>
           </v-row>
         </div>
         <div v-else>
-          <v-chip color="warning" dark> Sin Asignar </v-chip>
+          <v-chip color="warning" dark> Sin asignar </v-chip>
         </div>
       </template>
 
@@ -433,7 +433,7 @@
                   fa-pen
                 </v-icon>
               </template>
-              <span> Editar un Establecimiento </span>
+              <span> Editar un establecimiento </span>
             </v-tooltip>
           </v-col>
 
@@ -449,7 +449,7 @@
                   fa-trash
                 </v-icon>
               </template>
-              <span> Eliminar un Establecimiento </span>
+              <span> Eliminar un establecimiento </span>
             </v-tooltip>
           </v-col>
         </v-row>
@@ -471,8 +471,8 @@
               fa-eye-slash
             </v-icon>
           </template>
-          <span v-if="item.lat || item.lng"> Ver Información de Ubicación </span>
-          <span v-else>No se encuentra Información de Ubicación</span>
+          <span v-if="item.lat || item.lng"> Ver información de ubicación </span>
+          <span v-else>No se encuentra información de ubicación</span>
         </v-tooltip>
       </template>
 
@@ -500,9 +500,9 @@
             </v-icon>
           </template>
           <span v-if="item.energia || item.agua || item.saneamiento || item.desechos">
-            Ver Servicios Básicos
+            Ver servicios básicos
           </span>
-          <span v-else>No se han registrado Servicios Básicos</span>
+          <span v-else>No se han registrado servicios básicos</span>
         </v-tooltip>
       </template>
     </v-data-table>
@@ -510,7 +510,7 @@
     <v-dialog v-model="dialogService" max-width="500px">
       <v-card>
         <v-card-title class="primary white--text">
-          <span class="headline">Servicios Básicos</span>
+          <span class="headline">Servicios básicos</span>
         </v-card-title>
         <v-card-text>
           <v-container>
@@ -532,7 +532,7 @@
               disabled
             ></v-text-field>
 
-            <h3 class="pb-1">Energía Eléctrica</h3>
+            <h3 class="pb-1">Energía eléctrica</h3>
             <v-text-field
               v-model="editedItem.energia"
               filled
@@ -541,7 +541,7 @@
               disabled
             ></v-text-field>
 
-            <h3 class="pb-1">Disposición de Desechos</h3>
+            <h3 class="pb-1">Disposición de desechos</h3>
             <v-text-field
               v-model="editedItem.desechos"
               filled
@@ -572,7 +572,7 @@
             <v-col cols="12" class="white--text justify-center">
               <div class="text-center primary">
                 <span class="headline">
-                  ¿Está seguro de borrar este Establecimiento?</span
+                  ¿Está seguro de borrar este establecimiento?</span
                 >
               </div>
             </v-col>
@@ -657,12 +657,12 @@
               disabled
             ></v-textarea>
 
-            <h3 class="pb-1">Usuario Asignado</h3>
+            <h3 class="pb-1">Usuario asignado</h3>
             <div v-if="editedItem.representante.usuario">
-              <v-chip color="success" dark> Tiene un Usuario asignado </v-chip>
+              <v-chip color="success" dark> Tiene un usuario asignado </v-chip>
             </div>
             <div v-else>
-              <v-chip color="warning" dark> No tiene Usuario asignado </v-chip>
+              <v-chip color="warning" dark> No tiene usuario asignado </v-chip>
             </div>
           </v-container>
         </v-card-text>
@@ -870,7 +870,7 @@ export default {
           value: 'email'
         },
         {
-          text: 'Comunidad u organizacion',
+          text: 'Comunidad u Organizacion',
           value: 'comunidad',
           align: 'center'
         },
@@ -897,7 +897,7 @@ export default {
           value: 'telefono'
         },
         {
-          text: 'Actividades Turísticas',
+          text: 'Actividades turísticas',
           value: 'actividad',
           align: 'center'
         },
@@ -913,7 +913,7 @@ export default {
           sortable: false
         },
         {
-          text: 'Servicios Básicos',
+          text: 'Servicios básicos',
           value: 'servicios',
           align: 'center',
           sortable: false
@@ -924,7 +924,7 @@ export default {
           align: 'center'
         },
         {
-          text: 'Área Protegida',
+          text: 'Área protegida',
           value: 'areaProtegida',
           align: 'center'
         },
@@ -1286,7 +1286,7 @@ export default {
 
     async addEstablishment() {
       this.loading = true
-      swalLoading('Ingresando Establecimiento')
+      swalLoading('Ingresando establecimiento')
       if (!this.editedItem.areaProtegida._id) delete this.editedItem.areaProtegida
       if (!this.editedItem.representante._id) delete this.editedItem.representante
       if (this.editedItem.actividad) this.editedItem.actividad = await this.middlewareActivity(this.editedItem.actividad)
@@ -1318,7 +1318,7 @@ export default {
 
     async eraseRepresentant() {
       this.loading = true
-      swalLoading('Quitando Representante')
+      swalLoading('Quitando representante')
       try {
         await this.$http
           .put('api/establecimiento/removerRepresentante/' + this.editedItem._id)
@@ -1340,7 +1340,7 @@ export default {
 
     async eraseAreaProtegida() {
       this.loading = true
-      swalLoading('Quitando AreaProtegida')
+      swalLoading('Quitando área protegida')
       try {
         await this.$http
           .put('api/establecimiento/removerArea/' + this.editedItem._id)
@@ -1366,7 +1366,7 @@ export default {
       try {
         await this.$http.delete(`api/establecimiento/${this.editedItem._id}`).then(() => {
           this.loading = false
-          swalConfirm('Establecimiento Eliminado')
+          swalConfirm('Establecimiento eliminado')
         })
         this.problem = false
       } catch (error) {
@@ -1464,12 +1464,12 @@ export default {
   computed: {
     formTitle() {
       return this.editedIndex === -1
-        ? 'Crear un Establecimiento'
-        : 'Editar un Establecimiento'
+        ? 'Crear un establecimiento'
+        : 'Editar un establecimiento'
     },
 
     mapTitle() {
-      return this.editMap ? 'Elija un punto en el mapa' : 'Localización Actual'
+      return this.editMap ? 'Elija un punto en el mapa' : 'Localización actual'
     }
   },
 

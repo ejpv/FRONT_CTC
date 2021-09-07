@@ -2,7 +2,7 @@
   <div>
     <v-card>
       <v-card-title class="primary white--text">
-        <span class="headline">Nuevo Establecimiento</span>
+        <span class="headline">Nuevo establecimiento</span>
       </v-card-title>
       <v-card-text>
         <v-container>
@@ -38,7 +38,7 @@
                   <v-icon class="info--text" small> fa-plus </v-icon>
                 </v-btn>
               </template>
-              <span> Agregar una Actividad Turística </span>
+              <span> Agregar un teléfono </span>
             </v-tooltip>
           </h3>
           <v-text-field
@@ -104,7 +104,7 @@
           <h4 class="pb-1">Cantón</h4>
           <v-text-field v-model="editedItem.canton" filled rounded dense></v-text-field>
 
-          <h4 class="pb-1">Ciudad o Localidad Próxima</h4>
+          <h4 class="pb-1">Ciudad o Localidad próxima</h4>
           <v-text-field v-model="editedItem.ciudad" filled rounded dense></v-text-field>
 
           <h4 class="pb-1">Parroquia</h4>
@@ -154,7 +154,7 @@
             :rules="numberRules"
           ></v-text-field>
 
-          <h3 class="pb-1">Servicios Básicos</h3>
+          <h3 class="pb-1">Servicios básicos</h3>
           <v-divider></v-divider>
           <h4 class="pt-2 pb-1">Agua</h4>
           <v-combobox
@@ -176,7 +176,7 @@
             :loading="loading"
           ></v-combobox>
 
-          <h4 class="pb-1">Energía Eléctrica</h4>
+          <h4 class="pb-1">Energía eléctrica</h4>
           <v-combobox
             v-model="editedItem.energia"
             :items="energies"
@@ -187,7 +187,7 @@
             tags
           ></v-combobox>
 
-          <h4 class="pb-1">Disposición de Desechos</h4>
+          <h4 class="pb-1">Disposición de desechos</h4>
           <v-combobox
             v-model="editedItem.desechos"
             :items="waste"
@@ -200,7 +200,7 @@
           <h3 class="pb-1">Personal</h3>
           <v-divider></v-divider>
 
-          <h4 class="pt-2 pb-1">Total Colaboradores</h4>
+          <h4 class="pt-2 pb-1">Total colaboradores</h4>
           <v-text-field
             v-model="editedItem.personal"
             filled
@@ -210,7 +210,7 @@
           ></v-text-field>
 
           <h3>
-            Actividades Turísticas
+            Actividades turísticas
             <v-tooltip right>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
@@ -223,7 +223,7 @@
                   <v-icon class="info--text" small> fa-plus </v-icon>
                 </v-btn>
               </template>
-              <span> Agregar una Actividad Turística </span>
+              <span> Agregar una actividad turística </span>
             </v-tooltip>
           </h3>
 
@@ -253,7 +253,7 @@
           </div>
 
           <v-row v-else class="ml-4 mt-1">
-            <h4>No Aplica, el establecimiento no tiene Actividades</h4>
+            <h4>No aplica, el establecimiento no tiene actividades</h4>
           </v-row>
         </v-container>
       </v-card-text>
@@ -474,7 +474,7 @@ export default {
 
     async addEstablishment() {
       this.loading = true
-      swalLoading('Ingresando Establecimiento')
+      swalLoading('Ingresando establecimiento')
       if (!this.editedItem.areaProtegida._id) delete this.editedItem.areaProtegida
       try {
         await this.$http.post('api/establecimiento', this.editedItem).then(async res => {

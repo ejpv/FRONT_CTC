@@ -6,7 +6,7 @@
       class="elevation-1"
       :loading="loading"
       :search="this.texto"
-      loading-text="Obteniendo todos los Representantes..."
+      loading-text="Obteniendo todos los representantes..."
     >
       <template v-slot:top>
         <v-toolbar flat>
@@ -15,7 +15,7 @@
               <v-col align="start" cols="3" sm="2"> </v-col>
               <v-col align="end" cols="0" sm="10">
                 <v-btn color="new" class="mb-2" medium disabled>
-                  Nuevo Representante
+                  Nuevo representante
                   <v-icon right>fa-user-tag</v-icon>
                 </v-btn>
                 <v-btn color="info" class="mb-2 ml-4" medium icon>
@@ -39,7 +39,7 @@
               fa-trash-restore
             </v-icon>
           </template>
-          <span> Restaurar un Representante </span>
+          <span> Restaurar un representante </span>
         </v-tooltip>
       </template>
 
@@ -64,7 +64,7 @@
             <v-col cols="12" class="white--text justify-center">
               <div class="text-center primary">
                 <span class="headline">
-                  ¿Está seguro de restaurar este Representante?</span
+                  ¿Está seguro de restaurar este representante?</span
                 >
               </div>
             </v-col>

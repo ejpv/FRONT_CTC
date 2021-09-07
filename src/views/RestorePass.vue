@@ -4,7 +4,7 @@
       <v-flex xs12 sm9 md7 lg4 elevation-6>
         <v-card color="primary" outlined>
           <v-card-text class="white--text" align="center">
-            <h2 class="pt-2">Reestablecer Contraseña</h2>
+            <h2 class="pt-2">Reestablecer contraseña</h2>
           </v-card-text>
         </v-card>
         <passUser :token="tokenUrl" @accion="redirect" />

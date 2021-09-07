@@ -166,13 +166,13 @@ export default {
         link: '/establishment'
       },
       {
-        title: 'Actividades Turísticas',
+        title: 'Actividades turísticas',
         icon: 'fa-hiking',
         rol: 'ADMIN_ROLE',
         link: '/activity'
       },
       {
-        title: 'Áreas Protegidas',
+        title: 'Áreas protegidas',
         icon: 'fa-map-marked-alt',
         rol: 'ADMIN_ROLE',
         link: '/protectedArea'
@@ -208,19 +208,19 @@ export default {
         link: '/reports'
       },
       {
-        title: 'Realizar Informes',
+        title: 'Realizar informes',
         rol: 'TECHNICAL_ROLE',
         icon: 'fa-book-open',
         link: '/technicalInform'
       },
       {
-        title: 'Estado de Informes',
+        title: 'Estado de informes',
         rol: 'TECHNICAL_ROLE',
         icon: 'fa-folder-open',
         link: '/statusInform'
       },
       {
-        title: 'Información Básica',
+        title: 'Información básica',
         rol: 'REPRESENTANT_ROLE',
         icon: 'fa-user-tag',
         link: '/informationRepresentant'

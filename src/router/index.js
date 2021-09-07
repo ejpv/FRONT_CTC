@@ -31,7 +31,7 @@ const routes = [
       },
       {
         path: '/protectedArea',
-        name: 'Áreas Protegidas',
+        name: 'Áreas protegidas',
         component: () => import('../views/ProtectedArea.vue')
       },
       {
@@ -51,47 +51,47 @@ const routes = [
       },
       {
         path: '/selectForm',
-        name: 'Seleccionar Formulario',
+        name: 'Seleccionar formulario',
         component: () => import('../views/SelectForm.vue')
       },
       {
         path: '/technicalInform',
-        name: 'Crear un Informe',
+        name: 'Crear un informe',
         component: () => import('../views/TechnicalInform.vue')
       },
       {
         path: '/statusInform',
-        name: 'Ver estado de los Informes',
+        name: 'Ver estado de los informes',
         component: () => import('../views/StatusInform.vue')
       },
       {
         path: '/reports',
-        name: 'Aprobar o Rechazar Informes',
+        name: 'Aprobar o rechazar informes',
         component: () => import('../views/Reports.vue')
       },
       {
         path: '/informationRepresentant',
-        name: 'Información Básica',
+        name: 'Información básica',
         component: () => import('../views/InformationRepresentant.vue')
       },
       {
         path: '/diagnosticRepresentant',
-        name: 'Ver Diagnósticos',
+        name: 'Ver diagnósticos',
         component: () => import('../views/DiagnosticsRepresentant.vue')
       },
       {
         path: '/reportRepresentant',
-        name: 'Ver Informes',
+        name: 'Ver informes',
         component: () => import('../views/ReportRepresentant.vue')
       },
       {
         path: '/activity',
-        name: 'Actividades Turísticas',
+        name: 'Actividades turísticas',
         component: () => import('../views/Activity.vue')
       },
       {
         path: '/editEstablishment',
-        name: 'Establecimiento e Información básica',
+        name: 'Establecimiento e información básica',
         component: () => import('../views/EditEstablishment.vue')
       }
     ]
@@ -103,7 +103,7 @@ const routes = [
   },
   {
     path: '/selectEstablishment',
-    name: 'Seleccionar Establecimiento',
+    name: 'Seleccionar establecimiento',
     component: () => import('../views/SelectEstablishment.vue')
   },
   {
@@ -122,17 +122,17 @@ const routes = [
     component: () => import('../views/ForgetPass.vue')
   },
   {
-    name: 'Crear nuevo Establecimiento',
+    name: 'Crear nuevo establecimiento',
     path: '/technicalEstablishment',
     component: () => import('../views/TechnicalEstablishment.vue')
   },
   {
-    name: 'Reestablecer Contraseña',
+    name: 'Reestablecer contraseña',
     path: '/restorePass/:token/:exp',
     component: () => import('../views/RestorePass.vue')
   },
   {
-    name: 'Activar Cuenta',
+    name: 'Activar cuenta',
     path: '/activateAccount/:token/:password',
     component: () => import('../views/ActivateAccount.vue')
   }

@@ -6,7 +6,7 @@
       class="elevation-1"
       :loading="loading"
       :search="this.texto"
-      loading-text="Obteniendo todos los Representantes..."
+      loading-text="Obteniendo todos los representantes..."
     >
       <template v-slot:top>
         <v-toolbar flat>
@@ -17,7 +17,7 @@
                 <v-dialog v-model="dialog" max-width="500px">
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn color="new" dark class="mb-2" v-bind="attrs" v-on="on" medium>
-                      Nuevo Representante
+                      Nuevo representante
                       <v-icon right>fa-user-tag</v-icon>
                     </v-btn>
                     <v-btn color="info" class="mb-2 ml-4" medium icon>
@@ -95,7 +95,7 @@
                             v-model="editedItem.direccion"
                           ></v-textarea>
 
-                          <h3 class="pb-1">Usuario Asignado</h3>
+                          <h3 class="pb-1">Usuario asignado</h3>
                           <div v-if="!editedItem.usuario">
                             <div v-if="messageUnassign">
                               <h4 class="mt-4 ml-4 error--text">
@@ -112,7 +112,7 @@
                                         class="d-flex justify-space-around pa-0"
                                       >
                                         <h4 v-if="editedIndex === -1">
-                                          Asigne un Usuario
+                                          Asigne un usuario
                                         </h4>
                                         <h4 v-else>No tiene un usuario asignado</h4>
                                       </v-col>
@@ -128,7 +128,7 @@
                                   </v-container>
                                 </template>
                                 <v-list shaped>
-                                  <v-subheader>Lista de Usuarios</v-subheader>
+                                  <v-subheader>Lista de usuarios</v-subheader>
                                   <v-list-item
                                     v-for="usuario in users"
                                     :key="usuario._id"
@@ -177,7 +177,7 @@
                                       fa-eye
                                     </v-icon>
                                   </template>
-                                  <span> Ver Usuario asignado</span>
+                                  <span> Ver usuario asignado</span>
                                 </v-tooltip>
 
                                 <v-tooltip bottom v-if="editedIndex != -1">
@@ -191,7 +191,7 @@
                                       fa-times-circle
                                     </v-icon>
                                   </template>
-                                  <span>Quitar Usuario asignado</span>
+                                  <span>Quitar usuario asignado</span>
                                 </v-tooltip>
                               </v-list-item>
                             </v-list>
@@ -246,7 +246,7 @@
               fa-pen
             </v-icon>
           </template>
-          <span> Editar un Representante </span>
+          <span> Editar un representante </span>
         </v-tooltip>
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
@@ -259,7 +259,7 @@
               fa-trash
             </v-icon>
           </template>
-          <span> Eliminar un Representante </span>
+          <span> Eliminar un representante </span>
         </v-tooltip>
       </template>
 
@@ -291,7 +291,7 @@
               fa-eye
             </v-icon>
           </template>
-          <span> Ver Usuario asignado</span>
+          <span> Ver usuario asignado</span>
         </v-tooltip>
       </template>
     </v-data-table>
@@ -305,7 +305,7 @@
             </v-col>
             <v-col cols="12" class="white--text justify-center">
               <div class="text-center primary">
-                <span class="headline"> ¿Está seguro de borrar este Representante?</span>
+                <span class="headline"> ¿Está seguro de borrar este representante?</span>
               </div>
             </v-col>
           </v-row>
@@ -334,7 +334,7 @@
             </v-col>
             <v-col cols="12" class="white--text justify-center">
               <div class="text-center primary">
-                <span class="headline"> ¿Está seguro quitar este Usuario asignado?</span>
+                <span class="headline"> ¿Está seguro quitar este usuario asignado?</span>
               </div>
             </v-col>
           </v-row>
@@ -418,7 +418,7 @@
     <v-dialog v-model="dialogCreateUser" max-width="500px">
       <v-card>
         <v-card-title class="primary white--text">
-          <span class="headline">Crear un Usuario Representante</span>
+          <span class="headline">Crear un usuario representante</span>
         </v-card-title>
         <v-card-text>
           <v-container>
@@ -642,7 +642,7 @@ export default {
               })
               .then(res => {
                 this.loading = false
-                swalConfirm('Usuario Asignado')
+                swalConfirm('Usuario asignado')
                 this.editedItem.usuario = res.data.data
               })
             this.problem = false
@@ -985,8 +985,8 @@ export default {
     ...mapState(['user']),
     formTitle() {
       return this.editedIndex === -1
-        ? 'Crear un Representante'
-        : 'Editar un Representante'
+        ? 'Crear un representante'
+        : 'Editar un representante'
     }
   },
 

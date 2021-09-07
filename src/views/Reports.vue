@@ -7,9 +7,9 @@
       prev-icon="fa-angle-left"
       fixed-tabs
     >
-      <v-tab>Calificar Informes</v-tab>
-      <v-tab>Informes Aprobados</v-tab>
-      <v-tab>Informes Rechazados</v-tab>
+      <v-tab>Calificar informes</v-tab>
+      <v-tab>Informes aprobados</v-tab>
+      <v-tab>Informes rechazados</v-tab>
     </v-tabs>
 
     <v-tabs-items v-model="tabs">

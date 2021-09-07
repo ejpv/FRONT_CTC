@@ -6,7 +6,7 @@
       class="elevation-1"
       :loading="loading"
       :search="this.texto"
-      loading-text="Obteniendo todos los Áreas..."
+      loading-text="Obteniendo todos los áreas..."
     >
       <template v-slot:top>
         <v-toolbar flat>
@@ -15,7 +15,7 @@
               <v-col align="start" cols="3" sm="2"> </v-col>
               <v-col align="end" cols="0" sm="10">
                 <v-btn color="new" class="mb-2" medium disabled>
-                  Nueva Área
+                  Nueva área
                   <v-icon right>fa-map-marked-alt</v-icon>
                 </v-btn>
                 <v-btn color="info" class="mb-2 ml-4" medium icon>
@@ -39,7 +39,7 @@
               fa-trash-restore
             </v-icon>
           </template>
-          <span> Restaurar un Área Protegida </span>
+          <span> Restaurar un área protegida </span>
         </v-tooltip>
       </template>
 
@@ -58,7 +58,7 @@
             <v-col cols="12" class="white--text justify-center">
               <div class="text-center primary">
                 <span class="headline">
-                  ¿Está seguro de restaurar esta Área Protegida?</span
+                  ¿Está seguro de restaurar esta área protegida?</span
                 >
               </div>
             </v-col>

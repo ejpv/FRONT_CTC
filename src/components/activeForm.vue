@@ -49,7 +49,7 @@
                             ><v-icon class="ml-2 edit--text">fa-pen </v-icon>
                           </v-list-item-icon>
                           <v-list-item-title>
-                            <span> Editar este Formulario </span></v-list-item-title
+                            <span> Editar este formulario </span></v-list-item-title
                           >
                         </v-list-item>
                         <v-list-item @click="deleteItem(item)">
@@ -57,7 +57,7 @@
                             ><v-icon class="ml-2 delete--text"> fa-trash </v-icon>
                           </v-list-item-icon>
                           <v-list-item-title>
-                            <span> Eliminar este Formulario </span></v-list-item-title
+                            <span> Eliminar este formulario </span></v-list-item-title
                           >
                         </v-list-item>
                       </v-list>
@@ -89,7 +89,7 @@
             </v-card-text>
 
             <v-container class="ml-4">
-              <span class="font-weight-black">Realizado Por:</span>
+              <span class="font-weight-black">Realizado por:</span>
             </v-container>
 
             <v-card-actions>
@@ -124,7 +124,7 @@
             </v-col>
             <v-col cols="12" class="white--text justify-center">
               <div class="text-center primary">
-                <span class="headline"> ¿Está seguro de borrar este Formulario?</span>
+                <span class="headline"> ¿Está seguro de borrar este formulario?</span>
               </div>
             </v-col>
           </v-row>
@@ -186,7 +186,7 @@ export default {
       try {
         await this.$http.delete(`api/formulario/${this.editedItem._id}`).then(() => {
           this.loading = false
-          swalConfirm('Formulario Eliminado')
+          swalConfirm('Formulario eliminado')
         })
         this.problem = false
       } catch (error) {
@@ -232,7 +232,7 @@ export default {
         return 'Pregunta de Si y No'
       } else {
         if (critery === 'MULTIPLE') {
-          return 'Pregunta de Opción Múltiple'
+          return 'Pregunta de Opción múltiple'
         } else {
           if (critery === 'ABIERTA') {
             return 'Pregunta Abierta'
@@ -240,7 +240,7 @@ export default {
             if (critery === 'COMPLEX') {
               return 'Pregunta Compuesta'
             } else {
-              return 'Pregunta de Selección Múltiple'
+              return 'Pregunta de Selección múltiple'
             }
           }
         }

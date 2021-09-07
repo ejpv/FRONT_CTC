@@ -7,8 +7,8 @@
       prev-icon="fa-angle-left"
       fixed-tabs
     >
-      <v-tab>Formularios Activos</v-tab>
-      <v-tab>Formularios Borrados</v-tab>
+      <v-tab>Formularios activos</v-tab>
+      <v-tab>Formularios borrados</v-tab>
     </v-tabs>
 
     <v-tabs-items v-model="tabs">
@@ -30,7 +30,7 @@
               <v-icon dark> fa-plus </v-icon>
             </v-btn>
           </template>
-          <span> Nuevo Formulario </span>
+          <span> Nuevo formulario </span>
         </v-tooltip>
         <activeForm v-show="!erased" :activator="erased" />
       </v-tab-item>

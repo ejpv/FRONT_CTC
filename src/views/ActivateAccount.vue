@@ -4,7 +4,7 @@
       <v-flex xs12 sm9 md7 lg4 elevation-6 v-if="!this.pass">
         <v-card outlined>
           <v-card-text class="primary white--text" align="center">
-            <h2 class="pt-2">Activación de Cuenta</h2>
+            <h2 class="pt-2">Activación de cuenta</h2>
           </v-card-text>
           <v-card-text>
             <h3>

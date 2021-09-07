@@ -6,7 +6,7 @@
       class="elevation-1"
       :loading="loading"
       :search="this.texto"
-      loading-text="Obteniendo todos los Usuarios..."
+      loading-text="Obteniendo todos los usuarios..."
     >
       <template v-slot:top>
         <v-toolbar flat>
@@ -15,7 +15,7 @@
               <v-col align="start" cols="3" sm="2"> </v-col>
               <v-col align="end" cols="0" sm="10">
                 <v-btn color="new" class="mb-2" medium disabled>
-                  Nuevo Usuario
+                  Nuevo usuario
                   <v-icon right>fa-users</v-icon>
                 </v-btn>
 
@@ -40,7 +40,7 @@
               fa-trash-restore
             </v-icon>
           </template>
-          <span> Restaurar un Usuario </span>
+          <span> Restaurar un usuario </span>
         </v-tooltip>
       </template>
 
@@ -68,7 +68,7 @@
             </v-col>
             <v-col cols="12" class="white--text justify-center">
               <div class="text-center primary">
-                <span class="headline"> ¿Está seguro de restaurar este Usuario?</span>
+                <span class="headline"> ¿Está seguro de restaurar este usuario?</span>
               </div>
             </v-col>
           </v-row>

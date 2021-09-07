@@ -50,7 +50,7 @@
                               <v-icon class="ml-2 info--text">fa-eye </v-icon>
                             </v-list-item-icon>
                             <v-list-item-title>
-                              <span> Ver este Informe </span>
+                              <span> Ver este informe </span>
                             </v-list-item-title>
                           </v-list-item>
                           <v-list-item
@@ -63,7 +63,7 @@
                               </v-icon>
                             </v-list-item-icon>
                             <v-list-item-title>
-                              <span> Editar este Informe </span>
+                              <span> Editar este informe </span>
                             </v-list-item-title>
                           </v-list-item>
                           <v-list-item @click="deleteItem(item)" :disabled="item.estado">
@@ -73,7 +73,7 @@
                               </v-icon>
                             </v-list-item-icon>
                             <v-list-item-title>
-                              <span> Eliminar este Informe </span>
+                              <span> Eliminar este informe </span>
                             </v-list-item-title>
                           </v-list-item>
                         </v-list>
@@ -87,7 +87,7 @@
             <div v-else>
               <v-card-title class="secondary lighten-1">
                 <span class="headline"
-                  >No has realizado Informes para este Establecimiento</span
+                  >No has realizado informes para este establecimiento</span
                 >
               </v-card-title>
             </div>
@@ -163,7 +163,7 @@
 
               <v-row class="pa-0 ma-0">
                 <v-col class="pt-8">
-                  <span> Servicios Turísticos </span>
+                  <span> Servicios turísticos </span>
                 </v-col>
                 <v-col
                   v-for="(column, index) in editedInform.diagnostico"
@@ -203,7 +203,7 @@
 
               <v-row class="pa-0 ma-0">
                 <v-col>
-                  <span> Condición Porcentual </span>
+                  <span> Condición porcentual </span>
                 </v-col>
                 <v-col
                   v-for="(column, index) in editedInform.diagnostico"
@@ -237,8 +237,7 @@
 
               <div class="error" v-if="!maxPeople && !editedInform.estado">
                 <h4 class="ml-4 white--text">
-                  El distribuido es: {{ currentPeople }}, la distribución no puede ser
-                  menor o mayor a {{ establishment.personal }}.
+                  El personal total es: {{ currentPeople }}, no puede ser menor o mayor a {{ establishment.personal }}.
                 </h4>
               </div>
 
@@ -253,16 +252,16 @@
               </v-row>
               <v-row v-else class="pa-0 ma-0">
                 <h4 class="pa-3 ma-3">
-                  No Aplica, el establecimiento no tiene Actividades
+                  No aplica, el establecimiento no tiene actividades
                 </h4>
               </v-row>
 
-              <h3 class="pt-2">Productos Turísticos</h3>
               <div
                 v-for="(item, index) in editedInform.diagnostico"
                 :key="index + 'ProductosTuristicos'"
               >
                 <div v-if="item.formulario.mostrarEnInforme != null">
+                  <h3 class="pt-2">Productos turísticos</h3>
                   <v-divider></v-divider>
                   <v-row class="ma-0 pa-0">
                     <v-col
@@ -517,7 +516,7 @@
             </v-col>
             <v-col cols="12" class="white--text justify-center">
               <div class="text-center primary">
-                <span class="headline"> ¿Está seguro de borrar este Informe?</span>
+                <span class="headline"> ¿Está seguro de borrar este informe?</span>
               </div>
             </v-col>
           </v-row>
@@ -723,11 +722,11 @@ export default {
 
     async removeInform() {
       this.loading = true
-      swalLoading('Eliminando Informe')
+      swalLoading('Eliminando informe')
       try {
         await this.$http.delete(`api/informe/${this.editedInform._id}`).then(() => {
           this.loading = false
-          swalConfirm('Informe Eliminado')
+          swalConfirm('Informe eliminado')
         })
         this.problem = false
       } catch (error) {
@@ -743,7 +742,7 @@ export default {
 
     async changeInform() {
       this.loading = true
-      swalLoading('Editando Informe')
+      swalLoading('Editando informe')
       try {
         await this.$http
           .put(`api/informe/${this.editedInform._id}`, this.editedInform)

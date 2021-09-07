@@ -2,7 +2,7 @@
   <v-card class="mx-auto">
     <v-container>
       <v-card-title class="d-block text-center">
-        Tabla de Establecimientos
+        Tabla de establecimientos
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-btn
@@ -23,13 +23,13 @@
         <v-text-field
           v-model="search"
           append-icon="fa-search"
-          label="Busque un Establecimiento"
+          label="Busque un establecimiento"
           single-line
           hide-details
         ></v-text-field>
         <v-row>
           <v-col cols="9" sm="7" md="4">
-            <v-switch v-model="erased" label="Establecimientos Borrados"></v-switch>
+            <v-switch v-model="erased" label="Establecimientos borrados"></v-switch>
           </v-col>
         </v-row>
       </v-card-title>

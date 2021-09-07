@@ -8,7 +8,7 @@
             :items="forms"
             class="elevation-1"
             :loading="loading"
-            loading-text="Obteniendo todos los Formularios..."
+            loading-text="Obteniendo todos los formularios..."
           >
             <template v-slot:item.actions="{ item }">
               <v-tooltip bottom>
@@ -22,7 +22,7 @@
                     fa-trash-restore
                   </v-icon>
                 </template>
-                <span> Restaurar un Formulario </span>
+                <span> Restaurar un formulario </span>
               </v-tooltip>
             </template>
 
@@ -51,7 +51,7 @@
             </v-col>
             <v-col cols="12" class="white--text justify-center">
               <div class="text-center primary">
-                <span class="headline"> ¿Está seguro de restaurar este Formulario?</span>
+                <span class="headline"> ¿Está seguro de restaurar este formulario?</span>
               </div>
             </v-col>
           </v-row>
@@ -88,12 +88,12 @@ export default {
       dialogRestore: false,
       headers: [
         {
-          text: 'Nombre del Formulario',
+          text: 'Nombre del formulario',
           value: 'nombre',
           align: 'start'
         },
         {
-          text: 'Realizado Por',
+          text: 'Realizado por',
           value: 'realizadoPor',
           align: 'start'
         },

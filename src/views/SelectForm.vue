@@ -3,7 +3,7 @@
     <v-container>
       <v-card class="mx-auto">
         <v-card-title class="title primary white--text">
-          <span class="headline">Selecciona un Formulario</span>
+          <span class="headline">Selecciona un formulario</span>
         </v-card-title>
         <v-progress-linear indeterminate v-if="loading"></v-progress-linear>
         <v-container>
@@ -61,7 +61,7 @@
             </v-card-text>
 
             <v-container class="ml-4">
-              <span class="font-weight-black">Realizado Por:</span>
+              <span class="font-weight-black">Realizado por:</span>
             </v-container>
 
             <v-card-actions>
@@ -160,7 +160,7 @@ export default {
         return 'Pregunta de Si y No'
       } else {
         if (critery === 'MULTIPLE') {
-          return 'Pregunta de Opción Múltiple'
+          return 'Pregunta de Opción múltiple'
         } else {
           if (critery === 'ABIERTA') {
             return 'Pregunta Abierta'
@@ -168,7 +168,7 @@ export default {
             if (critery === 'COMPLEX') {
               return 'Pregunta Compuesta'
             } else {
-              return 'Pregunta de Selección Múltiple'
+              return 'Pregunta de Selección múltiple'
             }
           }
         }

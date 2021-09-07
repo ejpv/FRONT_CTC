@@ -45,7 +45,7 @@
                     color="edit"
                     dark
                     class="mb-2"
-                    >Cambiar Contraseña
+                    >Cambiar contraseña
                     <v-icon right>fa-pen </v-icon>
                   </v-btn>
                 </v-col>
@@ -60,7 +60,7 @@
           <v-col cols="12" sm="12" md="6" lg="8" order-sm="-1">
             <v-card outlined elevation="12" :loading="loading">
               <v-card-title class="primary white--text mb-2">
-                <span class="headline">Información Personal</span>
+                <span class="headline">Información personal</span>
               </v-card-title>
               <v-card :loading="loading" elevation="0">
                 <v-container>
@@ -167,7 +167,7 @@ export default {
 
     async changeUser() {
       this.loading = true
-      swalLoading('Editando Usuario')
+      swalLoading('Editando usuario')
       try {
         await this.$http.put('api/usuario', this.editUser).then(res => {
           this.loading = false
@@ -227,7 +227,7 @@ export default {
         this.loadingAvatar = true
         var formData = new FormData()
         formData.append('avatar', file)
-        swalLoading('Editando Avatar')
+        swalLoading('Editando avatar')
         try {
           await this.$http
             .post(`api/avatar/usuario/${this.editUser._id}`, formData, {
