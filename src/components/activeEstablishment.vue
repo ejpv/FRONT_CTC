@@ -1287,11 +1287,16 @@ export default {
     async addEstablishment() {
       this.loading = true
       swalLoading('Ingresando establecimiento')
-      if (!this.editedItem.areaProtegida._id) delete this.editedItem.areaProtegida
-      if (!this.editedItem.representante._id) delete this.editedItem.representante
-      if (this.editedItem.actividad) this.editedItem.actividad = await this.middlewareActivity(this.editedItem.actividad)
+      var establishmentEdit = Object.assign({}, this.editedItem)
+
+      if (!establishmentEdit.areaProtegida._id) delete establishmentEdit.areaProtegida
+      if (!establishmentEdit.representante._id) delete establishmentEdit.representante
+      if (establishmentEdit.actividad)
+        establishmentEdit.actividad = await this.middlewareActivity(
+          establishmentEdit.actividad
+        )
       try {
-        await this.$http.post('api/establecimiento', this.editedItem).then(async res => {
+        await this.$http.post('api/establecimiento', establishmentEdit).then(async res => {
           this.loading = false
           swalConfirm('Establecimiento nuevo ingresado')
           this.problem = false
@@ -1308,7 +1313,7 @@ export default {
       }
     },
 
-    async middlewareActivity(item){
+    async middlewareActivity(item) {
       var array = []
       for (let i = 0; i < item.length; i++) {
         array.push(item[i]._id)
