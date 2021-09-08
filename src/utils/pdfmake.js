@@ -174,7 +174,7 @@ export class Report {
     pdf.add(
       new Table([
         [
-          new Cell(await this.image('unachInforme.jpg', 100, 60)).end,
+          new Cell(await this.image('unach-informe.jpg', 100, 60)).end,
 
           new Cell(
             new Txt(
