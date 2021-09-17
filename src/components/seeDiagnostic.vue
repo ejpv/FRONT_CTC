@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card>
-      <v-card-title class="primary white--text">
+      <v-card-title class="accent white--text">
         <span class="headline">
           {{ diagnostic.formulario.nombre }} - {{ diagnostic.total }}
         </span>

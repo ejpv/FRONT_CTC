@@ -27,7 +27,7 @@
       <template v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length" class="pa-2 pb-4">
           <v-card>
-            <v-card-title class="primary white--text">
+            <v-card-title class="accent white--text">
               <span class="headline"
                 >Informe del {{ formatFecha(item.fechaCreacion) }}
               </span>
@@ -342,7 +342,7 @@
 
     <v-dialog v-model="dialogReject" max-width="500px">
       <v-card>
-        <v-container class="primary">
+        <v-container class="accent">
           <v-row text-centerd>
             <v-col cols="12" class="text-center">
               <v-icon dark large> fa-exclamation-triangle </v-icon>

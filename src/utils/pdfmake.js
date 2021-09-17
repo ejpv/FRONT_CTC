@@ -4,7 +4,7 @@ import pdfFonts from 'pdfmake/build/vfs_fonts'
 PdfMakeWrapper.setFonts(pdfFonts)
 
 export class Report {
-  static primary = '#26A69A'
+  static primary = '#ff0000'
   static blue = '#44546A'
   static white = '#FFF'
   static gray = '#ACB9CA'

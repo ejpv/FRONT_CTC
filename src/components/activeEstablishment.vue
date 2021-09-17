@@ -26,7 +26,7 @@
                   </template>
 
                   <v-card>
-                    <v-card-title class="primary white--text">
+                    <v-card-title class="accent white--text">
                       <span class="headline">{{ formTitle }}</span>
                     </v-card-title>
                     <v-card-text>
@@ -509,7 +509,7 @@
 
     <v-dialog v-model="dialogService" max-width="500px">
       <v-card>
-        <v-card-title class="primary white--text">
+        <v-card-title class="accent white--text">
           <span class="headline">Servicios básicos</span>
         </v-card-title>
         <v-card-text>
@@ -564,13 +564,13 @@
 
     <v-dialog v-model="dialogDelete" max-width="500px">
       <v-card>
-        <v-container class="primary">
+        <v-container class="accent">
           <v-row text-centerd>
             <v-col cols="12" class="text-center">
               <v-icon dark large> fa-exclamation-triangle </v-icon>
             </v-col>
             <v-col cols="12" class="white--text justify-center">
-              <div class="text-center primary">
+              <div class="text-center accent">
                 <span class="headline">
                   ¿Está seguro de borrar este establecimiento?</span
                 >
@@ -595,7 +595,7 @@
 
     <v-dialog v-model="dialogRepresentant" max-width="500px">
       <v-card v-if="editedItem.representante">
-        <v-card-title class="primary white--text">
+        <v-card-title class="accent white--text">
           <span class="headline">Representante</span>
         </v-card-title>
         <v-card-text>
@@ -678,7 +678,7 @@
 
     <v-dialog v-model="dialogArea" max-width="500px">
       <v-card v-if="editedItem.areaProtegida">
-        <v-card-title class="primary white--text">
+        <v-card-title class="accent white--text">
           <span class="headline">Área Protegida</span>
         </v-card-title>
         <v-card-text>
@@ -715,7 +715,7 @@
 
     <v-dialog v-model="dialogPlace" max-width="500px">
       <v-card>
-        <v-card-title class="primary white--text">
+        <v-card-title class="accent white--text">
           <span class="headline">Lugar</span>
         </v-card-title>
         <v-card-text>
@@ -812,7 +812,7 @@
 
     <v-dialog v-model="dialogMap" max-width="600px">
       <v-card>
-        <v-card-title class="primary white--text">
+        <v-card-title class="accent white--text">
           <span class="headline"> {{ mapTitle }} </span>
         </v-card-title>
         <ctcMap

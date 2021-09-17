@@ -2,7 +2,7 @@
   <v-container>
     <v-col>
       <v-card>
-        <v-card-title class="primary white--text">
+        <v-card-title class="accent white--text">
           <span class="headline">Información del representante</span>
           <v-chip :color="getColor" dark class="ml-1">
             {{ getText }}
@@ -90,7 +90,7 @@
 
     <v-col>
       <v-card>
-        <v-card-title class="primary white--text">
+        <v-card-title class="accent white--text">
           <span class="headline">Información del establecimiento </span>
           <v-spacer></v-spacer>
           <v-tooltip left>
@@ -472,7 +472,7 @@
 
         <v-dialog v-model="dialogMap" max-width="600px">
           <v-card>
-            <v-card-title class="primary white--text">
+            <v-card-title class="accent white--text">
               <span class="headline"> Elige un punto en el mapa</span>
             </v-card-title>
             <ctcMap

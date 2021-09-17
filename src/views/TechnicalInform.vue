@@ -3,7 +3,7 @@
     <v-row>
       <v-col cols="12" :sm="sm">
         <v-card>
-          <v-card-title class="primary white--text">
+          <v-card-title class="accent white--text">
             <span class="headline">Diagnosticos </span>
             <v-spacer></v-spacer>
             <v-btn icon @click="seeDiagnostics = !seeDiagnostics">
@@ -77,13 +77,13 @@
         </v-card>
 
         <v-card class="pt-1 pb-1" flat v-show="loading">
-          <v-progress-linear indeterminate color="primary"></v-progress-linear>
+          <v-progress-linear indeterminate color="accent"></v-progress-linear>
         </v-card>
       </v-col>
 
       <v-col cols="12" :sm="sm">
         <v-card>
-          <v-card-title class="primary white--text">
+          <v-card-title class="accent white--text">
             <span class="headline">Informe</span>
           </v-card-title>
 

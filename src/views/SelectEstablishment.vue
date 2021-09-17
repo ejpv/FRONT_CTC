@@ -3,7 +3,7 @@
     <v-container>
       <v-card>
         <v-card-title class="primary white--text">
-          <span class="headline">Seleccione un e  stablecimiento</span>
+          <span class="headline">Seleccione un establecimiento</span>
         </v-card-title>
         <v-container>
           <v-autocomplete

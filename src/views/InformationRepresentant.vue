@@ -3,7 +3,7 @@
     <v-row>
       <v-col cols="12" sm="7">
         <v-card>
-          <v-card-title class="primary white--text">
+          <v-card-title class="accent white--text">
             Información del establecimiento
           </v-card-title>
           <v-container>
@@ -173,7 +173,7 @@
         <v-card class="pt-1 pb-1" flat v-if="loading">
           <v-progress-linear
             indeterminate
-            color="primary"
+            color="accent"
             v-show="loading"
           ></v-progress-linear>
         </v-card>
@@ -181,7 +181,7 @@
 
       <v-col cols="12" sm="5">
         <v-card>
-          <v-card-title class="primary white--text">
+          <v-card-title class="accent white--text">
             Información del representante
           </v-card-title>
           <v-container>
@@ -206,7 +206,7 @@
         <v-card class="pt-1 pb-1" flat v-if="loading">
           <v-progress-linear
             indeterminate
-            color="primary"
+            color="accent"
             v-show="loading"
           ></v-progress-linear>
         </v-card>
@@ -215,7 +215,7 @@
 
     <v-dialog v-model="dialogMap" max-width="600px">
       <v-card>
-        <v-card-title class="primary white--text">
+        <v-card-title class="accent white--text">
           <span class="headline">Punto en el mapa</span>
         </v-card-title>
         <ctcMap

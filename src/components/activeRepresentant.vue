@@ -26,7 +26,7 @@
                   </template>
 
                   <v-card>
-                    <v-card-title class="primary white--text">
+                    <v-card-title class="accent white--text">
                       <span class="headline">{{ formTitle }}</span>
                     </v-card-title>
                     <v-card-text>
@@ -120,7 +120,7 @@
                                         cols="6"
                                         class="d-flex justify-space-around pa-0"
                                       >
-                                        <v-btn color="primary" v-bind="attrs" v-on="on">
+                                        <v-btn color="accent" v-bind="attrs" v-on="on">
                                           Seleccionar
                                         </v-btn>
                                       </v-col>
@@ -298,13 +298,13 @@
 
     <v-dialog v-model="dialogDelete" max-width="500px">
       <v-card>
-        <v-container class="primary">
+        <v-container class="accent">
           <v-row text-centerd>
             <v-col cols="12" class="text-center">
               <v-icon dark large> fa-exclamation-triangle </v-icon>
             </v-col>
             <v-col cols="12" class="white--text justify-center">
-              <div class="text-center primary">
+              <div class="text-center accent">
                 <span class="headline"> ¿Está seguro de borrar este representante?</span>
               </div>
             </v-col>
@@ -327,13 +327,13 @@
 
     <v-dialog v-model="dialogUnassign" max-width="500px">
       <v-card>
-        <v-container class="primary">
+        <v-container class="accent">
           <v-row text-centerd>
             <v-col cols="12" class="text-center">
               <v-icon dark large> fa-exclamation-triangle </v-icon>
             </v-col>
             <v-col cols="12" class="white--text justify-center">
-              <div class="text-center primary">
+              <div class="text-center accent">
                 <span class="headline"> ¿Está seguro quitar este usuario asignado?</span>
               </div>
             </v-col>
@@ -356,7 +356,7 @@
 
     <v-dialog persistent max-width="500" v-model="dialogUser">
       <v-card>
-        <v-card-title class="primary white--text">
+        <v-card-title class="accent white--text">
           <span class="headline">Usuario asignado a {{ usuario.nombre }}</span>
         </v-card-title>
         <v-container>
@@ -417,7 +417,7 @@
 
     <v-dialog v-model="dialogCreateUser" max-width="500px">
       <v-card>
-        <v-card-title class="primary white--text">
+        <v-card-title class="accent white--text">
           <span class="headline">Crear un usuario representante</span>
         </v-card-title>
         <v-card-text>

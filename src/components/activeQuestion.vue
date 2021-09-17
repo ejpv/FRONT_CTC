@@ -29,7 +29,7 @@
                   </template>
 
                   <v-card>
-                    <v-card-title class="primary white--text">
+                    <v-card-title class="accent white--text">
                       <div v-if="!see">
                         <span class="headline">{{ formTitle }}</span>
                       </div>
@@ -405,13 +405,13 @@
 
     <v-dialog v-model="dialogDelete" max-width="500px">
       <v-card>
-        <v-container class="primary">
+        <v-container class="accent">
           <v-row text-centerd>
             <v-col cols="12" class="text-center">
               <v-icon dark large> fa-exclamation-triangle </v-icon>
             </v-col>
             <v-col cols="12" class="white--text justify-center">
-              <div class="text-center primary">
+              <div class="text-center accent">
                 <span class="headline"> ¿Está seguro de borrar esta pregunta?</span>
               </div>
             </v-col>

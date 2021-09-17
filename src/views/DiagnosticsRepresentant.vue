@@ -2,7 +2,7 @@
   <div>
     <v-container>
       <v-card>
-        <v-card-title class="primary white--text">
+        <v-card-title class="accent white--text">
           <span class="headline">Diagnósticos </span>
         </v-card-title>
 
@@ -63,7 +63,7 @@
       </v-card>
 
       <v-card class="pt-1 pb-1" flat v-show="loading">
-        <v-progress-linear indeterminate color="primary"></v-progress-linear>
+        <v-progress-linear indeterminate color="accent"></v-progress-linear>
       </v-card>
     </v-container>
 

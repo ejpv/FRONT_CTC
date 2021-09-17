@@ -76,13 +76,13 @@
 
     <v-dialog v-model="dialogRestore" max-width="500px">
       <v-card>
-        <v-container class="primary">
+        <v-container class="accent">
           <v-row text-centerd>
             <v-col cols="12" class="text-center">
               <v-icon dark large> fa-exclamation-triangle </v-icon>
             </v-col>
             <v-col cols="12" class="white--text justify-center">
-              <div class="text-center primary">
+              <div class="text-center accent">
                 <span class="headline"> ¿Está seguro de restaurar esta pregunta?</span>
               </div>
             </v-col>
@@ -105,7 +105,7 @@
 
     <v-dialog v-model="see" max-width="500px">
       <v-card>
-        <v-card-title class="primary white--text">
+        <v-card-title class="accent white--text">
           <div>
             <span class="headline">Ver una pregunta </span>
           </div>

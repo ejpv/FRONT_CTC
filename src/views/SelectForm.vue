@@ -2,7 +2,7 @@
   <div>
     <v-container>
       <v-card class="mx-auto">
-        <v-card-title class="title primary white--text">
+        <v-card-title class="title accent white--text">
           <span class="headline">Selecciona un formulario</span>
         </v-card-title>
         <v-progress-linear indeterminate v-if="loading"></v-progress-linear>
@@ -88,7 +88,7 @@
             <v-row>
               <v-col cols="6" md="6" class="d-flex justify-space-around pa-0"> </v-col>
               <v-col cols="5" class="d-flex justify-space-around pa-0">
-                <v-btn :disabled="disabled" @click="redirect(editedForm)" class="primary">
+                <v-btn :disabled="disabled" @click="redirect(editedForm)" class="accent">
                   Siguiente
                 </v-btn>
               </v-col>

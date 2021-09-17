@@ -27,7 +27,7 @@
       <template v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length" class="pa-2 pb-4">
           <v-card>
-            <v-card-title class="primary white--text">
+            <v-card-title class="accent white--text">
               <span class="headline"
                 >Informe del {{ formatFecha(item.fechaCreacion) }}
               </span>
