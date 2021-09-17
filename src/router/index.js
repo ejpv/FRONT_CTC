@@ -80,11 +80,6 @@ const routes = [
         component: () => import('../views/DiagnosticsRepresentant.vue')
       },
       {
-        path: '/reportRepresentant',
-        name: 'Ver informes',
-        component: () => import('../views/ReportRepresentant.vue')
-      },
-      {
         path: '/activity',
         name: 'Actividades turísticas',
         component: () => import('../views/Activity.vue')

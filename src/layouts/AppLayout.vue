@@ -230,12 +230,6 @@ export default {
         rol: 'REPRESENTANT_ROLE',
         icon: 'fa-file-medical-alt',
         link: '/diagnosticRepresentant'
-      },
-      {
-        title: 'Informes',
-        rol: 'REPRESENTANT_ROLE',
-        icon: 'fa-folder-open',
-        link: '/reportRepresentant'
       }
     ],
     establishments: [],
