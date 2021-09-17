@@ -147,7 +147,7 @@ export default {
 <style lang="scss">
 .loginOverlay {
   background-image: url('../../public/img/riobamba-fondo-login.png');
-  background-size: 13% 40%;
+  background-size: 230px;
   background-repeat: space round;
 }
 </style>

@@ -341,7 +341,7 @@ export default {
 <style lang="scss">
 .navigationDrawer {
   background-image: url('../../public/img/riobamba-fondo-menu.png');
-  background-size: 30% 15%;
-  background-repeat: space round;
+  background-size: 125px;
+  background-repeat: space repeat;
 }
 </style>
