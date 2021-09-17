@@ -8,7 +8,7 @@
 export default {
   watch: {
     '$route.name'(v) {
-      document.title = 'CTC - ' + v
+      document.title = 'SPT - ' + v
     }
   }
 }

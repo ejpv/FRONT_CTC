@@ -37,7 +37,7 @@
         </v-btn>
       </v-app-bar>
 
-      <v-navigation-drawer v-model="drawer" class="pt-4" color="secondary" app>
+      <v-navigation-drawer v-model="drawer" class="pt-4 navigationDrawer" app>
         <template v-slot:prepend>
           <v-list-item>
             <v-list-item-avatar size="70" :tile="!user.avatar">
@@ -82,14 +82,14 @@
         <v-divider></v-divider>
 
         <v-list nav dense shaped>
-          <v-list-item-group active-class="deep-purple--text text--accent-4">
+          <v-list-item-group >
             <div v-for="(item, n) in links" :key="n">
               <div v-if="verifyRol(item)">
                 <v-list-item :to="item.link" exact :class="`${n != 0 ? 'mt-2' : ''}`">
-                  <v-list-item-icon class="d-block text-center">
+                  <v-list-item-icon class="d-block text-center font-weight-bold">
                     <v-icon>{{ item.icon }} </v-icon>
                   </v-list-item-icon>
-                  <v-list-item-title class="d-block text-left">
+                  <v-list-item-title class="d-block text-left font-weight-bold">
                     {{ item.title }}
                   </v-list-item-title>
                 </v-list-item>
@@ -100,7 +100,7 @@
         </v-list>
         <template v-slot:append>
           <v-divider></v-divider>
-          <v-btn block @click="logOut" right text large tile class="primary black--text">
+          <v-btn block @click="logOut" right text large tile class="primary white--text">
             <v-spacer></v-spacer>
             <h3>Salir</h3>
             <v-icon right>fa-sign-out-alt</v-icon>
@@ -122,7 +122,7 @@
                   </v-row>
                 </template>
               </v-img>
-              <h1 class="text-center">CTC</h1>
+              <h1 class="text-center">SPT</h1>
             </v-flex>
           </v-layout>
         </v-container>
@@ -343,3 +343,11 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.navigationDrawer {
+  background-image: url('../../public/img/riobamba-fondo-menu.png');
+  background-size: 30% 15%;
+  background-repeat: space round;
+}
+</style>

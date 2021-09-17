@@ -1,14 +1,40 @@
 <template>
-  <v-container fluid fill-height class="loginOverlay primary">
-    <v-layout flex align-center justify-center class="secondary">
-      <v-flex xs12 sm9 md7 lg4 elevation-6>
-        <v-card color="primary" outlined>
+  <v-container fluid fill-height class="loginOverlay">
+    <v-layout flex align-center justify-center>
+      <v-flex xs12 sm9 md7 lg4>
+        <v-row class="mb-2 mt-0 pt-0">
+          <v-col class="d-flex child-flex" style="margin-right: -20px">
+            <v-img contain src="/img/municipio-login.png" aspect-ratio="2">
+              <template v-slot:placeholder>
+                <v-row class="fill-height ma-0" align="center" justify="center">
+                  <v-progress-circular
+                    indeterminate
+                    color="primary"
+                  ></v-progress-circular>
+                </v-row>
+              </template>
+            </v-img>
+          </v-col>
+          <v-col class="d-flex child-flex" style="margin-left: -20px">
+            <v-img contain src="/img/unach-login.png" aspect-ratio="2">
+              <template v-slot:placeholder>
+                <v-row class="fill-height ma-0" align="center" justify="center">
+                  <v-progress-circular
+                    indeterminate
+                    color="primary"
+                  ></v-progress-circular>
+                </v-row>
+              </template>
+            </v-img>
+          </v-col>
+        </v-row>
+        <v-card color="primary" outlined elevation-6> 
           <v-card-text class="white--text" align="center">
             <h2 class="pa-0 ma-0">
               <v-avatar class="profile pa-0 ma-0" size="64" tile>
                 <v-img contain src="/img/logo.png"> </v-img>
               </v-avatar>
-              CTC - Calidad Turismo Comunitario
+              SPT - Sistema de Prestadores Turísticos
             </h2>
           </v-card-text>
         </v-card>
@@ -117,3 +143,11 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.loginOverlay {
+  background-image: url('../../public/img/riobamba-fondo-login.png');
+  background-size: 13% 40%;
+  background-repeat: space round;
+}
+</style>
