@@ -745,6 +745,7 @@ export default {
 
     async seeEstablishment(item) {
       this.erasedDialog = true
+      this.loading = true
       await this.$http
         .get('api/establecimiento/erased/' + item._id)
         .then(res => {
