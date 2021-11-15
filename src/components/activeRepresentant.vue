@@ -273,6 +273,22 @@
         <v-chip :color="getColor(item, 'asignado')" dark>
           {{ getText(item, 'asignado') }}
         </v-chip>
+        <v-tooltip
+          bottom
+          v-if="getText(item, 'asignado') === 'Asignado a un establecimiento eliminado'"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon
+              class="info--text ml-2"
+              v-on="on"
+              v-bind="attrs"
+              @click="seeEstablishment(item)"
+            >
+              fa-eye
+            </v-icon>
+          </template>
+          <span> Buscar información del establecimiento</span>
+        </v-tooltip>
       </template>
 
       <template v-slot:item.usuario="{ item }">
@@ -490,6 +506,31 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <v-dialog v-model="erasedDialog" max-width="500px">
+      <v-card>
+        <v-card-title class="accent white--text">
+          <span class="headline">Establecimiento eliminado</span>
+        </v-card-title>
+        <v-card elevation="0" :loading="loading">
+          <v-container>
+            <h3 class="pt-2 pb-1">Nombre</h3>
+            <v-text-field
+              filled
+              rounded
+              dense
+              disabled
+              v-model="erasedEstablishmentName"
+            ></v-text-field>
+          </v-container>
+        </v-card>
+        <v-card-actions>
+          <v-container>
+            <v-btn text block @click="closeEstablishment">Cerrar</v-btn>
+          </v-container>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -511,7 +552,9 @@ export default {
       problem: false,
       dialogUnassign: false,
       messageUnassign: false,
+      erasedDialog: false,
       message: '',
+      erasedEstablishmentName: '',
       editedIndex: -1,
       emailRules: [
         v => !!v || 'Correo es necesario',
@@ -687,13 +730,41 @@ export default {
           var establecimiento = this.establishments.filter(v => {
             if (v.representante) return v.representante._id === item._id
           })
-          return item.asignado
-            ? 'Asignado:' + ' ' + establecimiento[0].nombre
-            : 'Sin asignar'
+          if (!establecimiento[0] && item.asignado) {
+            return 'Asignado a un establecimiento eliminado'
+          } else {
+            return item.asignado
+              ? 'Asignado:' + ' ' + establecimiento[0].nombre
+              : 'Sin asignar'
+          }
         } else {
           return item.usuario ? 'Asignado' : 'Sin asignar'
         }
       }
+    },
+
+    async seeEstablishment(item) {
+      this.erasedDialog = true
+      await this.$http
+        .get('api/establecimiento/erased/' + item._id)
+        .then(res => {
+          this.loading = false
+          this.erasedEstablishmentName = res.data.data.nombre
+        })
+        .catch(error => {
+          this.loading = false
+          swalError(
+            error.body.err != undefined
+              ? error.body.err.message
+              : 'Ha ocurrido un error, por favor inténtelo de nuevo más tarde'
+          )
+        })
+    },
+
+    closeEstablishment() {
+      this.erasedDialog = false
+      this.erasedEstablishmentName = ''
+      this.loading = false
     },
 
     seeUser(item) {
@@ -1010,6 +1081,9 @@ export default {
       if (!val) {
         this.getRepresentants()
       }
+    },
+    erasedDialog(val) {
+      val || this.closeEstablishment()
     }
   }
 }
