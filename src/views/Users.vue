@@ -11,11 +11,7 @@
           single-line
           hide-details
         ></v-text-field>
-        <v-row>
-          <v-col cols="7" sm="5" md="3">
-            <v-switch v-model="erased" label="Usuarios borrados"></v-switch>
-          </v-col>
-        </v-row>
+        <v-switch v-model="erased" label="Usuarios borrados"></v-switch>
       </v-card-title>
       <activeUser v-show="!erased" :texto="search" :activator="erased" />
       <erasedUser v-show="erased" :texto="search" :activator="erased" />

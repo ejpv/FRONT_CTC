@@ -11,11 +11,7 @@
           single-line
           hide-details
         ></v-text-field>
-        <v-row>
-          <v-col cols="8" sm="5" md="4">
-            <v-switch v-model="erased" label="Preguntas borradas"></v-switch>
-          </v-col>
-        </v-row>
+        <v-switch v-model="erased" label="Preguntas borradas"></v-switch>
       </v-card-title>
       <activeQuestion v-show="!erased" :texto="search" :activator="erased" />
       <erasedQuestion v-show="erased" :texto="search" :activator="erased" />

@@ -12,14 +12,16 @@
           <v-col>
             <v-card>
               <v-card-title text-align-center>
-                <span>
+                <p>
                   No se han encontrado formularios, cree uno o restaure uno eliminado.
-                </span>
+                </p>
                 <v-spacer></v-spacer>
-                Volver a obtener formularios
+                <p>
+                  Volver a obtener formularios
                 <v-btn color="info" class="ml-4" medium icon>
                   <v-icon medium @click="getForms()">fa-sync-alt</v-icon>
                 </v-btn>
+                </p>
               </v-card-title>
             </v-card>
           </v-col>

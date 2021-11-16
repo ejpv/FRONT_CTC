@@ -11,11 +11,7 @@
           single-line
           hide-details
         ></v-text-field>
-        <v-row>
-          <v-col cols="7" sm="5" md="4">
-            <v-switch v-model="erased" label="Áreas borradas"></v-switch>
-          </v-col>
-        </v-row>
+        <v-switch v-model="erased" label="Áreas borradas"></v-switch>
       </v-card-title>
       <activeProtectedArea v-show="!erased" :texto="search" :activator="erased" />
       <erasedProtectedArea v-show="erased" :texto="search" :activator="erased" />

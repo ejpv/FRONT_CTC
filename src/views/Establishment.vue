@@ -18,7 +18,7 @@
             </v-btn>
           </template>
           <span> Descargar listado de establecimientos</span>
-        </v-tooltip >
+        </v-tooltip>
         <v-spacer></v-spacer>
         <v-text-field
           v-model="search"
@@ -27,11 +27,7 @@
           single-line
           hide-details
         ></v-text-field>
-        <v-row>
-          <v-col cols="9" sm="7" md="4">
-            <v-switch v-model="erased" label="Establecimientos borrados"></v-switch>
-          </v-col>
-        </v-row>
+        <v-switch v-model="erased" label="Establecimientos borrados"></v-switch>
       </v-card-title>
       <activeEstablishment v-show="!erased" :texto="search" :activator="erased" />
       <erasedEstablishment v-show="erased" :texto="search" :activator="erased" />
@@ -59,6 +55,6 @@ export default {
 
   computed: {
     ...mapState(['establishments'])
-  },
+  }
 }
 </script>
