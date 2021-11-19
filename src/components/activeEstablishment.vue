@@ -364,31 +364,21 @@
       </template>
 
       <template v-slot:item.representante="{ item }">
-        <div v-if="item.representante">
-          <v-row class="pa-0 ma-0">
-            <v-col cols="10" class="ma-0 pa-0">
-              <v-chip color="success" dark> Asignado </v-chip>
-            </v-col>
-            <v-col cols="2" class="ma-0 pa-0 pt-1 pl-1">
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-icon
-                    class="info--text"
-                    v-on="on"
-                    v-bind="attrs"
-                    @click="showObject('representant', item)"
-                  >
-                    fa-eye
-                  </v-icon>
-                </template>
-                <span> Ver representante</span>
-              </v-tooltip>
-            </v-col>
-          </v-row>
-        </div>
-        <div v-else>
-          <v-chip color="warning" dark> Sin asignar </v-chip>
-        </div>
+        <v-chip color="success" dark v-if="item.representante"> Asignado </v-chip>
+        <v-chip color="warning" dark v-else> Sin asignar </v-chip>
+        <v-tooltip bottom v-if="item.representante">
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon
+              class="info--text"
+              v-on="on"
+              v-bind="attrs"
+              @click="showObject('representant', item)"
+            >
+              fa-eye
+            </v-icon>
+          </template>
+          <span> Ver representante</span>
+        </v-tooltip>
       </template>
 
       <template v-slot:item.areaProtegida="{ item }">
@@ -1117,6 +1107,9 @@ export default {
         this.editedArea = Object.assign({}, this.defaultArea)
         this.editedIndex = -1
       })
+      this.editedItem.actividad = this.editedItem.actividad.map(e => {
+        e != ''
+      })
     },
 
     editItem(item) {
@@ -1296,12 +1289,14 @@ export default {
           establishmentEdit.actividad
         )
       try {
-        await this.$http.post('api/establecimiento', establishmentEdit).then(async res => {
-          this.loading = false
-          swalConfirm('Establecimiento nuevo ingresado')
-          this.problem = false
-          this.editedItem = res.data.data
-        })
+        await this.$http
+          .post('api/establecimiento', establishmentEdit)
+          .then(async res => {
+            this.loading = false
+            swalConfirm('Establecimiento nuevo ingresado')
+            this.problem = false
+            this.editedItem = res.data.data
+          })
       } catch (error) {
         this.loading = false
         swalError(
