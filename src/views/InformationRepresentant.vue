@@ -53,7 +53,11 @@
                     </p>
                   </v-col>
                 </v-row>
-                <v-row v-else> No pertenece a un área protegida</v-row>
+                <v-row v-else class="pb-0 mb-0">
+                  <v-col class="pb-0 mb-0">
+                    <p class="pl-2">No pertenece a un área protegida</p>
+                  </v-col>
+                </v-row>
 
                 <h3 class="pt-2 pb-1">Ubicación</h3>
                 <v-divider></v-divider>
