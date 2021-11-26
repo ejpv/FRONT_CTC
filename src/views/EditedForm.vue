@@ -373,7 +373,7 @@
                   <v-icon class="delete--text"> fa-trash </v-icon>
                 </v-btn>
               </template>
-              <span> Eliminar un lugar </span>
+              <span> Eliminar esta pregunta </span>
             </v-tooltip>
           </v-card-actions>
         </v-card>
